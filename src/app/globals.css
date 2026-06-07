@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --site-zoom: 0.9;
+  --site-zoom-inverse: 1.111111;
 }
 
 @theme inline {

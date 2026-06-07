@@ -1,5 +1,5 @@
 export type Language = "id" | "en" | "zh";
-export type ThemeMode = "dark" | "light";
+export type ThemeMode = "monochrome" | "colour";
 
 export const languageOptions: { label: string; value: Language }[] = [
   { label: "Indonesia", value: "id" },
@@ -22,8 +22,8 @@ export const content = {
       title: "Preferensi Tampilan",
       theme: "Mode",
       language: "Bahasa",
-      dark: "Gelap",
-      light: "Terang",
+      monochrome: "Monocrom",
+      colour: "Colour Full",
     },
     hero: {
       eyebrow: "Softwere Engineer | Product Builder | Founder Nusticky",
@@ -49,22 +49,22 @@ export const content = {
       softTitle: "Soft Skill",
       hard: [
         {
-          title: "Business Strategy",
+          title: "Strategi Bisnis",
           description:
             "Memahami kebutuhan pasar, mengembangkan produk, dan menciptakan nilai yang relevan bagi pengguna maupun bisnis.",
         },
         {
-          title: "Software Development",
+          title: "Pengembangan Perangkat Lunak",
           description:
             "Mengubah ide menjadi solusi digital melalui pengembangan aplikasi yang fungsional dan berkelanjutan.",
         },
         {
-          title: "Product Design",
+          title: "Desain Produk",
           description:
             "Merancang pengalaman pengguna yang intuitif melalui desain yang efektif dan berorientasi pada kebutuhan pengguna.",
         },
         {
-          title: "System Architecture",
+          title: "Arsitektur Sistem",
           description:
             "Merancang struktur sistem, database, dan alur aplikasi yang scalable, efisien, dan mudah dikembangkan.",
         },
@@ -76,37 +76,37 @@ export const content = {
       ],
       soft: [
         {
-          title: "Problem Solving",
+          title: "Pemecahan Masalah",
           description:
             "Mampu menganalisis masalah dan menemukan solusi yang efektif.",
         },
         {
-          title: "Creative Thinking",
+          title: "Berpikir Kreatif",
           description:
             "Menciptakan ide dan pendekatan baru untuk menghasilkan solusi yang inovatif.",
         },
         {
-          title: "Communication",
+          title: "Komunikasi",
           description:
             "Menyampaikan ide dan informasi secara jelas kepada tim maupun stakeholder.",
         },
         {
-          title: "Leadership",
+          title: "Kepemimpinan",
           description:
             "Mampu mengarahkan tim dan mengambil keputusan untuk mencapai tujuan bersama.",
         },
         {
-          title: "Teamwork",
+          title: "Kerja Sama Tim",
           description:
             "Bekerja sama secara efektif dalam lingkungan kolaboratif dan multidisiplin.",
         },
         {
-          title: "Adaptability",
+          title: "Adaptabilitas",
           description:
             "Cepat beradaptasi dengan teknologi, tantangan, dan lingkungan kerja yang dinamis.",
         },
         {
-          title: "Continuous Learning",
+          title: "Belajar Berkelanjutan",
           description:
             "Memiliki semangat belajar yang tinggi untuk terus berkembang dan mengikuti perubahan industri.",
         },
@@ -265,13 +265,13 @@ export const content = {
       title: "Display Preferences",
       theme: "Mode",
       language: "Language",
-      dark: "Dark",
-      light: "Light",
+      monochrome: "Monochrome",
+      colour: "Colour Full",
     },
     hero: {
-      eyebrow: "Frontend Developer",
-      title: "Building websites that feel bold, alive, and easy to use.",
-      lead: "I create modern interfaces with Next.js, TypeScript, and personal visual details without losing structure.",
+      eyebrow: "Software Engineer | Product Builder | Founder Nusticky",
+      title: "Hello, I am Rizal Danuarta Akbar",
+      lead: "A software engineer who combines design, business, and technology to turn ideas into ready-to-use digital products.",
       primary: "View Projects",
       secondary: "Contact Me",
       photo: "Profile Photo",
@@ -281,8 +281,8 @@ export const content = {
       eyebrow: "About",
       title: "About Me",
       paragraphs: [
-        "I enjoy turning ideas into digital products that are clear, responsive, and easy to develop further.",
-        "My focus is clean component structure, consistent visuals, and user experiences that feel light across screen sizes.",
+        "I am interested in application development, business strategy, and modern technology. I believe good products are created from the combination of strong technology, thoughtful design, and a clear understanding of user needs.",
+        "My strengths sit across three connected areas: design, business, and programming. Building my own business has taught me to understand users, identify market opportunities, and create solutions with real value. With that experience, I am ready to contribute, keep learning, and grow with teams to build products that create impact for users and companies.",
       ],
     },
     skills: {
@@ -376,10 +376,10 @@ export const content = {
           period: "Apr 2026 - May 2026",
           role: "DiProperti",
           description:
-            "DiProperti is a property marketplace platform designed to help users discover and evaluate property options more intentionally.",
+            "DiProperti is a property e-commerce platform designed to help users discover and evaluate property options more intentionally.",
           details: [
-            "Built responsive web interfaces, backend services, and database systems to support property management and user interactions.",
-            "Implemented authentication, recommendation features, and administrative dashboards to improve platform usability and efficiency.",
+            "Built responsive web interfaces, separated backend and frontend architecture, and database systems to support property management and user interactions.",
+            "Implemented authentication, recommendation features, comparison tools, mortgage simulation, and administrative dashboards to improve usability and efficiency.",
             "Managed deployment and system infrastructure using modern development and DevOps practices to ensure stable application performance.",
           ],
         },
@@ -420,9 +420,9 @@ export const content = {
     },
     projects: {
       eyebrow: "Projects",
-      title: "Selected Work",
+      title: "Turning Ideas Into Products",
       summary:
-        "Selected projects combining web development, mobile products, systems, and product experience.",
+        "My journey in turning ideas into digital products through business strategy, user-oriented design, and sustainable software development.",
       linkLabel: "View more",
       items: [
         {
@@ -430,45 +430,50 @@ export const content = {
           description:
             "A property marketplace platform that helps users discover, compare, and evaluate properties based on their preferences.",
           image: "/image/projects/diproperti.png",
-          href: "#contact",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
         },
         {
           title: "Semboro Orange Quality Classification System",
           description:
             "An AI and IoT-based orange quality sorting platform with a monitoring dashboard for classification results and system metrics.",
-          href: "#contact",
+          image: "/image/projects/semboro.jpg",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/496/klasifikasi-kualitas-jeruk-semboro-menggunakan-arsitektur-vgg16-yang-terintegrasi-dengan-iot-berbasis-web",
         },
         {
           title: "Edelweiss Tour & Travel Adventure",
           description:
             "A responsive company profile website for tour and travel services with direct WhatsApp booking integration.",
-          href: "#contact",
+          image: "/image/projects/edelweiss.png",
+          href: "https://edelweisstourandtravel.com/",
         },
         {
           title: "Cuan Space",
           description:
             "A web and mobile digital product marketplace with payment gateway, secure file delivery, and multi-role authentication.",
-          href: "#contact",
+          image: "/image/projects/cuan.png",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
         },
         {
           title: "Nusticky on Shopee",
           description:
             "A character sticker e-commerce store on Shopee combining product design, sales strategy, branding, and business operations management.",
+          image: "/image/projects/nusticky.png",
           href: "https://shopee.co.id/nusticky",
         },
         {
           title: "Portfolio Website",
           description:
             "A responsive and interactive personal portfolio website with About, Skills, Experience, Projects, Tools, and Contact sections.",
-          href: "#home",
+          image: "/image/projects/portofolio.png",
+          href: "https://rizaldanuartabuilds.vercel.app",
         },
       ],
     },
     tools: {
       eyebrow: "Tools",
-      title: "Tools, Languages, and Apps",
+      title: "What Is on My Desk?",
       summary:
-        "The set of tools I use to build websites, create simple designs, and manage workflow.",
+        "From design and development to deployment, these are the tools I use most often to build digital products.",
       laneTitles: {
         primary: "Languages & Frameworks",
         secondary: "Apps & Tools",
@@ -484,9 +489,9 @@ export const content = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Have a project idea? Let us talk.",
+      title: "Let us create something impactful",
       summary:
-        "Send a message for collaboration, website work, or frontend learning discussions.",
+        "Open to collaboration, product development, business opportunities, and projects focused on growth and innovation.",
     },
   },
   zh: {
@@ -503,13 +508,13 @@ export const content = {
       title: "显示设置",
       theme: "模式",
       language: "语言",
-      dark: "深色",
-      light: "浅色",
+      monochrome: "单色",
+      colour: "全彩",
     },
     hero: {
-      eyebrow: "前端开发者",
-      title: "打造有力量、有生命感、也容易使用的网站。",
-      lead: "我使用 Next.js、TypeScript 和有个人特色的视觉细节来构建现代界面。",
+      eyebrow: "软件工程师 | 产品构建者 | Nusticky 创始人",
+      title: "你好，我是 Rizal Danuarta Akbar",
+      lead: "我是一名软件工程师，结合设计、商业与技术，把想法转化为可直接使用的数字产品。",
       primary: "查看项目",
       secondary: "联系我",
       photo: "个人照片",
@@ -519,8 +524,8 @@ export const content = {
       eyebrow: "关于",
       title: "关于我",
       paragraphs: [
-        "我喜欢把想法变成清晰、响应式、并且容易继续开发的数字产品。",
-        "我关注干净的组件结构、一致的视觉表现，以及在不同屏幕上都轻快的用户体验。",
+        "我对应用开发、商业策略和现代技术充满兴趣。我相信，一个好的产品来自强大的技术、合适的设计，以及对用户需求的深入理解。",
+        "我的优势横跨三个互相补充的领域：设计、商业和编程。自己经营业务的经历让我学会理解用户需求、发现市场机会，并创造真正有价值的解决方案。凭借这些能力，我希望继续贡献、学习并与团队共同成长，打造能为用户和企业带来影响的产品。",
       ],
     },
     skills: {
@@ -530,58 +535,58 @@ export const content = {
       softTitle: "软技能",
       hard: [
         {
-          title: "Business Strategy",
+          title: "商业策略",
           description:
             "理解市场需求，开发产品，并为用户和业务创造相关价值。",
         },
         {
-          title: "Software Development",
+          title: "软件开发",
           description:
             "通过功能性和可持续的应用开发，将想法转化为数字解决方案。",
         },
         {
-          title: "Product Design",
+          title: "产品设计",
           description:
             "通过有效并以用户需求为中心的设计，打造直观的用户体验。",
         },
         {
-          title: "System Architecture",
+          title: "系统架构",
           description:
             "设计可扩展、高效且易于继续开发的系统结构、数据库和应用流程。",
         },
         {
-          title: "DevOps & Deployment",
+          title: "DevOps 与部署",
           description:
             "管理部署、集成和应用维护，让产品在生产环境中稳定运行并可直接使用。",
         },
       ],
       soft: [
         {
-          title: "Problem Solving",
+          title: "问题解决",
           description: "能够分析问题并找到有效的解决方案。",
         },
         {
-          title: "Creative Thinking",
+          title: "创造性思维",
           description: "创造新的想法和方法，形成创新的解决方案。",
         },
         {
-          title: "Communication",
+          title: "沟通能力",
           description: "向团队和利益相关者清晰传达想法与信息。",
         },
         {
-          title: "Leadership",
+          title: "领导力",
           description: "能够引导团队并做出决策，以实现共同目标。",
         },
         {
-          title: "Teamwork",
+          title: "团队协作",
           description: "在协作和跨领域环境中高效合作。",
         },
         {
-          title: "Adaptability",
+          title: "适应能力",
           description: "快速适应技术、挑战和动态工作环境。",
         },
         {
-          title: "Continuous Learning",
+          title: "持续学习",
           description: "保持强烈学习动力，持续成长并跟进行业变化。",
         },
       ],
@@ -593,11 +598,11 @@ export const content = {
       items: [
         {
           period: "2023年11月 - 至今",
-          role: "E-commerce Business Owner",
+          role: "Nusticky 创始人",
           description:
-            "Nusticky 是一个 character sticker 电商业务，专注于创意视觉产品和 marketplace 销售。",
+            "Nusticky 是一个角色贴纸电商业务，专注于创意视觉产品和电商平台销售。",
           details: [
-            "通过 Shopee marketplace 运营 character sticker 业务，管理端到端销售、生产和配送流程。",
+            "通过 Shopee 电商平台运营角色贴纸业务，管理从销售、生产到配送的完整流程。",
             "设计贴纸产品并执行营销策略，包括趋势研究、品牌发展和定价优化。",
             "管理财务记录、库存控制和客户互动，确保销售增长和业务可持续性。",
           ],
@@ -606,22 +611,22 @@ export const content = {
           period: "2026年4月 - 2026年5月",
           role: "DiProperti",
           description:
-            "DiProperti 是一个 property marketplace platform，帮助用户更有方向地发现和评估房产选择。",
+            "DiProperti 是一个房产电商平台，帮助用户更有方向地发现和评估房产选择。",
           details: [
-            "构建 responsive web interfaces、backend services 和 database systems，用于支持房产管理与用户交互。",
-            "实现 authentication、recommendation features 和 administrative dashboards，以提升平台可用性和效率。",
-            "使用现代 development 与 DevOps 实践管理 deployment 和 system infrastructure，确保应用性能稳定。",
+            "构建响应式网页界面，拆分后端与前端架构，并设计数据库系统来支持房产管理与用户交互。",
+            "实现身份认证、推荐功能、对比功能、房贷模拟和管理后台，以提升平台可用性与效率。",
+            "使用现代开发与 DevOps 实践管理部署和系统基础设施，确保应用性能稳定。",
           ],
         },
         {
           period: "2025年10月 - 2025年12月",
-          role: "Semboro Orange Quality Classification System",
+          role: "Semboro 橙子质量分类系统",
           description:
-            "该系统是一个橙子质量分类平台，结合 AI、IoT 和 monitoring 来支持分拣流程。",
+            "该系统是一个橙子质量分类平台，结合人工智能、物联网和监控功能来支持分拣流程。",
           details: [
-            "开发基于 CNN VGG16 的 computer vision 模型，用于自动化橙子质量分类。",
-            "集成 ESP8266、Load Cell 和 MQTT protocol 等 IoT components，实现实时数据处理和分拣自动化。",
-            "构建 web-based monitoring dashboard，用于展示分类结果和系统性能指标。",
+            "开发基于 CNN VGG16 的计算机视觉模型，用于自动化识别橙子的质量等级。",
+            "集成 ESP8266、称重传感器和 MQTT 协议等物联网组件，实现实时数据处理和自动分拣。",
+            "构建基于网页的监控仪表盘，用于展示分类结果和系统性能指标。",
           ],
         },
         {
@@ -630,70 +635,75 @@ export const content = {
           description:
             "Edelweiss Tour & Travel Adventure 是一个旅行服务网站，用于展示旅游套餐、业务信息和快速预订入口。",
           details: [
-            "开发 company profile website，用于展示 tour packages、services 和 business information。",
-            "实现 responsive web design，并集成 direct WhatsApp booking 以支持 customer inquiries。",
-            "构建 content management system，并优化跨设备访问性能。",
+            "开发公司介绍网站，用于展示旅游套餐、服务内容和业务信息。",
+            "实现响应式网页设计，并集成 WhatsApp 快速预订入口来支持客户咨询。",
+            "构建内容管理结构，并优化跨设备访问性能。",
           ],
         },
         {
           period: "2025年4月 - 2025年6月",
           role: "Cuan Space",
           description:
-            "Cuan Space 是一个 web 和 mobile digital product marketplace，面向交易和安全的数字文件分发。",
+            "Cuan Space 是一个网页与移动端数字产品交易平台，面向交易和安全的数字文件分发。",
           details: [
-            "担任 Project Leader，负责规划、功能开发和团队协调。",
-            "开发基于 Laravel 和 Flutter 的 web/mobile marketplace，集成 payment gateway 和 secure digital file delivery。",
-            "实现 scalable database architecture，并支持 multi-role authentication 和 system management。",
+            "担任项目负责人，负责规划、功能开发和团队协调。",
+            "开发基于 Laravel 和 Flutter 的网页与移动端交易平台，并集成支付网关和安全的数字文件交付流程。",
+            "实现可扩展的数据库架构，并支持多角色身份认证和系统管理。",
           ],
         },
       ],
     },
     projects: {
       eyebrow: "项目",
-      title: "精选作品",
-      summary: "结合网页开发、移动产品、系统开发和产品体验的精选项目。",
+      title: "把想法变成产品",
+      summary: "我通过商业策略、以用户为中心的设计，以及可持续的软件开发，把想法转化为数字产品。",
       linkLabel: "查看更多",
       items: [
         {
           title: "DiProperti",
-          description: "一个 property marketplace platform，帮助用户根据偏好发现、比较和评估房产。",
+          description: "一个房产交易平台，帮助用户根据偏好发现、比较和评估房产。",
           image: "/image/projects/diproperti.png",
-          href: "#contact",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
         },
         {
-          title: "Semboro Orange Quality Classification System",
+          title: "Semboro 橙子质量分类系统",
           description:
-            "基于 AI 和 IoT 的橙子质量分拣平台，包含用于展示分类结果和系统指标的 monitoring dashboard。",
-          href: "#contact",
+            "基于人工智能和物联网的橙子质量分拣平台，配备用于展示分类结果和系统指标的监控仪表盘。",
+          image: "/image/projects/semboro.jpg",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/496/klasifikasi-kualitas-jeruk-semboro-menggunakan-arsitektur-vgg16-yang-terintegrasi-dengan-iot-berbasis-web",
         },
         {
           title: "Edelweiss Tour & Travel Adventure",
-          description: "一个 tour & travel 服务的响应式 company profile website，并集成 WhatsApp booking。",
-          href: "#contact",
+          description: "一个旅行服务的响应式公司介绍网站，并集成 WhatsApp 快速预订入口。",
+          image: "/image/projects/edelweiss.png",
+          href: "https://edelweisstourandtravel.com/",
         },
         {
           title: "Cuan Space",
           description:
-            "一个 web 和 mobile digital product marketplace，支持 payment gateway、安全文件分发和 multi-role authentication。",
-          href: "#contact",
+            "一个网页与移动端数字产品交易平台，支持支付网关、安全文件分发和多角色身份认证。",
+          image: "/image/projects/cuan.png",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
         },
         {
           title: "Nusticky on Shopee",
           description:
-            "Shopee 上的 character sticker 电商店铺，结合产品设计、销售策略、品牌建设和业务运营管理。",
+            "Shopee 上的角色贴纸电商店铺，结合产品设计、销售策略、品牌建设和业务运营管理。",
+          image: "/image/projects/nusticky.png",
           href: "https://shopee.co.id/nusticky",
         },
         {
-          title: "Portfolio Website",
-          description: "一个响应式、交互式个人作品集网站，包含 About、Skills、Experience、Projects、Tools 和 Contact 模块。",
-          href: "#home",
+          title: "个人作品集网站",
+          description: "一个响应式、交互式个人作品集网站，包含关于、技能、经验、项目、工具和联系模块。",
+          image: "/image/projects/portofolio.png",
+          href: "https://rizaldanuartabuilds.vercel.app",
         },
       ],
     },
     tools: {
       eyebrow: "工具",
-      title: "工具、语言和应用",
-      summary: "我用于构建网站、制作简单设计和管理工作流程的工具。",
+      title: "我的工作台上有什么？",
+      summary: "从设计、开发到部署，这些是我最常用来构建数字产品的工具。",
       laneTitles: {
         primary: "语言与框架",
         secondary: "应用与工具",
@@ -709,8 +719,8 @@ export const content = {
     },
     contact: {
       eyebrow: "联系",
-      title: "有项目想法？一起聊聊。",
-      summary: "欢迎联系我进行合作、网站制作或前端学习讨论。",
+      title: "一起创造有影响力的作品",
+      summary: "欢迎就合作、产品开发、商业机会，以及以增长和创新为核心的项目联系我。",
     },
   },
 } as const;

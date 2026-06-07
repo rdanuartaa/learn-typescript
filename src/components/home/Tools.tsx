@@ -37,7 +37,7 @@ const appLogos = [
   { name: "Arduino", src: "/image/tools/apps/arduino-svgrepo-com.svg" },
 ];
 
-const repeatLogos = <T,>(items: readonly T[]) => [...items, ...items];
+const repeatLogos = <T,>(items: readonly T[]) => [...items, ...items, ...items];
 
 type ToolsProps = {
   isActive: boolean;

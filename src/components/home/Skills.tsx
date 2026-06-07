@@ -12,8 +12,8 @@ type SkillsProps = {
   };
 };
 
-function HardSkillIllustration({ title }: { title: string }) {
-  if (title === "Business Strategy") {
+function HardSkillIllustration({ variant }: { variant: number }) {
+  if (variant === 1) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -30,7 +30,7 @@ function HardSkillIllustration({ title }: { title: string }) {
     );
   }
 
-  if (title === "Software Development") {
+  if (variant === 2) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -46,7 +46,7 @@ function HardSkillIllustration({ title }: { title: string }) {
     );
   }
 
-  if (title === "Product Design") {
+  if (variant === 3) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -61,7 +61,7 @@ function HardSkillIllustration({ title }: { title: string }) {
     );
   }
 
-  if (title === "System Architecture") {
+  if (variant === 4) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -94,8 +94,8 @@ function HardSkillIllustration({ title }: { title: string }) {
   );
 }
 
-function SoftSkillIllustration({ title }: { title: string }) {
-  if (title === "Problem Solving") {
+function SoftSkillIllustration({ variant }: { variant: number }) {
+  if (variant === 1) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -111,7 +111,7 @@ function SoftSkillIllustration({ title }: { title: string }) {
     );
   }
 
-  if (title === "Creative Thinking") {
+  if (variant === 2) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -126,7 +126,7 @@ function SoftSkillIllustration({ title }: { title: string }) {
     );
   }
 
-  if (title === "Communication") {
+  if (variant === 3) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -140,7 +140,7 @@ function SoftSkillIllustration({ title }: { title: string }) {
     );
   }
 
-  if (title === "Leadership") {
+  if (variant === 4) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -155,7 +155,7 @@ function SoftSkillIllustration({ title }: { title: string }) {
     );
   }
 
-  if (title === "Teamwork") {
+  if (variant === 5) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -171,7 +171,7 @@ function SoftSkillIllustration({ title }: { title: string }) {
     );
   }
 
-  if (title === "Adaptability") {
+  if (variant === 6) {
     return (
       <svg className={styles.pillarVisual} viewBox="0 0 240 220" aria-hidden>
         <g className={styles.visualFloat}>
@@ -202,16 +202,20 @@ function SoftSkillIllustration({ title }: { title: string }) {
 }
 
 export default function Skills({ content, isActive }: SkillsProps) {
-  const hardSkillLoop = [...content.hard, ...content.hard];
+  const hardSkillLoop = [...content.hard, ...content.hard, ...content.hard];
   const reversedSoftSkills = content.soft
     .map((skill, index) => ({ ...skill, number: index + 1 }))
     .toReversed();
-  const softSkillLoop = [...reversedSoftSkills, ...reversedSoftSkills];
+  const softSkillLoop = [
+    ...reversedSoftSkills,
+    ...reversedSoftSkills,
+    ...reversedSoftSkills,
+  ];
 
   return (
     <section
       id="skills"
-      className={`${styles.section} ${styles.sectionDark}`}
+      className={`${styles.section} ${styles.sectionDark} ${styles.skills}`}
       data-marquee-active={isActive ? "true" : undefined}
     >
       <div className={styles.container}>
@@ -242,14 +246,14 @@ export default function Skills({ content, isActive }: SkillsProps) {
                         <div
                           className={`${styles.pillarFace} ${styles.pillarFront}`}
                         >
-                          <HardSkillIllustration title={skill.title} />
+                          <HardSkillIllustration variant={skillNumber} />
                           <span>{String(skillNumber).padStart(2, "0")}</span>
                           <h4>{skill.title}</h4>
                         </div>
                         <div
                           className={`${styles.pillarFace} ${styles.pillarBack}`}
                         >
-                          <HardSkillIllustration title={skill.title} />
+                          <HardSkillIllustration variant={skillNumber} />
                           <span>{String(skillNumber).padStart(2, "0")}</span>
                           <p>{skill.description}</p>
                         </div>
@@ -283,14 +287,14 @@ export default function Skills({ content, isActive }: SkillsProps) {
                         <div
                           className={`${styles.pillarFace} ${styles.pillarFront}`}
                         >
-                          <SoftSkillIllustration title={skill.title} />
+                          <SoftSkillIllustration variant={skill.number} />
                           <span>{String(skill.number).padStart(2, "0")}</span>
                           <h4>{skill.title}</h4>
                         </div>
                         <div
                           className={`${styles.pillarFace} ${styles.pillarBack}`}
                         >
-                          <SoftSkillIllustration title={skill.title} />
+                          <SoftSkillIllustration variant={skill.number} />
                           <span>{String(skill.number).padStart(2, "0")}</span>
                           <p>{skill.description}</p>
                         </div>

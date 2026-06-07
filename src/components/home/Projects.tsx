@@ -22,7 +22,7 @@ type ProjectsProps = {
 };
 
 export default function Projects({ content, isActive }: ProjectsProps) {
-  const projectLoop = [...content.items, ...content.items];
+  const projectLoop = [...content.items, ...content.items, ...content.items];
   const handleProjectLinkClick = (
     event: MouseEvent<HTMLAnchorElement>,
     href: string,

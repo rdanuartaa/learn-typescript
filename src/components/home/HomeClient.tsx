@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import About from "@/components/home/About";
 import Contact from "@/components/home/Contact";
 import Experience from "@/components/home/Experience";
@@ -33,7 +33,7 @@ const heroPhotos: {
 }[] = [
   {
     id: "back",
-    src: "/image/main/back.png",
+    src: "/image/main/bountydanu.webp",
     width: 4388,
     height: 5992,
     label: "Foto profil belakang kiri",
@@ -71,7 +71,7 @@ const getPhotoSlot = (
 
 export default function HomeClient() {
   const [language, setLanguage] = useState<Language>("id");
-  const [theme, setTheme] = useState<ThemeMode>("dark");
+  const [theme, setTheme] = useState<ThemeMode>("monochrome");
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<ActiveSection>("home");
   const [activeHeroPhoto, setActiveHeroPhoto] =
@@ -81,6 +81,115 @@ export default function HomeClient() {
   const copy = content[language];
   const handleActiveSectionChange = useCallback((section: ActiveSection) => {
     setActiveSection(section);
+  }, []);
+
+  useEffect(() => {
+    const marqueeSelector = [
+      `.${styles.pillarGrid}`,
+      `.${styles.projectGrid}`,
+      `.${styles.toolMarquee}`,
+    ].join(",");
+    const marquees = Array.from(
+      document.querySelectorAll<HTMLElement>(marqueeSelector),
+    );
+    const cleanups: (() => void)[] = [];
+
+    marquees.forEach((marquee) => {
+      const getLoopWidth = () => marquee.scrollWidth / 3;
+      const centerScroll = () => {
+        marquee.scrollLeft = getLoopWidth();
+      };
+      const recycleScroll = () => {
+        const loopWidth = getLoopWidth();
+
+        if (loopWidth <= 0) {
+          return;
+        }
+
+        if (marquee.scrollLeft < loopWidth * 0.35) {
+          marquee.scrollLeft += loopWidth;
+        } else if (marquee.scrollLeft > loopWidth * 1.65) {
+          marquee.scrollLeft -= loopWidth;
+        }
+      };
+      let isDragging = false;
+      let startX = 0;
+      let startScrollLeft = 0;
+
+      requestAnimationFrame(centerScroll);
+
+      const handlePointerDown = (event: PointerEvent) => {
+        const target = event.target as HTMLElement;
+
+        if (target.closest("a, button")) {
+          return;
+        }
+
+        isDragging = true;
+        startX = event.clientX;
+        startScrollLeft = marquee.scrollLeft;
+        marquee.classList.add(styles.marqueeDragging);
+        marquee.setPointerCapture(event.pointerId);
+      };
+
+      const handlePointerMove = (event: PointerEvent) => {
+        if (!isDragging) {
+          return;
+        }
+
+        marquee.scrollLeft = startScrollLeft - (event.clientX - startX);
+        recycleScroll();
+      };
+
+      const stopDragging = (event: PointerEvent) => {
+        if (!isDragging) {
+          return;
+        }
+
+        isDragging = false;
+        marquee.classList.remove(styles.marqueeDragging);
+
+        if (marquee.hasPointerCapture(event.pointerId)) {
+          marquee.releasePointerCapture(event.pointerId);
+        }
+      };
+
+      const handleWheel = (event: WheelEvent) => {
+        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+          return;
+        }
+
+        event.preventDefault();
+        marquee.scrollLeft += event.deltaY;
+        recycleScroll();
+      };
+
+      const handleScroll = () => {
+        if (!isDragging) {
+          recycleScroll();
+        }
+      };
+
+      marquee.addEventListener("pointerdown", handlePointerDown);
+      marquee.addEventListener("pointermove", handlePointerMove);
+      marquee.addEventListener("pointerup", stopDragging);
+      marquee.addEventListener("pointercancel", stopDragging);
+      marquee.addEventListener("scroll", handleScroll);
+      marquee.addEventListener("wheel", handleWheel, { passive: false });
+
+      cleanups.push(() => {
+        marquee.removeEventListener("pointerdown", handlePointerDown);
+        marquee.removeEventListener("pointermove", handlePointerMove);
+        marquee.removeEventListener("pointerup", stopDragging);
+        marquee.removeEventListener("pointercancel", stopDragging);
+        marquee.removeEventListener("scroll", handleScroll);
+        marquee.removeEventListener("wheel", handleWheel);
+      });
+    });
+
+    return () => {
+      cleanups.forEach((cleanup) => cleanup());
+    };
   }, []);
 
   return (
@@ -130,17 +239,19 @@ export default function HomeClient() {
               <div className={styles.segmented}>
                 <button
                   type="button"
-                  className={theme === "dark" ? styles.activeSegment : ""}
-                  onClick={() => setTheme("dark")}
+                  className={
+                    theme === "monochrome" ? styles.activeSegment : ""
+                  }
+                  onClick={() => setTheme("monochrome")}
                 >
-                  {copy.controls.dark}
+                  {copy.controls.monochrome}
                 </button>
                 <button
                   type="button"
-                  className={theme === "light" ? styles.activeSegment : ""}
-                  onClick={() => setTheme("light")}
+                  className={theme === "colour" ? styles.activeSegment : ""}
+                  onClick={() => setTheme("colour")}
                 >
-                  {copy.controls.light}
+                  {copy.controls.colour}
                 </button>
               </div>
             </div>
@@ -249,10 +360,11 @@ export default function HomeClient() {
       <Tools content={copy.tools} isActive={activeSection === "tools"} />
       <Contact content={copy.contact} />
       <footer className={styles.siteFooter}>
-        <span>Framework: Next.js 16</span>
-        <span>Language: TypeScript</span>
-        <span>UI: React 19 + Sass</span>
-        <span>Deploy: Vercel</span>
+        <span>Next.js 16</span>
+        <span>TypeScript</span>
+        <span>React 19</span>
+        <span>Sass</span>
+        <span>Vercel</span>
       </footer>
     </main>
   );
