@@ -1,5 +1,5 @@
 import styles from "./Home.module.scss";
-import type { CSSProperties } from "react";
+import type { CSSProperties, MouseEvent } from "react";
 
 type ProjectPreviewStyle = CSSProperties & {
   "--project-image"?: string;
@@ -23,6 +23,23 @@ type ProjectsProps = {
 
 export default function Projects({ content, isActive }: ProjectsProps) {
   const projectLoop = [...content.items, ...content.items];
+  const handleProjectLinkClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (!href.startsWith("#")) {
+      return;
+    }
+
+    const target = document.querySelector(href);
+
+    if (!target) {
+      return;
+    }
+
+    event.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <section
@@ -43,6 +60,8 @@ export default function Projects({ content, isActive }: ProjectsProps) {
           <div className={styles.projectTrack}>
             {projectLoop.map((project, index) => {
               const isDuplicate = index >= content.items.length;
+              const projectHref = project.href ?? "#contact";
+              const isExternalLink = projectHref.startsWith("http");
               const previewStyle: ProjectPreviewStyle | undefined = project.image
                 ? { "--project-image": `url(${project.image})` }
                 : undefined;
@@ -69,7 +88,17 @@ export default function Projects({ content, isActive }: ProjectsProps) {
                     </div>
                     <div className={`${styles.projectFace} ${styles.projectBack}`}>
                       <p>{project.description}</p>
-                      <a href={project.href ?? "#contact"}>{content.linkLabel}</a>
+                      <a
+                        href={projectHref}
+                        target={isExternalLink ? "_blank" : undefined}
+                        rel={isExternalLink ? "noreferrer" : undefined}
+                        tabIndex={isDuplicate ? -1 : undefined}
+                        onClick={(event) =>
+                          handleProjectLinkClick(event, projectHref)
+                        }
+                      >
+                        {content.linkLabel}
+                      </a>
                     </div>
                   </div>
                 </article>

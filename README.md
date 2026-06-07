@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Rizal Danuarta Akbar
 
-## Getting Started
+Personal portfolio website yang dibangun dengan Next.js, TypeScript, React, dan Sass. Website ini menampilkan profil, about, skills, experience, projects, tools, contact, serta interaksi visual responsif untuk desktop dan mobile.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Sass](https://img.shields.io/badge/Sass-SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+
+## Tech Stack
+
+| Area | Teknologi |
+| --- | --- |
+| Framework | Next.js 16 |
+| UI Library | React 19 |
+| Bahasa | TypeScript |
+| Styling | Sass / SCSS Modules |
+| Assets | Local image assets, SVG tool icons |
+| Deploy | Vercel |
+| Quality | ESLint, production build check |
+
+## Fitur Utama
+
+- Hero section dengan stack foto interaktif yang bisa dipilih.
+- Layout responsif dengan penyesuaian khusus mobile.
+- Multi-language content melalui data terstruktur di `content.ts`.
+- Theme preference dark/light.
+- Skills, Projects, dan Tools marquee yang tetap auto-scroll tetapi bisa digeser manual.
+- Project cards dengan flip interaction, preview image, dan tombol `href`.
+- Experience timeline dengan pagination otomatis jika item lebih dari 5.
+- Contact section dengan WhatsApp form dan social icon links.
+- Footer kecil berisi framework, bahasa, UI stack, dan deploy platform.
+
+## Struktur Project
+
+```txt
+src/
+  app/
+    layout.tsx
+    page.tsx
+    globals.css
+  components/home/
+    About.tsx
+    Contact.tsx
+    Experience.tsx
+    HomeClient.tsx
+    Home.module.scss
+    Navbar.tsx
+    Projects.tsx
+    Skills.tsx
+    Tools.tsx
+    content.ts
+public/
+  image/
+    main/
+    projects/
+    tools/
+```
+
+## Menjalankan Project
+
+Install dependency:
+
+```bash
+npm install
+```
+
+Jalankan development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Script
 
-## Learn More
+```bash
+npm run dev
+npm run lint
+npm run build
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Mengubah Konten
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Mayoritas konten portfolio ada di:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```txt
+src/components/home/content.ts
+```
 
-## Deploy on Vercel
+Contoh bagian project:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```ts
+{
+  title: "Nama Project",
+  description: "Deskripsi singkat project.",
+  image: "/image/projects/example.png",
+  href: "https://link-project.com",
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Gunakan `href: "#contact"` untuk scroll ke section contact, atau URL penuh untuk link eksternal.
+
+## Deploy
+
+Project ini siap dideploy ke Vercel.
+
+```bash
+npm run build
+```
+
+Jika build berhasil, push ke repository dan hubungkan ke Vercel.

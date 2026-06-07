@@ -133,10 +133,10 @@ export const content = {
           period: "Apr 2026 - Mei 2026",
           role: "DiProperti",
           description:
-            "DiProperti adalah platform marketplace properti untuk membantu pengguna menemukan dan mengevaluasi pilihan properti secara lebih terarah.",
+            "DiProperti adalah platform e-commerce properti untuk membantu pengguna menemukan dan mengevaluasi pilihan properti secara lebih terarah.",
           details: [
-            "Membangun antarmuka web responsif, layanan backend, dan sistem database untuk mendukung manajemen properti serta interaksi pengguna.",
-            "Menerapkan authentication, fitur rekomendasi, dan dashboard administratif untuk meningkatkan usability dan efisiensi platform.",
+            "Membangun antarmuka web responsif, memisahkan backend dan frontend, serta sistem database untuk mendukung manajemen properti serta interaksi pengguna.",
+            "Menerapkan authentication, fitur rekomendasi, komparasi, simulasi kpr, dan dashboard administratif untuk meningkatkan usability dan efisiensi platform.",
             "Mengelola deployment dan infrastruktur sistem dengan praktik pengembangan modern serta DevOps untuk menjaga performa aplikasi tetap stabil.",
           ],
         },
@@ -187,35 +187,42 @@ export const content = {
           description:
             "Platform marketplace properti untuk membantu pengguna menemukan, membandingkan, dan mengevaluasi properti sesuai preferensi mereka.",
           image: "/image/projects/diproperti.png",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
         },
         {
           title: "Semboro Orange Quality Classification System",
           description:
             "Platform sortir kualitas jeruk berbasis AI dan IoT dengan dashboard monitoring untuk melihat hasil klasifikasi dan performa sistem.",
           image: "/image/projects/semboro.jpg",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/496/klasifikasi-kualitas-jeruk-semboro-menggunakan-arsitektur-vgg16-yang-terintegrasi-dengan-iot-berbasis-web",
         },
         {
           title: "Edelweiss Tour & Travel Adventure",
           description:
             "Website company profile layanan tour & travel dengan tampilan responsif dan integrasi booking WhatsApp.",
             image: "/image/projects/edelweiss.png",
+            href: "https://edelweisstourandtravel.com/",
         },
         {
           title: "Cuan Space",
           description:
             "Marketplace produk digital berbasis web dan mobile dengan payment gateway, pengiriman file digital, dan multi-role authentication.",
             image: "/image/projects/cuan.png",
+            href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
         },
         {
           title: "Nusticky on Shopee",
           description:
             "Toko e-commerce character sticker di Shopee yang menggabungkan desain produk, strategi penjualan, branding, dan pengelolaan operasional bisnis.",
             image: "/image/projects/nusticky.png",
+            href: "https://shopee.co.id/nusticky",
         },
         {
           title: "Portfolio Website",
           description:
             "Website portfolio personal dengan section About, Skills, Experience, Projects, Tools, dan Contact yang responsif serta interaktif.",
+            image: "/image/projects/portofolio.png",
+            href: "https://rizaldanuartabuilds.vercel.app",
         },
       ],
     },
@@ -239,9 +246,9 @@ export const content = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Punya ide project? Mari mulai ngobrol.",
+      title: "Mari ciptakan sesuatu yang berdampak",
       summary:
-        "Kirim pesan untuk kolaborasi, pembuatan website, atau diskusi belajar frontend.",
+        "Terbuka untuk kolaborasi, pengembangan produk, peluang bisnis, dan berbagai proyek yang berfokus pada pertumbuhan serta inovasi.",
     },
   },
   en: {
@@ -423,31 +430,37 @@ export const content = {
           description:
             "A property marketplace platform that helps users discover, compare, and evaluate properties based on their preferences.",
           image: "/image/projects/diproperti.png",
+          href: "#contact",
         },
         {
           title: "Semboro Orange Quality Classification System",
           description:
             "An AI and IoT-based orange quality sorting platform with a monitoring dashboard for classification results and system metrics.",
+          href: "#contact",
         },
         {
           title: "Edelweiss Tour & Travel Adventure",
           description:
             "A responsive company profile website for tour and travel services with direct WhatsApp booking integration.",
+          href: "#contact",
         },
         {
           title: "Cuan Space",
           description:
             "A web and mobile digital product marketplace with payment gateway, secure file delivery, and multi-role authentication.",
+          href: "#contact",
         },
         {
           title: "Nusticky on Shopee",
           description:
             "A character sticker e-commerce store on Shopee combining product design, sales strategy, branding, and business operations management.",
+          href: "https://shopee.co.id/nusticky",
         },
         {
           title: "Portfolio Website",
           description:
             "A responsive and interactive personal portfolio website with About, Skills, Experience, Projects, Tools, and Contact sections.",
+          href: "#home",
         },
       ],
     },
@@ -645,29 +658,35 @@ export const content = {
           title: "DiProperti",
           description: "一个 property marketplace platform，帮助用户根据偏好发现、比较和评估房产。",
           image: "/image/projects/diproperti.png",
+          href: "#contact",
         },
         {
           title: "Semboro Orange Quality Classification System",
           description:
             "基于 AI 和 IoT 的橙子质量分拣平台，包含用于展示分类结果和系统指标的 monitoring dashboard。",
+          href: "#contact",
         },
         {
           title: "Edelweiss Tour & Travel Adventure",
           description: "一个 tour & travel 服务的响应式 company profile website，并集成 WhatsApp booking。",
+          href: "#contact",
         },
         {
           title: "Cuan Space",
           description:
             "一个 web 和 mobile digital product marketplace，支持 payment gateway、安全文件分发和 multi-role authentication。",
+          href: "#contact",
         },
         {
           title: "Nusticky on Shopee",
           description:
             "Shopee 上的 character sticker 电商店铺，结合产品设计、销售策略、品牌建设和业务运营管理。",
+          href: "https://shopee.co.id/nusticky",
         },
         {
           title: "Portfolio Website",
           description: "一个响应式、交互式个人作品集网站，包含 About、Skills、Experience、Projects、Tools 和 Contact 模块。",
+          href: "#home",
         },
       ],
     },

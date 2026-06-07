@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useState } from "react";
 import About from "@/components/home/About";
 import Contact from "@/components/home/Contact";
@@ -20,11 +21,63 @@ type ActiveSection =
   | "tools"
   | "contact";
 
+type HeroPhotoId = "backTwo" | "back" | "front";
+type HeroPhotoSlot = "backTwo" | "back" | "front";
+
+const heroPhotos: {
+  id: HeroPhotoId;
+  src: string;
+  width: number;
+  height: number;
+  label: string;
+}[] = [
+  {
+    id: "back",
+    src: "/image/main/back.png",
+    width: 4388,
+    height: 5992,
+    label: "Foto profil belakang kiri",
+  },
+  {
+    id: "front",
+    src: "/image/main/frontd.webp",
+    width: 2296,
+    height: 2296,
+    label: "Foto profil depan",
+  },
+  {
+    id: "backTwo",
+    src: "/image/main/back2.jpg",
+    width: 2329,
+    height: 3264,
+    label: "Foto profil belakang kanan",
+  },
+];
+
+const getPhotoSlot = (
+  photoId: HeroPhotoId,
+  activePhoto: HeroPhotoId,
+): HeroPhotoSlot => {
+  if (photoId === activePhoto) {
+    return "front";
+  }
+
+  if (activePhoto === "front") {
+    return photoId;
+  }
+
+  return photoId === "front" ? activePhoto : photoId;
+};
+
 export default function HomeClient() {
   const [language, setLanguage] = useState<Language>("id");
   const [theme, setTheme] = useState<ThemeMode>("dark");
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<ActiveSection>("home");
+  const [activeHeroPhoto, setActiveHeroPhoto] =
+    useState<HeroPhotoId>("back");
+  const [selectedHeroPhoto, setSelectedHeroPhoto] =
+    useState<HeroPhotoId | null>(null);
   const copy = content[language];
   const handleActiveSectionChange = useCallback((section: ActiveSection) => {
     setActiveSection(section);
@@ -135,15 +188,52 @@ export default function HomeClient() {
             </div>
           </div>
 
-          <div className={styles.photoStage} aria-label="Area foto profil">
-            <div className={styles.photoFrame}>
-              <div className={styles.photoPlaceholder}>
-                <span>{copy.hero.photo}</span>
-              </div>
-            </div>
-            <div className={styles.heroBadge}>
-              <span>5+</span>
-              <p>{copy.hero.badge}</p>
+          <div className={styles.photoStage}>
+            <div
+              className={styles.photoStack}
+              role="group"
+              aria-label={copy.hero.photo}
+            >
+              {heroPhotos.map((photo) => {
+                const slot = getPhotoSlot(photo.id, activeHeroPhoto);
+                const slotClass =
+                  slot === "front"
+                    ? styles.heroPhotoSlotFront
+                    : slot === "back"
+                      ? styles.heroPhotoSlotBack
+                      : styles.heroPhotoSlotBackTwo;
+                const imageClass =
+                  photo.id === "back"
+                    ? styles.heroPhotoImageBack
+                    : photo.id === "backTwo"
+                      ? styles.heroPhotoImageBackTwo
+                      : styles.heroPhotoImageFront;
+                return (
+                  <button
+                    key={photo.id}
+                    type="button"
+                    className={`${styles.heroPhotoCard} ${slotClass} ${
+                      selectedHeroPhoto === photo.id
+                        ? styles.heroPhotoCardActive
+                        : ""
+                    }`}
+                    aria-label={photo.label}
+                    onClick={() => {
+                      setActiveHeroPhoto(photo.id);
+                      setSelectedHeroPhoto(photo.id);
+                    }}
+                  >
+                    <Image
+                      className={`${styles.heroPhotoImage} ${imageClass}`}
+                      src={photo.src}
+                      width={photo.width}
+                      height={photo.height}
+                      alt=""
+                      priority
+                    />
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -158,6 +248,12 @@ export default function HomeClient() {
       />
       <Tools content={copy.tools} isActive={activeSection === "tools"} />
       <Contact content={copy.contact} />
+      <footer className={styles.siteFooter}>
+        <span>Framework: Next.js 16</span>
+        <span>Language: TypeScript</span>
+        <span>UI: React 19 + Sass</span>
+        <span>Deploy: Vercel</span>
+      </footer>
     </main>
   );
 }

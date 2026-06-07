@@ -34,9 +34,8 @@ export default function About({ content, isActive }: AboutProps) {
               </g>
               <g className={styles.aboutDesignMark}>
                 <rect x="162" y="70" width="36" height="46" rx="8" />
-                <path d="M172 86h16M172 98h20M172 110h12" />
-                <circle cx="198" cy="116" r="10" />
-                <path d="M194 116l4 4 8-12" />
+                <path d="M172 82h16M172 94h16M172 106h16" />
+                <path d="M192 119l6 6 12-16" />
               </g>
               <g className={styles.aboutCodeMark}>
                 <path d="M294 112l-14 12 14 12" />
