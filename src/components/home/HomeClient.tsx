@@ -206,7 +206,17 @@ export default function HomeClient() {
         aria-expanded={isPreferencesOpen}
         onClick={() => setIsPreferencesOpen(true)}
       >
-        <span>R</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.2v2.1" />
+          <path d="M12 18.7v2.1" />
+          <path d="M4.2 12h2.1" />
+          <path d="M17.7 12h2.1" />
+          <path d="m6.5 6.5 1.5 1.5" />
+          <path d="m16 16 1.5 1.5" />
+          <path d="m17.5 6.5-1.5 1.5" />
+          <path d="m8 16-1.5 1.5" />
+          <circle cx="12" cy="12" r="3.7" />
+        </svg>
       </button>
 
       {isPreferencesOpen ? (

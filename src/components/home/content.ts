@@ -185,7 +185,7 @@ export const content = {
         {
           title: "DiProperti",
           description:
-            "Platform marketplace properti untuk membantu pengguna menemukan, membandingkan, dan mengevaluasi properti sesuai preferensi mereka.",
+            "Platform e-commerce properti untuk membantu pengguna menemukan, membandingkan, dan mengevaluasi properti sesuai preferensi mereka.",
           image: "/image/projects/diproperti.png",
           href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
         },

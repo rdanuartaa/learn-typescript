@@ -4,7 +4,7 @@ $soft-black: #191919;
 $charcoal: #2b2b2b;
 $grey: #8b8b8b;
 $light-grey: #d7d7d7;
-$paper: #f4f4f0;
+$paper: #ffffff;
 $white: #ffffff;
 $ocean-blue: #426fd8;
 $sunny-yellow: #f4c64d;
@@ -118,7 +118,7 @@ $navy: #17335f;
   color: var(--page-fg);
   font-family: var(--font-geist-sans), var(--font-inter), Arial, Helvetica,
     sans-serif;
-  font-size: 1rem;
+  font-size: clamp(1.04rem, 1.4vw, 1.16rem);
   font-weight: 800;
   max-width: 34ch;
   overflow: hidden;
@@ -152,13 +152,14 @@ $navy: #17335f;
   display: none;
   width: 44px;
   height: 44px;
-  border: 1px solid var(--panel-border);
-  border-radius: 50%;
-  background: var(--panel-bg);
-  color: var(--page-fg);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: currentColor;
   cursor: pointer;
   place-items: center;
   position: relative;
+  padding: 0;
 
   span {
     position: absolute;
@@ -389,9 +390,9 @@ $navy: #17335f;
   z-index: 80;
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1px solid var(--panel-border);
+  width: 58px;
+  height: 58px;
+  border: 2px solid var(--panel-border);
   border-radius: 50%;
   background: color-mix(in srgb, var(--page-bg) 84%, transparent);
   color: var(--page-fg);
@@ -400,16 +401,14 @@ $navy: #17335f;
   box-shadow: 0 12px 34px rgba($black, 0.26);
   transition: border-color 180ms ease, transform 180ms ease;
 
-  span {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    font-family: var(--font-geist-sans), var(--font-inter), Arial, Helvetica,
-      sans-serif;
-    font-weight: 950;
-    line-height: 1;
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.2;
   }
 
   &:hover {
@@ -1667,6 +1666,7 @@ $navy: #17335f;
 .contactGrid {
   display: grid;
   grid-template-columns: 1fr 0.88fr;
+  grid-template-rows: auto 1fr;
   gap: clamp(32px, 6vw, 86px);
   align-items: start;
 }
@@ -1706,10 +1706,11 @@ $navy: #17335f;
 .contactIconLinks {
   grid-column: 1;
   grid-row: 2;
+  align-self: end;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: clamp(12px, 2vw, 18px);
-  margin-top: 30px;
+  margin-top: 0;
   max-width: min(100%, 560px);
 
   a {
@@ -1819,7 +1820,7 @@ $navy: #17335f;
   border-top: 1px solid rgba($white, 0.12);
   background: $black;
   color: rgba($paper, 0.58);
-  padding: 14px 0 28px;
+  padding: 18px 0;
 
   span {
     display: inline-flex;
@@ -1890,6 +1891,7 @@ $navy: #17335f;
   }
 
   .logo,
+  .navToggle,
   .navbar a:hover {
     color: $white;
   }
@@ -1898,6 +1900,58 @@ $navy: #17335f;
     background: $white;
     color: $navy !important;
     box-shadow: none;
+  }
+
+  .preferenceButton {
+    --button-bg: #{$navy};
+    --button-fg: #{$white};
+    --button-fill: #{$white};
+    --button-active-fg: #{$navy};
+
+    border-color: var(--button-fg);
+    background:
+      linear-gradient(var(--button-fill), var(--button-fill)) left / 0% 100%
+        no-repeat,
+      var(--button-bg);
+    background-clip: padding-box;
+    color: var(--button-fg);
+    box-shadow: none;
+    transition: background-size 260ms ease, border-color 180ms ease,
+      color 180ms ease, transform 180ms ease;
+
+    &:hover,
+    &:focus-visible {
+      background-size: 100% 100%;
+      border-color: transparent;
+      color: var(--button-active-fg);
+    }
+  }
+
+  .preferenceModal {
+    background: $navy;
+    border-color: $white;
+    color: $white;
+    box-shadow: none;
+  }
+
+  .preferenceGroup > span {
+    color: rgba($white, 0.76);
+  }
+
+  .modalClose,
+  .segmented button {
+    --button-fg: #{$white};
+    --button-fill: #{$white};
+    --button-active-fg: #{$navy};
+
+    border-color: $white;
+    color: $white;
+  }
+
+  .segmented button.activeSegment {
+    background-size: 100% 100% !important;
+    border-color: transparent !important;
+    color: $navy !important;
   }
 
   &[data-active-section="home"] {
@@ -1909,6 +1963,7 @@ $navy: #17335f;
     }
 
     .logo,
+    .navToggle,
     .navbar a:hover {
       color: $navy;
     }
@@ -1917,6 +1972,39 @@ $navy: #17335f;
       background: $navy;
       color: $ocean-blue !important;
       box-shadow: none;
+    }
+
+    .preferenceButton {
+      --button-bg: #{$ocean-blue};
+      --button-fg: #{$navy};
+      --button-fill: #{$navy};
+      --button-active-fg: #{$ocean-blue};
+    }
+
+    .preferenceModal {
+      background: $ocean-blue;
+      border-color: $navy;
+      color: $navy;
+    }
+
+    .preferenceGroup > span {
+      color: rgba($navy, 0.72);
+    }
+
+    .modalClose,
+    .segmented button {
+      --button-fg: #{$navy};
+      --button-fill: #{$navy};
+      --button-active-fg: #{$ocean-blue};
+
+      border-color: $navy;
+      color: $navy;
+    }
+
+    .segmented button.activeSegment {
+      background-size: 100% 100% !important;
+      border-color: transparent !important;
+      color: $ocean-blue !important;
     }
   }
 
@@ -1929,6 +2017,7 @@ $navy: #17335f;
     }
 
     .logo,
+    .navToggle,
     .navbar a:hover {
       color: $white;
     }
@@ -1937,6 +2026,39 @@ $navy: #17335f;
       background: $white;
       color: $pirate-red !important;
       box-shadow: none;
+    }
+
+    .preferenceButton {
+      --button-bg: #{$pirate-red};
+      --button-fg: #{$white};
+      --button-fill: #{$white};
+      --button-active-fg: #{$pirate-red};
+    }
+
+    .preferenceModal {
+      background: $pirate-red;
+      border-color: $white;
+      color: $white;
+    }
+
+    .preferenceGroup > span {
+      color: rgba($white, 0.76);
+    }
+
+    .modalClose,
+    .segmented button {
+      --button-fg: #{$white};
+      --button-fill: #{$white};
+      --button-active-fg: #{$pirate-red};
+
+      border-color: $white;
+      color: $white;
+    }
+
+    .segmented button.activeSegment {
+      background-size: 100% 100% !important;
+      border-color: transparent !important;
+      color: $pirate-red !important;
     }
   }
 
@@ -1950,6 +2072,7 @@ $navy: #17335f;
     }
 
     .logo,
+    .navToggle,
     .navbar a:hover {
       color: $navy;
     }
@@ -1958,6 +2081,39 @@ $navy: #17335f;
       background: $navy;
       color: $sunny-yellow !important;
       box-shadow: none;
+    }
+
+    .preferenceButton {
+      --button-bg: #{$sunny-yellow};
+      --button-fg: #{$navy};
+      --button-fill: #{$navy};
+      --button-active-fg: #{$sunny-yellow};
+    }
+
+    .preferenceModal {
+      background: $sunny-yellow;
+      border-color: $navy;
+      color: $navy;
+    }
+
+    .preferenceGroup > span {
+      color: rgba($navy, 0.72);
+    }
+
+    .modalClose,
+    .segmented button {
+      --button-fg: #{$navy};
+      --button-fill: #{$navy};
+      --button-active-fg: #{$sunny-yellow};
+
+      border-color: $navy;
+      color: $navy;
+    }
+
+    .segmented button.activeSegment {
+      background-size: 100% 100% !important;
+      border-color: transparent !important;
+      color: $sunny-yellow !important;
     }
   }
 
@@ -1971,6 +2127,7 @@ $navy: #17335f;
     }
 
     .logo,
+    .navToggle,
     .navbar a:hover {
       color: $white;
     }
@@ -1979,6 +2136,39 @@ $navy: #17335f;
       background: $white;
       color: $navy !important;
       box-shadow: none;
+    }
+
+    .preferenceButton {
+      --button-bg: #{$navy};
+      --button-fg: #{$white};
+      --button-fill: #{$white};
+      --button-active-fg: #{$navy};
+    }
+
+    .preferenceModal {
+      background: $navy;
+      border-color: $white;
+      color: $white;
+    }
+
+    .preferenceGroup > span {
+      color: rgba($white, 0.76);
+    }
+
+    .modalClose,
+    .segmented button {
+      --button-fg: #{$white};
+      --button-fill: #{$white};
+      --button-active-fg: #{$navy};
+
+      border-color: $white;
+      color: $white;
+    }
+
+    .segmented button.activeSegment {
+      background-size: 100% 100% !important;
+      border-color: transparent !important;
+      color: $navy !important;
     }
   }
 
@@ -1991,6 +2181,7 @@ $navy: #17335f;
     }
 
     .logo,
+    .navToggle,
     .navbar a:hover {
       color: $navy;
     }
@@ -2000,6 +2191,52 @@ $navy: #17335f;
       color: $ocean-blue !important;
       box-shadow: none;
     }
+
+    .preferenceButton {
+      --button-bg: #{$ocean-blue};
+      --button-fg: #{$navy};
+      --button-fill: #{$navy};
+      --button-active-fg: #{$ocean-blue};
+    }
+
+    .preferenceModal {
+      background: $ocean-blue;
+      border-color: $navy;
+      color: $navy;
+    }
+
+    .preferenceGroup > span {
+      color: rgba($navy, 0.72);
+    }
+
+    .modalClose,
+    .segmented button {
+      --button-fg: #{$navy};
+      --button-fill: #{$navy};
+      --button-active-fg: #{$ocean-blue};
+
+      border-color: $navy;
+      color: $navy;
+    }
+
+    .segmented button.activeSegment {
+      background-size: 100% 100% !important;
+      border-color: transparent !important;
+      color: $ocean-blue !important;
+    }
+  }
+
+  .segmented button:hover,
+  .segmented button:focus-visible,
+  .segmented .activeSegment {
+    border-color: transparent !important;
+    color: var(--button-active-fg) !important;
+  }
+
+  .modalClose:hover,
+  .modalClose:focus-visible {
+    border-color: transparent !important;
+    color: var(--button-active-fg) !important;
   }
 
   &[data-active-section="projects"] {
@@ -2112,7 +2349,6 @@ $navy: #17335f;
     filter: none;
   }
 
-  .preferenceButton,
   .preferenceModal {
     background: $white;
     color: $navy;
@@ -2189,6 +2425,15 @@ $navy: #17335f;
     h2 {
       color: $navy;
       text-shadow: none;
+    }
+
+    .toolLaneHeader {
+      border-bottom-color: rgba($navy, 0.26);
+
+      span,
+      h3 {
+        color: $navy;
+      }
     }
   }
 
@@ -2320,6 +2565,8 @@ $navy: #17335f;
     --button-fg: #{$sunny-yellow};
     --button-fill: #{$sunny-yellow};
     --button-active-fg: #{$navy};
+
+    border-color: rgba($sunny-yellow, 0.9);
   }
 
   .projectPreview[data-has-image="true"] {
@@ -2364,17 +2611,28 @@ $navy: #17335f;
   }
 
   .siteFooter {
+    position: relative;
     width: 100%;
     margin-inline: 0;
-    border-top-color: rgba($white, 0.18);
+    border-top-color: transparent;
     background: $navy;
     padding-inline: max(12px, calc((100% - 1180px) / 2));
+    padding-block: 18px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: max(12px, calc((100% - 1180px) / 2));
+      right: max(12px, calc((100% - 1180px) / 2));
+      border-top: 1px solid rgba($white, 0.12);
+    }
 
     span {
-      color: rgba($white, 0.72);
+      color: rgba($white, 0.66);
 
       &:not(:last-child)::after {
-        color: rgba($white, 0.34);
+        color: rgba($white, 0.28);
       }
     }
   }
@@ -2436,12 +2694,126 @@ $navy: #17335f;
 }
 
 @media (max-width: 880px) {
+  .page[data-theme="monochrome"] {
+    .navLinks {
+      background: $black;
+      border-color: rgba($white, 0.18);
+      box-shadow: none;
+
+      a {
+        --button-fg: #{$white};
+        --button-fill: #{$white};
+        --button-active-fg: #{$black};
+
+        border: 2px solid rgba($white, 0.18);
+        background: linear-gradient(var(--button-fill), var(--button-fill))
+          left / 0% 100% no-repeat;
+        background-clip: padding-box;
+        color: var(--button-fg) !important;
+        padding: 12px 14px;
+        transition: background-size 260ms ease, border-color 180ms ease,
+          color 180ms ease, transform 180ms ease;
+
+        &:hover,
+        &:focus-visible {
+          background-size: 100% 100%;
+          border-color: transparent;
+          color: var(--button-active-fg) !important;
+        }
+      }
+
+      .activeNavLink {
+        background-size: 100% 100% !important;
+        border-color: transparent !important;
+        color: var(--button-active-fg) !important;
+      }
+    }
+  }
+
+  .page[data-theme="colour"] {
+    .navLinks {
+      background: var(--mobile-nav-bg);
+      border-color: var(--mobile-nav-border);
+      box-shadow: none;
+
+      a {
+        border: 2px solid var(--button-fg);
+        background: linear-gradient(var(--button-fill), var(--button-fill))
+          left / 0% 100% no-repeat;
+        background-clip: padding-box;
+        color: var(--button-fg);
+        transition: background-size 260ms ease, border-color 180ms ease,
+          color 180ms ease, transform 180ms ease;
+
+        &:hover,
+        &:focus-visible {
+          background-size: 100% 100%;
+          border-color: transparent;
+          color: var(--button-active-fg);
+        }
+      }
+    }
+
+    .activeNavLink {
+      background-size: 100% 100% !important;
+      border-color: transparent !important;
+      color: var(--button-active-fg) !important;
+    }
+  }
+
+  .page[data-theme="colour"][data-active-section="home"],
+  .page[data-theme="colour"][data-active-section="tools"] {
+    .navLinks {
+      --mobile-nav-bg: #{$ocean-blue};
+      --mobile-nav-border: #{$navy};
+      --button-fg: #{$navy};
+      --button-fill: #{$navy};
+      --button-active-fg: #{$ocean-blue};
+    }
+  }
+
+  .page[data-theme="colour"][data-active-section="skills"] {
+    .navLinks {
+      --mobile-nav-bg: #{$pirate-red};
+      --mobile-nav-border: #{$white};
+      --button-fg: #{$white};
+      --button-fill: #{$white};
+      --button-active-fg: #{$pirate-red};
+    }
+  }
+
+  .page[data-theme="colour"][data-active-section="about"],
+  .page[data-theme="colour"][data-active-section="projects"] {
+    .navLinks {
+      --mobile-nav-bg: #{$sunny-yellow};
+      --mobile-nav-border: #{$navy};
+      --button-fg: #{$navy};
+      --button-fill: #{$navy};
+      --button-active-fg: #{$sunny-yellow};
+    }
+  }
+
+  .page[data-theme="colour"][data-active-section="experience"],
+  .page[data-theme="colour"][data-active-section="contact"] {
+    .navLinks {
+      --mobile-nav-bg: #{$navy};
+      --mobile-nav-border: #{$white};
+      --button-fg: #{$white};
+      --button-fill: #{$white};
+      --button-active-fg: #{$navy};
+    }
+  }
+
   .navbar {
     min-height: 58px;
   }
 
   .logo {
-    max-width: min(58vw, 32ch);
+    max-width: min(68vw, 34ch);
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    line-height: 1.15;
   }
 
   .navToggle {
@@ -2451,7 +2823,7 @@ $navy: #17335f;
 
   .navLinks {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 16px);
     left: 0;
     right: 0;
     display: grid;
@@ -2478,6 +2850,59 @@ $navy: #17335f;
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0) scale(1);
+  }
+
+  .page[data-theme="monochrome"] .navLinks {
+    background: $black;
+    border-color: rgba($white, 0.18);
+    box-shadow: none;
+
+    a {
+      border: 2px solid rgba($white, 0.18);
+      background: linear-gradient($white, $white) left / 0% 100% no-repeat;
+      background-clip: padding-box;
+      color: $white !important;
+
+      &:hover,
+      &:focus-visible {
+        background-size: 100% 100%;
+        border-color: transparent;
+        color: $black !important;
+      }
+    }
+
+    .activeNavLink {
+      background-size: 100% 100% !important;
+      border-color: transparent !important;
+      color: $black !important;
+    }
+  }
+
+  .page[data-theme="colour"] .navLinks {
+    background: var(--mobile-nav-bg);
+    border-color: var(--mobile-nav-border);
+    box-shadow: none;
+
+    a {
+      border: 2px solid var(--button-fg);
+      background: linear-gradient(var(--button-fill), var(--button-fill)) left /
+        0% 100% no-repeat;
+      background-clip: padding-box;
+      color: var(--button-fg) !important;
+
+      &:hover,
+      &:focus-visible {
+        background-size: 100% 100%;
+        border-color: transparent;
+        color: var(--button-active-fg) !important;
+      }
+    }
+
+    .activeNavLink {
+      background-size: 100% 100% !important;
+      border-color: transparent !important;
+      color: var(--button-active-fg) !important;
+    }
   }
 
   .heroGrid,
@@ -2529,11 +2954,12 @@ $navy: #17335f;
   }
 
   .toolLaneHeader {
-    align-items: start;
-    flex-direction: column;
+    align-items: end;
+    flex-direction: row;
 
     h3 {
-      text-align: left;
+      margin-left: auto;
+      text-align: right;
     }
   }
 
@@ -2710,6 +3136,10 @@ $navy: #17335f;
     padding: 24px;
   }
 
+  .projectBack {
+    padding-bottom: 22px;
+  }
+
   .pillarFront h4 {
     max-width: 220px;
     font-size: clamp(1.45rem, 7vw, 2rem);
@@ -2729,10 +3159,21 @@ $navy: #17335f;
     font-size: clamp(1.35rem, 6vw, 1.82rem);
   }
 
+  .projectBack {
+    gap: 14px;
+
+    p {
+      font-size: clamp(0.88rem, 3.7vw, 1rem);
+      font-weight: 650;
+      line-height: 1.55;
+    }
+  }
+
   .projectBack a {
-    min-height: 50px;
-    padding-inline: 22px;
-    font-size: 0.92rem;
+    min-height: 44px;
+    padding-inline: 18px;
+    font-size: 0.84rem;
+    font-weight: 720;
   }
 
   .timelinePagination {
@@ -2805,7 +3246,7 @@ $navy: #17335f;
 
   .siteFooter {
     row-gap: 10px;
-    padding-block: 12px 24px;
+    padding-block: 18px;
 
     span {
       padding-inline: 8px;
@@ -2814,6 +3255,23 @@ $navy: #17335f;
       &:not(:last-child)::after {
         margin-left: 16px;
       }
+    }
+  }
+
+  .page[data-theme="monochrome"] .siteFooter {
+    position: relative;
+    width: 100%;
+    margin-inline: 0;
+    border-top-color: transparent;
+    padding-inline: max(12px, calc((100% - 1180px) / 2));
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: max(12px, calc((100% - 1180px) / 2));
+      right: max(12px, calc((100% - 1180px) / 2));
+      border-top: 1px solid rgba($white, 0.12);
     }
   }
 
