@@ -20,9 +20,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Portfolio Danu",
   description: "Landing page portfolio frontend developer dengan Next.js.",
-  icons: {
-    icon: "/logodanu.svg",
-  },
 };
 
 export default function RootLayout({
@@ -35,9 +32,6 @@ export default function RootLayout({
       lang="en"
       className={`${geistHeading.variable} ${interBody.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <link rel="icon" href="/logodanu.svg" type="image/svg+xml" />
-      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
