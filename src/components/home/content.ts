@@ -26,7 +26,7 @@ export const content = {
       colour: "Colour Full",
     },
     hero: {
-      eyebrow: "Softwere Engineer | Product Builder | Founder Nusticky",
+      eyebrow: "Software Engineer | Product Builder | Founder Nusticky",
       title: "Hallo, Saya Rizal Danuarta Akbar",
       lead: "Software Engineer yang menggabungkan desain, bisnis, dan teknologi untuk mengubah ide menjadi produk digital yang siap digunakan.",
       primary: "Lihat Projects",
@@ -200,29 +200,29 @@ export const content = {
           title: "Edelweiss Tour & Travel Adventure",
           description:
             "Website company profile layanan tour & travel dengan tampilan responsif dan integrasi booking WhatsApp.",
-            image: "/image/projects/edelweiss.png",
-            href: "https://edelweisstourandtravel.com/",
+          image: "/image/projects/edelweiss.png",
+          href: "https://edelweisstourandtravel.com/",
         },
         {
           title: "Cuan Space",
           description:
             "Marketplace produk digital berbasis web dan mobile dengan payment gateway, pengiriman file digital, dan multi-role authentication.",
-            image: "/image/projects/cuan.png",
-            href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
+          image: "/image/projects/cuan.png",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
         },
         {
           title: "Nusticky on Shopee",
           description:
             "Toko e-commerce character sticker di Shopee yang menggabungkan desain produk, strategi penjualan, branding, dan pengelolaan operasional bisnis.",
-            image: "/image/projects/nusticky.png",
-            href: "https://shopee.co.id/nusticky",
+          image: "/image/projects/nusticky.png",
+          href: "https://shopee.co.id/nusticky",
         },
         {
           title: "Portfolio Website",
           description:
             "Website portfolio personal dengan section About, Skills, Experience, Projects, Tools, dan Contact yang responsif serta interaktif.",
-            image: "/image/projects/portofolio.png",
-            href: "https://rizaldanuartabuilds.vercel.app",
+          image: "/image/projects/portofolio.png",
+          href: "https://rizaldanuartabuilds.vercel.app",
         },
       ],
     },
