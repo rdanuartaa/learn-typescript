@@ -112,6 +112,23 @@ Gunakan `href: "#contact"` untuk scroll ke section contact, atau URL penuh untuk
 
 Project ini siap dideploy ke Vercel.
 
+### Supabase (wajib untuk CV dan konten dinamis)
+
+1. Buka **SQL Editor** pada project Supabase `wkzneptksvmiifxqyndc`, lalu jalankan seluruh isi [supabase-schema.sql](./supabase-schema.sql). Ini membuat tabel `cv_settings`, `projects`, `experiences`, bucket `portfolio`, dan data awal.
+2. Di Vercel, buka **Project → Settings → Environment Variables** dan tambahkan variabel berikut untuk **Production**, **Preview**, dan **Development**:
+
+   ```txt
+   NEXT_PUBLIC_SUPABASE_URL=https://wkzneptksvmiifxqyndc.supabase.co
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<Supabase Publishable key / legacy anon key>
+   SUPABASE_SECRET_KEY=<Supabase secret key / legacy service_role key>
+   ```
+
+   Jangan gunakan prefix `NEXT_PUBLIC_` untuk `SUPABASE_SECRET_KEY`.
+3. Redeploy aplikasi di Vercel setelah menyimpan environment variables. Variabel baru hanya dibaca oleh deployment baru.
+4. Masuk ke `/admin`, lalu gunakan **Seed data default** sekali jika tabel project atau experience masih kosong. Upload CV melalui tab **Upload CV**; file akan disimpan di Supabase Storage dan URL-nya otomatis tersimpan di `cv_settings`.
+
+File `.env.example` menyediakan template lokal. Salin menjadi `.env.local` dan isi key asli untuk menjalankan integrasi di komputer sendiri.
+
 ```bash
 npm run build
 ```
