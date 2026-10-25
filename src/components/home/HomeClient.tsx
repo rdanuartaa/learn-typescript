@@ -9,7 +9,9 @@ import Navbar from "@/components/home/Navbar";
 import Projects from "@/components/home/Projects";
 import Skills from "@/components/home/Skills";
 import Tools from "@/components/home/Tools";
-import { content, languageOptions, Language, ThemeMode } from "./content";
+import { content, Language, ThemeMode } from "./content";
+import { PortfolioData } from "@/types/database";
+import { getMergedContent } from "@/lib/supabase/data";
 import styles from "./Home.module.scss";
 
 type ActiveSection =
@@ -69,26 +71,36 @@ const getPhotoSlot = (
   return photoId === "front" ? activePhoto : photoId;
 };
 
-export default function HomeClient() {
+type HomeClientProps = {
+  initialData?: PortfolioData;
+};
+
+export default function HomeClient({ initialData }: HomeClientProps = {}) {
   const [language, setLanguage] = useState<Language>("id");
   const [theme, setTheme] = useState<ThemeMode>("monochrome");
-  const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<ActiveSection>("home");
+  const [portfolioData, setPortfolioData] = useState<PortfolioData | undefined>(initialData);
   const [activeHeroPhoto, setActiveHeroPhoto] =
     useState<HeroPhotoId>("back");
   const [selectedHeroPhoto, setSelectedHeroPhoto] =
     useState<HeroPhotoId | null>(null);
-  const copy = content[language];
+
+  useEffect(() => {
+    fetch("/api/portfolio")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) setPortfolioData(data);
+      })
+      .catch(() => {});
+  }, []);
+
+  const copy = getMergedContent(language, portfolioData);
   const handleActiveSectionChange = useCallback((section: ActiveSection) => {
     setActiveSection(section);
   }, []);
 
   useEffect(() => {
-    const marqueeSelector = [
-      `.${styles.pillarGrid}`,
-      `.${styles.projectGrid}`,
-      `.${styles.toolMarquee}`,
-    ].join(",");
+    const marqueeSelector = `.${styles.toolMarquee}`;
     const marquees = Array.from(
       document.querySelectorAll<HTMLElement>(marqueeSelector),
     );
@@ -198,95 +210,6 @@ export default function HomeClient() {
       data-theme={theme}
       data-active-section={activeSection}
     >
-      <button
-        type="button"
-        className={styles.preferenceButton}
-        aria-label={copy.controls.title}
-        aria-haspopup="dialog"
-        aria-expanded={isPreferencesOpen}
-        onClick={() => setIsPreferencesOpen(true)}
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 3.2v2.1" />
-          <path d="M12 18.7v2.1" />
-          <path d="M4.2 12h2.1" />
-          <path d="M17.7 12h2.1" />
-          <path d="m6.5 6.5 1.5 1.5" />
-          <path d="m16 16 1.5 1.5" />
-          <path d="m17.5 6.5-1.5 1.5" />
-          <path d="m8 16-1.5 1.5" />
-          <circle cx="12" cy="12" r="3.7" />
-        </svg>
-      </button>
-
-      {isPreferencesOpen ? (
-        <div
-          className={styles.modalOverlay}
-          role="presentation"
-          onClick={() => setIsPreferencesOpen(false)}
-        >
-          <div
-            className={styles.preferenceModal}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="preferences-title"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className={styles.modalHeader}>
-              <h2 id="preferences-title">{copy.controls.title}</h2>
-              <button
-                type="button"
-                className={styles.modalClose}
-                aria-label="Close preferences"
-                onClick={() => setIsPreferencesOpen(false)}
-              >
-                x
-              </button>
-            </div>
-
-            <div className={styles.preferenceGroup}>
-              <span>{copy.controls.theme}</span>
-              <div className={styles.segmented}>
-                <button
-                  type="button"
-                  className={
-                    theme === "monochrome" ? styles.activeSegment : ""
-                  }
-                  onClick={() => setTheme("monochrome")}
-                >
-                  {copy.controls.monochrome}
-                </button>
-                <button
-                  type="button"
-                  className={theme === "colour" ? styles.activeSegment : ""}
-                  onClick={() => setTheme("colour")}
-                >
-                  {copy.controls.colour}
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.preferenceGroup}>
-              <span>{copy.controls.language}</span>
-              <div className={styles.segmented}>
-                {languageOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    className={
-                      language === option.value ? styles.activeSegment : ""
-                    }
-                    onClick={() => setLanguage(option.value)}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
       <Navbar
         nav={copy.nav}
         activeSection={activeSection}
@@ -301,10 +224,65 @@ export default function HomeClient() {
             <p className={styles.lead}>{copy.hero.lead}</p>
             <div className={styles.heroActions}>
               <a href="#projects" className={styles.primaryButton}>
-                {copy.hero.primary}
+                <span>{copy.hero.primary}</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
               </a>
-              <a href="#contact" className={styles.secondaryButton}>
+
+              {copy.cvUrl ? (
+                <a
+                  href={copy.cvUrl}
+                  className={styles.secondaryButton}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  <span>Download CV</span>
+                </a>
+              ) : null}
+
+              <a href="#contact" className={styles.outlineButton}>
                 {copy.hero.secondary}
+              </a>
+
+              <a
+                href="https://github.com/rdanuartaa"
+                className={styles.iconButton}
+                target="_blank"
+                rel="noreferrer"
+                title={copy.hero.github || "GitHub Profile"}
+                aria-label={copy.hero.github || "GitHub Profile"}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                </svg>
               </a>
             </div>
           </div>
@@ -360,7 +338,11 @@ export default function HomeClient() {
         </div>
       </section>
 
-      <About content={copy.about} isActive={activeSection === "about"} />
+      <About
+        content={copy.about}
+        isActive={activeSection === "about"}
+        cvUrl={copy.cvUrl}
+      />
       <Skills content={copy.skills} isActive={activeSection === "skills"} />
       <Experience content={copy.experience} />
       <Projects
@@ -369,13 +351,6 @@ export default function HomeClient() {
       />
       <Tools content={copy.tools} isActive={activeSection === "tools"} />
       <Contact content={copy.contact} />
-      <footer className={styles.siteFooter}>
-        <span>Next.js 16</span>
-        <span>TypeScript</span>
-        <span>React 19</span>
-        <span>Sass</span>
-        <span>Vercel</span>
-      </footer>
     </main>
   );
 }

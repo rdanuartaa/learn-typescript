@@ -2,6 +2,7 @@ import styles from "./Home.module.scss";
 
 type AboutProps = {
   isActive: boolean;
+  cvUrl?: string;
   content: {
     eyebrow: string;
     title: string;
@@ -9,7 +10,7 @@ type AboutProps = {
   };
 };
 
-export default function About({ content, isActive }: AboutProps) {
+export default function About({ content, isActive, cvUrl }: AboutProps) {
   return (
     <section
       id="about"
@@ -49,6 +50,34 @@ export default function About({ content, isActive }: AboutProps) {
           {content.paragraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
+          {cvUrl ? (
+            <div style={{ marginTop: "16px" }}>
+              <a
+                href={cvUrl}
+                className={styles.secondaryButton}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                style={{ display: "inline-flex", alignItems: "center", gap: "8px", textDecoration: "none" }}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download CV (PDF)
+              </a>
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

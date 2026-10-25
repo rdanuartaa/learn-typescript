@@ -26,10 +26,11 @@ export const content = {
       colour: "Colour Full",
     },
     hero: {
-      eyebrow: "Software Engineer | Product Builder | Founder Nusticky",
+      eyebrow: "Full-Stack Developer | Software Engineer",
       title: "Hallo, Saya Rizal Danuarta Akbar",
-      lead: "Software Engineer yang menggabungkan desain, bisnis, dan teknologi untuk mengubah ide menjadi produk digital yang siap digunakan.",
+      lead: "Next.js • React • TypeScript • Laravel • MySQL • Docker\nSaya membangun aplikasi web siap produksi, dari frontend dan backend hingga desain database dan deployment.",
       primary: "Lihat Projects",
+      github: "GitHub",
       secondary: "Hubungi Saya",
       photo: "Foto Profil",
       badge: "Section portfolio siap dikembangkan.",
@@ -49,29 +50,29 @@ export const content = {
       softTitle: "Soft Skill",
       hard: [
         {
-          title: "Strategi Bisnis",
+          title: "Frontend",
           description:
-            "Memahami kebutuhan pasar, mengembangkan produk, dan menciptakan nilai yang relevan bagi pengguna maupun bisnis.",
+            "React, Next.js, TypeScript, JavaScript, HTML, CSS, dan Sass.",
         },
         {
-          title: "Pengembangan Perangkat Lunak",
+          title: "Backend",
           description:
-            "Mengubah ide menjadi solusi digital melalui pengembangan aplikasi yang fungsional dan berkelanjutan.",
+            "PHP, Laravel, REST API, authentication, dan integrasi layanan.",
         },
         {
-          title: "Desain Produk",
+          title: "Database",
           description:
-            "Merancang pengalaman pengguna yang intuitif melalui desain yang efektif dan berorientasi pada kebutuhan pengguna.",
-        },
-        {
-          title: "Arsitektur Sistem",
-          description:
-            "Merancang struktur sistem, database, dan alur aplikasi yang scalable, efisien, dan mudah dikembangkan.",
+            "MySQL, database design, relasi data, dan query aplikasi.",
         },
         {
           title: "DevOps & Deployment",
           description:
-            "Mengelola proses deployment, integrasi, dan pemeliharaan aplikasi agar berjalan stabil dan siap digunakan di lingkungan produksi.",
+            "Docker, Nginx, GitHub Actions, VPS, Vercel, dan Git.",
+        },
+        {
+          title: "Additional",
+          description:
+            "Flutter, Python, MQTT, ESP8266, TensorFlow/VGG16, strategi bisnis, dan product design.",
         },
       ],
       soft: [
@@ -177,38 +178,38 @@ export const content = {
     },
     projects: {
       eyebrow: "Projects",
-      title: "Membangun Ide Menjadi Produk",
+      title: "Selected Software Projects",
       summary:
-        "Perjalanan saya dalam mengubah ide menjadi produk digital melalui perpaduan strategi bisnis, desain yang berorientasi pengguna, dan pengembangan perangkat lunak yang berkelanjutan.",
+        "Proyek yang menunjukkan kemampuan full-stack, integrasi sistem, dan deployment aplikasi produksi.",
       linkLabel: "Selengkapnya",
       items: [
         {
           title: "DiProperti",
           description:
-            "Platform e-commerce properti untuk membantu pengguna menemukan, membandingkan, dan mengevaluasi properti sesuai preferensi mereka.",
+            "Featured — Next.js, Laravel, MySQL, Docker, Nginx, GitHub Actions, dan VPS. Membangun platform properti end-to-end dengan authentication, rekomendasi, perbandingan, simulasi KPR, dashboard admin, serta deployment CI/CD.",
           image: "/image/projects/diproperti.png",
           href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
         },
         {
+          title: "Cuan Space",
+          description:
+            "Project Leader untuk marketplace produk digital Laravel dan Flutter: payment gateway, distribusi file digital aman, multi-role authentication, dan desain database yang scalable.",
+          image: "/image/projects/cuan.png",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
+        },
+        {
           title: "Semboro Orange Quality Classification System",
           description:
-            "Platform sortir kualitas jeruk berbasis AI dan IoT dengan dashboard monitoring untuk melihat hasil klasifikasi dan performa sistem.",
+            "VGG16, TensorFlow, ESP8266, MQTT, dan web dashboard untuk klasifikasi kualitas jeruk dan monitoring sortir secara real-time.",
           image: "/image/projects/semboro.jpg",
           href: "https://pameran-jti.polije.ac.id/pameran/product/496/klasifikasi-kualitas-jeruk-semboro-menggunakan-arsitektur-vgg16-yang-terintegrasi-dengan-iot-berbasis-web",
         },
         {
           title: "Edelweiss Tour & Travel Adventure",
           description:
-            "Website company profile layanan tour & travel dengan tampilan responsif dan integrasi booking WhatsApp.",
+            "Website company profile tour & travel responsif dengan integrasi booking WhatsApp.",
           image: "/image/projects/edelweiss.png",
           href: "https://edelweisstourandtravel.com/",
-        },
-        {
-          title: "Cuan Space",
-          description:
-            "Marketplace produk digital berbasis web dan mobile dengan payment gateway, pengiriman file digital, dan multi-role authentication.",
-          image: "/image/projects/cuan.png",
-          href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
         },
         {
           title: "Nusticky on Shopee",
@@ -269,10 +270,11 @@ export const content = {
       colour: "Colour Full",
     },
     hero: {
-      eyebrow: "Software Engineer | Product Builder | Founder Nusticky",
+      eyebrow: "Full-Stack Developer | Software Engineer",
       title: "Hello, I am Rizal Danuarta Akbar",
-      lead: "A software engineer who combines design, business, and technology to turn ideas into ready-to-use digital products.",
+      lead: "Next.js • React • TypeScript • Laravel • MySQL • Docker\nI build production-ready web applications from frontend and backend development to database design and deployment.",
       primary: "View Projects",
+      github: "GitHub",
       secondary: "Contact Me",
       photo: "Profile Photo",
       badge: "Portfolio sections ready to grow.",
@@ -292,29 +294,29 @@ export const content = {
       softTitle: "Soft Skills",
       hard: [
         {
-          title: "Business Strategy",
+          title: "Frontend",
           description:
-            "Understanding market needs, developing products, and creating relevant value for users and businesses.",
+            "React, Next.js, TypeScript, JavaScript, HTML, CSS, and Sass.",
         },
         {
-          title: "Software Development",
+          title: "Backend",
           description:
-            "Turning ideas into digital solutions through functional and sustainable application development.",
+            "PHP, Laravel, REST APIs, authentication, and service integrations.",
         },
         {
-          title: "Product Design",
+          title: "Database",
           description:
-            "Designing intuitive user experiences through effective design focused on user needs.",
-        },
-        {
-          title: "System Architecture",
-          description:
-            "Designing system structures, databases, and application flows that are scalable, efficient, and easy to develop.",
+            "MySQL, database design, data relations, and application queries.",
         },
         {
           title: "DevOps & Deployment",
           description:
-            "Managing deployment, integration, and application maintenance so products run reliably in production environments.",
+            "Docker, Nginx, GitHub Actions, VPS, Vercel, and Git.",
+        },
+        {
+          title: "Additional",
+          description:
+            "Flutter, Python, MQTT, ESP8266, TensorFlow/VGG16, business strategy, and product design.",
         },
       ],
       soft: [
@@ -512,10 +514,11 @@ export const content = {
       colour: "全彩",
     },
     hero: {
-      eyebrow: "软件工程师 | 产品构建者 | Nusticky 创始人",
+      eyebrow: "全栈开发者 | 软件工程师",
       title: "你好，我是 Rizal Danuarta Akbar",
       lead: "我是一名软件工程师，结合设计、商业与技术，把想法转化为可直接使用的数字产品。",
       primary: "查看项目",
+      github: "GitHub",
       secondary: "联系我",
       photo: "个人照片",
       badge: "作品集模块可继续扩展。",

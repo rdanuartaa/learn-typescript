@@ -1,0 +1,322 @@
+.floatingBtn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 990;
+  touch-action: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: rgba(18, 18, 18, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  cursor: grab;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+
+  &:active {
+    cursor: grabbing;
+    transform: scale(0.96);
+  }
+
+  &.snapping {
+    transition: left 0.35s cubic-bezier(0.24, 0.74, 0.58, 1),
+      top 0.35s cubic-bezier(0.24, 0.74, 0.58, 1);
+  }
+
+  &:hover {
+    border-color: #36B8F1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    background: rgba(12, 12, 12, 0.98);
+  }
+
+  @media (max-width: 768px) {
+    bottom: 24px;
+    right: 18px;
+    padding: 8px 14px;
+    gap: 6px;
+  }
+}
+
+.globeIcon {
+  color: #36B8F1;
+  flex-shrink: 0;
+}
+
+.btnFlag {
+  width: 22px;
+  height: 15px;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.langText {
+  font-size: 0.86rem;
+  font-weight: 750;
+  color: #ffffff;
+  letter-spacing: 0.8px;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+}
+
+.chevronIcon {
+  color: rgba(255, 255, 255, 0.6);
+  transition: transform 0.2s ease;
+}
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(5, 5, 5, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.modalCard {
+  background: #111111;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modalHeader {
+  padding: 22px 24px 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.headerTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.headerTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.modalSubtitle {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0;
+}
+
+.closeBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.68);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+  }
+}
+
+.searchWrap {
+  padding: 16px 24px 8px;
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 11px 14px 11px 40px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.38);
+  }
+
+  &:focus {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: #36B8F1;
+    box-shadow: 0 0 0 3px rgba(54, 184, 241, 0.25);
+  }
+}
+
+.langList {
+  padding: 12px 24px 20px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  max-height: 360px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    max-height: 320px;
+    padding: 10px 16px 16px;
+  }
+}
+
+.langCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+
+  &:hover {
+    border-color: #36B8F1;
+    background: rgba(54, 184, 241, 0.08);
+    transform: translateY(-1px);
+  }
+
+  &.active {
+    border-color: #36B8F1;
+    background: rgba(54, 184, 241, 0.16);
+  }
+}
+
+.langCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardFlag {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.cardFlagSvg {
+  width: 32px;
+  height: 22px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cardNames {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nativeName {
+  font-size: 0.92rem;
+  font-weight: 750;
+  color: #ffffff;
+}
+
+.subName {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 500;
+}
+
+.checkIcon {
+  color: #36B8F1;
+  flex-shrink: 0;
+}
+
+.modalFooter {
+  padding: 14px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.footerNote {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

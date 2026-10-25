@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./Home.module.scss";
 
 const ITEMS_PER_PAGE = 5;
@@ -21,6 +21,9 @@ type ExperienceProps = {
 
 export default function Experience({ content }: ExperienceProps) {
   const [currentPage, setCurrentPage] = useState(0);
+  const [activeRole, setActiveRole] = useState<string | null>(null);
+  const itemRefs = useRef<(HTMLElement | null)[]>([]);
+
   const pageCount = Math.ceil(content.items.length / ITEMS_PER_PAGE);
   const activePage = Math.min(currentPage, Math.max(pageCount - 1, 0));
   const shouldShowPagination = content.items.length > ITEMS_PER_PAGE;
@@ -33,6 +36,81 @@ export default function Experience({ content }: ExperienceProps) {
   const goToPage = (page: number) => {
     setCurrentPage(Math.min(Math.max(page, 0), pageCount - 1));
   };
+
+  useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout | null = null;
+
+    const updateActiveItem = () => {
+      const sectionEl = document.getElementById("experience");
+      if (!sectionEl) return;
+
+      const sectionRect = sectionEl.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // Check if experience section is reasonably visible in the viewport
+      if (sectionRect.bottom < 100 || sectionRect.top > viewportHeight - 100) {
+        return;
+      }
+
+      // Reading focal line: ~40% from top of viewport (natural resting reading position on mobile)
+      const focusY = viewportHeight * 0.4;
+      let closestRole: string | null = null;
+      let minDistance = Infinity;
+
+      for (const el of itemRefs.current) {
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+
+        // If the focus line is within this item
+        if (rect.top <= focusY && rect.bottom >= focusY) {
+          closestRole = el.getAttribute("data-role") || null;
+          break;
+        }
+
+        // Otherwise find item whose center is closest to focusY
+        const itemCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(itemCenter - focusY);
+
+        if (rect.bottom > 80 && rect.top < viewportHeight - 80) {
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestRole = el.getAttribute("data-role") || null;
+          }
+        }
+      }
+
+      if (closestRole) {
+        setActiveRole(closestRole);
+      }
+    };
+
+    const handleScroll = () => {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+
+      // Trigger as soon as scrolling pauses/stops on mobile
+      scrollTimeout = setTimeout(() => {
+        updateActiveItem();
+      }, 70);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+    window.addEventListener("scrollend", updateActiveItem, { passive: true });
+
+    // Initial check
+    updateActiveItem();
+
+    return () => {
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("scrollend", updateActiveItem);
+    };
+  }, [visibleItems]);
 
   return (
     <section
@@ -49,22 +127,39 @@ export default function Experience({ content }: ExperienceProps) {
         </div>
 
         <div className={styles.timeline}>
-          {visibleItems.map((item) => (
-            <article key={item.role} className={styles.timelineItem}>
-              <span>{item.period}</span>
-              <div>
-                <h3>{item.role}</h3>
-                <p>{item.description}</p>
-                {item.details ? (
-                  <ul className={styles.timelineDetails}>
-                    {item.details.map((detail) => (
-                      <li key={detail}>{detail}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            </article>
-          ))}
+          {visibleItems.map((item, index) => {
+            const isNusticky = item.role.toLowerCase().includes("nusticky");
+            const isActive = activeRole === item.role;
+
+            return (
+              <article
+                key={item.role}
+                ref={(el) => {
+                  itemRefs.current[index] = el;
+                }}
+                className={`${styles.timelineItem} ${
+                  isNusticky ? styles.timelineItemNusticky : ""
+                } ${isActive ? styles.timelineItemActive : ""}`}
+                data-role={item.role}
+                data-nusticky={isNusticky ? "true" : undefined}
+                data-active={isActive ? "true" : undefined}
+                onClick={() => setActiveRole(item.role)}
+              >
+                <span>{item.period}</span>
+                <div>
+                  <h3>{item.role}</h3>
+                  <p>{item.description}</p>
+                  {item.details ? (
+                    <ul className={styles.timelineDetails}>
+                      {item.details.map((detail) => (
+                        <li key={detail}>{detail}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              </article>
+            );
+          })}
         </div>
 
         {shouldShowPagination ? (

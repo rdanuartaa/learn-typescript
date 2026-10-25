@@ -22,7 +22,6 @@ type ProjectsProps = {
 };
 
 export default function Projects({ content, isActive }: ProjectsProps) {
-  const projectLoop = [...content.items, ...content.items, ...content.items];
   const handleProjectLinkClick = (
     event: MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -58,8 +57,7 @@ export default function Projects({ content, isActive }: ProjectsProps) {
 
         <div className={styles.projectGrid}>
           <div className={styles.projectTrack}>
-            {projectLoop.map((project, index) => {
-              const isDuplicate = index >= content.items.length;
+            {content.items.map((project, index) => {
               const projectHref = project.href ?? "#contact";
               const isExternalLink = projectHref.startsWith("http");
               const previewStyle: ProjectPreviewStyle | undefined = project.image
@@ -70,8 +68,6 @@ export default function Projects({ content, isActive }: ProjectsProps) {
                 <article
                   key={`${project.title}-${index}`}
                   className={styles.projectCard}
-                  tabIndex={isDuplicate ? -1 : 0}
-                  aria-hidden={isDuplicate}
                   aria-label={`${project.title}: ${project.description}`}
                 >
                   <div className={styles.projectCardInner}>
@@ -92,7 +88,6 @@ export default function Projects({ content, isActive }: ProjectsProps) {
                         href={projectHref}
                         target={isExternalLink ? "_blank" : undefined}
                         rel={isExternalLink ? "noreferrer" : undefined}
-                        tabIndex={isDuplicate ? -1 : undefined}
                         onClick={(event) =>
                           handleProjectLinkClick(event, projectHref)
                         }

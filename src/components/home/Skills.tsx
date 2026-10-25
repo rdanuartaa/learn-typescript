@@ -202,15 +202,9 @@ function SoftSkillIllustration({ variant }: { variant: number }) {
 }
 
 export default function Skills({ content, isActive }: SkillsProps) {
-  const hardSkillLoop = [...content.hard, ...content.hard, ...content.hard];
   const reversedSoftSkills = content.soft
     .map((skill, index) => ({ ...skill, number: index + 1 }))
     .toReversed();
-  const softSkillLoop = [
-    ...reversedSoftSkills,
-    ...reversedSoftSkills,
-    ...reversedSoftSkills,
-  ];
 
   return (
     <section
@@ -230,16 +224,13 @@ export default function Skills({ content, isActive }: SkillsProps) {
             </div>
             <div className={styles.pillarGrid}>
               <div className={styles.pillarTrack}>
-                {hardSkillLoop.map((skill, index) => {
-                  const skillNumber = (index % content.hard.length) + 1;
-                  const isDuplicate = index >= content.hard.length;
+                {content.hard.map((skill, index) => {
+                  const skillNumber = index + 1;
 
                   return (
                     <article
                       key={`${skill.title}-${index}`}
                       className={styles.pillarCard}
-                      tabIndex={isDuplicate ? -1 : 0}
-                      aria-hidden={isDuplicate}
                       aria-label={`${skill.title}: ${skill.description}`}
                     >
                       <div className={styles.pillarCardInner}>
@@ -272,15 +263,12 @@ export default function Skills({ content, isActive }: SkillsProps) {
             </div>
             <div className={`${styles.pillarGrid} ${styles.softSkillSlider}`}>
               <div className={`${styles.pillarTrack} ${styles.softSkillTrack}`}>
-                {softSkillLoop.map((skill, index) => {
-                  const isDuplicate = index >= reversedSoftSkills.length;
+                {reversedSoftSkills.map((skill, index) => {
 
                   return (
                     <article
                       key={`${skill.title}-${index}`}
                       className={styles.pillarCard}
-                      tabIndex={isDuplicate ? -1 : 0}
-                      aria-hidden={isDuplicate}
                       aria-label={`${skill.title}: ${skill.description}`}
                     >
                       <div className={styles.pillarCardInner}>
