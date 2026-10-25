@@ -22,6 +22,13 @@ type ProjectsProps = {
 };
 
 export default function Projects({ content, isActive }: ProjectsProps) {
+  const projectLoop = [0, 1, 2].flatMap((loopIndex) =>
+    content.items.map((project, itemIndex) => ({
+      project,
+      itemIndex,
+      loopIndex,
+    })),
+  );
   const handleProjectLinkClick = (
     event: MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -57,7 +64,8 @@ export default function Projects({ content, isActive }: ProjectsProps) {
 
         <div className={styles.projectGrid}>
           <div className={styles.projectTrack}>
-            {content.items.map((project, index) => {
+            {projectLoop.map(({ project, itemIndex, loopIndex }) => {
+              const isDuplicate = loopIndex !== 1;
               const projectHref = project.href ?? "#contact";
               const isExternalLink = projectHref.startsWith("http");
               const previewStyle: ProjectPreviewStyle | undefined = project.image
@@ -66,9 +74,15 @@ export default function Projects({ content, isActive }: ProjectsProps) {
 
               return (
                 <article
-                  key={`${project.title}-${index}`}
+                  key={`${project.title}-${loopIndex}-${itemIndex}`}
                   className={styles.projectCard}
-                  aria-label={`${project.title}: ${project.description}`}
+                  aria-hidden={isDuplicate || undefined}
+                  aria-label={
+                    isDuplicate
+                      ? undefined
+                      : `${project.title}: ${project.description}`
+                  }
+                  data-nosnippet={isDuplicate ? "" : undefined}
                 >
                   <div className={styles.projectCardInner}>
                     <div className={`${styles.projectFace} ${styles.projectFront}`}>
@@ -88,6 +102,7 @@ export default function Projects({ content, isActive }: ProjectsProps) {
                         href={projectHref}
                         target={isExternalLink ? "_blank" : undefined}
                         rel={isExternalLink ? "noreferrer" : undefined}
+                        tabIndex={isDuplicate ? -1 : undefined}
                         onClick={(event) =>
                           handleProjectLinkClick(event, projectHref)
                         }

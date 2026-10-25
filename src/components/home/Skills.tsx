@@ -205,6 +205,21 @@ export default function Skills({ content, isActive }: SkillsProps) {
   const reversedSoftSkills = content.soft
     .map((skill, index) => ({ ...skill, number: index + 1 }))
     .toReversed();
+  const hardSkillLoop = [0, 1, 2].flatMap((loopIndex) =>
+    content.hard.map((skill, itemIndex) => ({
+      skill,
+      itemIndex,
+      loopIndex,
+      number: itemIndex + 1,
+    })),
+  );
+  const softSkillLoop = [0, 1, 2].flatMap((loopIndex) =>
+    reversedSoftSkills.map((skill, itemIndex) => ({
+      skill,
+      itemIndex,
+      loopIndex,
+    })),
+  );
 
   return (
     <section
@@ -224,14 +239,21 @@ export default function Skills({ content, isActive }: SkillsProps) {
             </div>
             <div className={styles.pillarGrid}>
               <div className={styles.pillarTrack}>
-                {content.hard.map((skill, index) => {
-                  const skillNumber = index + 1;
+                {hardSkillLoop.map(
+                  ({ skill, itemIndex, loopIndex, number: skillNumber }) => {
+                    const isDuplicate = loopIndex !== 1;
 
-                  return (
+                    return (
                     <article
-                      key={`${skill.title}-${index}`}
+                      key={`${skill.title}-${loopIndex}-${itemIndex}`}
                       className={styles.pillarCard}
-                      aria-label={`${skill.title}: ${skill.description}`}
+                      aria-hidden={isDuplicate || undefined}
+                      aria-label={
+                        isDuplicate
+                          ? undefined
+                          : `${skill.title}: ${skill.description}`
+                      }
+                      data-nosnippet={isDuplicate ? "" : undefined}
                     >
                       <div className={styles.pillarCardInner}>
                         <div
@@ -250,8 +272,9 @@ export default function Skills({ content, isActive }: SkillsProps) {
                         </div>
                       </div>
                     </article>
-                  );
-                })}
+                    );
+                  },
+                )}
               </div>
             </div>
           </div>
@@ -263,13 +286,19 @@ export default function Skills({ content, isActive }: SkillsProps) {
             </div>
             <div className={`${styles.pillarGrid} ${styles.softSkillSlider}`}>
               <div className={`${styles.pillarTrack} ${styles.softSkillTrack}`}>
-                {reversedSoftSkills.map((skill, index) => {
-
+                {softSkillLoop.map(({ skill, itemIndex, loopIndex }) => {
+                  const isDuplicate = loopIndex !== 1;
                   return (
                     <article
-                      key={`${skill.title}-${index}`}
+                      key={`${skill.title}-${loopIndex}-${itemIndex}`}
                       className={styles.pillarCard}
-                      aria-label={`${skill.title}: ${skill.description}`}
+                      aria-hidden={isDuplicate || undefined}
+                      aria-label={
+                        isDuplicate
+                          ? undefined
+                          : `${skill.title}: ${skill.description}`
+                      }
+                      data-nosnippet={isDuplicate ? "" : undefined}
                     >
                       <div className={styles.pillarCardInner}>
                         <div

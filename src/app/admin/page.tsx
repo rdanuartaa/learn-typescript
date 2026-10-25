@@ -32,8 +32,8 @@ export default function AdminPage() {
   const [authToken, setAuthToken] = useState<string>("");
   const [currentUserEmail, setCurrentUserEmail] = useState<string>("");
 
-  const [emailInput, setEmailInput] = useState<string>("akbardanu631@gmail.com");
-  const [passwordInput, setPasswordInput] = useState<string>("Danuportofolio200405");
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
   const [authLoading, setAuthLoading] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string>("");
 
@@ -60,8 +60,6 @@ export default function AdminPage() {
 
   const cvFileInputRef = useRef<HTMLInputElement>(null);
   const projectImageInputRef = useRef<HTMLInputElement>(null);
-
-  const adminPin = process.env.NEXT_PUBLIC_ADMIN_PIN || "Danuportofolio200405";
 
   const handleOpenNewProject = () => {
     setEditingProject({
@@ -114,13 +112,6 @@ export default function AdminPage() {
         }
       }
 
-      const savedToken = sessionStorage.getItem("portfolio_admin_token");
-      const savedEmail = sessionStorage.getItem("portfolio_admin_email");
-      if (savedToken) {
-        setAuthToken(savedToken);
-        setCurrentUserEmail(savedEmail || "Admin");
-        setIsAuthenticated(true);
-      }
     };
 
     initAuth();
@@ -133,34 +124,26 @@ export default function AdminPage() {
 
     try {
       const client = getSupabaseBrowserClient();
-      if (client) {
-        const { data, error } = await client.auth.signInWithPassword({
-          email: emailInput.trim(),
-          password: passwordInput,
-        });
-
-        if (!error && data?.session) {
-          const token = data.session.access_token;
-          setAuthToken(token);
-          setCurrentUserEmail(data.user.email || emailInput);
-          setIsAuthenticated(true);
-          sessionStorage.setItem("portfolio_admin_token", token);
-          sessionStorage.setItem("portfolio_admin_email", data.user.email || emailInput);
-          showToast("Login berhasil! Terhubung dengan Supabase Auth.");
-          return;
-        }
+      if (!client) {
+        setAuthError("Supabase Auth belum dikonfigurasi.");
+        return;
       }
 
-      // PIN / Password fallback
-      if (passwordInput === adminPin || passwordInput === "Danuportofolio200405") {
+      const { data, error } = await client.auth.signInWithPassword({
+        email: emailInput.trim(),
+        password: passwordInput,
+      });
+
+      if (!error && data?.session) {
+        const token = data.session.access_token;
+        setAuthToken(token);
+        setCurrentUserEmail(data.user.email || emailInput);
         setIsAuthenticated(true);
-        setCurrentUserEmail(emailInput || "Admin");
-        sessionStorage.setItem("portfolio_admin_token", "local_auth");
-        sessionStorage.setItem("portfolio_admin_email", emailInput || "Admin");
-        showToast("Login berhasil via kredensial Admin.");
-      } else {
-        setAuthError("Email atau Password salah.");
+        showToast("Login berhasil! Terhubung dengan Supabase Auth.");
+        return;
       }
+
+      setAuthError(error?.message || "Email atau Password salah.");
     } catch (err) {
       setAuthError((err as Error).message || "Gagal masuk. Periksa kembali email dan password.");
     } finally {
@@ -176,8 +159,6 @@ export default function AdminPage() {
     setIsAuthenticated(false);
     setAuthToken("");
     setCurrentUserEmail("");
-    sessionStorage.removeItem("portfolio_admin_token");
-    sessionStorage.removeItem("portfolio_admin_email");
   };
 
   const showToast = (message: string, type: "success" | "error" = "success") => {
@@ -525,7 +506,7 @@ export default function AdminPage() {
             <h2>Portfolio Admin Login</h2>
             <p>Masukkan kredensial admin untuk masuk ke dashboard.</p>
 
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} autoComplete="off">
               <div className={styles.formGroup}>
                 <label style={{ textAlign: "left" }}>Email Admin</label>
                 <input
@@ -533,6 +514,7 @@ export default function AdminPage() {
                   placeholder="nama@email.com"
                   value={emailInput}
                   onChange={(e) => setEmailInput(e.target.value)}
+                  autoComplete="off"
                   required
                 />
               </div>
@@ -544,18 +526,19 @@ export default function AdminPage() {
                   placeholder="Masukkan Password..."
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
+                  autoComplete="off"
                   required
                 />
               </div>
 
-              {authError ? <small style={{ color: "#ef4444" }}>{authError}</small> : null}
+              {authError ? <small className={styles.loginError}>{authError}</small> : null}
 
               <button type="submit" className={styles.primaryBtn} disabled={authLoading}>
                 {authLoading ? "Memverifikasi..." : "Masuk ke Admin CMS"} <ChevronRight size={16} />
               </button>
             </form>
 
-            <div style={{ marginTop: 24 }}>
+            <div className={styles.loginFooter}>
               <Link href="/" className={styles.secondaryBtn} style={{ width: "100%", boxSizing: "border-box" }}>
                 ← Kembali ke Website Utama
               </Link>
@@ -655,7 +638,10 @@ export default function AdminPage() {
             </div>
 
             {/* Active CV Card */}
-            <div className={styles.activeFileCard}>
+            <div
+              className={styles.activeFileCard}
+              data-has-cv={cvSetting.cv_url?.trim() ? "true" : "false"}
+            >
               <div className={styles.fileMeta}>
                 <div className={styles.fileIcon}>
                   <FileText size={22} />

@@ -38,7 +38,7 @@ export default function Experience({ content }: ExperienceProps) {
   };
 
   useEffect(() => {
-    let scrollTimeout: NodeJS.Timeout | null = null;
+    let animationFrame: number | null = null;
 
     const updateActiveItem = () => {
       const sectionEl = document.getElementById("experience");
@@ -85,30 +85,28 @@ export default function Experience({ content }: ExperienceProps) {
     };
 
     const handleScroll = () => {
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
+      if (animationFrame !== null) {
+        return;
       }
 
-      // Trigger as soon as scrolling pauses/stops on mobile
-      scrollTimeout = setTimeout(() => {
+      animationFrame = window.requestAnimationFrame(() => {
+        animationFrame = null;
         updateActiveItem();
-      }, 70);
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll, { passive: true });
-    window.addEventListener("scrollend", updateActiveItem, { passive: true });
 
     // Initial check
     updateActiveItem();
 
     return () => {
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
       }
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
-      window.removeEventListener("scrollend", updateActiveItem);
     };
   }, [visibleItems]);
 

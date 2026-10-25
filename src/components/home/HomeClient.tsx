@@ -76,7 +76,7 @@ type HomeClientProps = {
 };
 
 export default function HomeClient({ initialData }: HomeClientProps = {}) {
-  const [language, setLanguage] = useState<Language>("id");
+  const [language, setLanguage] = useState<Language>("en");
   const [theme, setTheme] = useState<ThemeMode>("monochrome");
   const [activeSection, setActiveSection] = useState<ActiveSection>("home");
   const [portfolioData, setPortfolioData] = useState<PortfolioData | undefined>(initialData);
@@ -100,11 +100,47 @@ export default function HomeClient({ initialData }: HomeClientProps = {}) {
   }, []);
 
   useEffect(() => {
-    const marqueeSelector = `.${styles.toolMarquee}`;
+    const marqueeSelector = [
+      `.${styles.pillarGrid}`,
+      `.${styles.projectGrid}`,
+      `.${styles.toolMarquee}`,
+    ].join(",");
     const marquees = Array.from(
       document.querySelectorAll<HTMLElement>(marqueeSelector),
     );
     const cleanups: (() => void)[] = [];
+    let touchFlippedCard: HTMLElement | null = null;
+    let touchPausedMarquee: HTMLElement | null = null;
+
+    const clearTouchFlippedCard = () => {
+      touchFlippedCard?.classList.remove(styles.cardPressed);
+      touchPausedMarquee?.classList.remove(styles.marqueeTouchPaused);
+      touchFlippedCard = null;
+      touchPausedMarquee = null;
+    };
+
+    const setTouchFlippedCard = (
+      card: HTMLElement,
+      marquee: HTMLElement,
+    ) => {
+      clearTouchFlippedCard();
+      touchFlippedCard = card;
+      touchPausedMarquee = marquee;
+      card.classList.add(styles.cardPressed);
+      marquee.classList.add(styles.marqueeTouchPaused);
+    };
+
+    const handleOutsideTouch = (event: PointerEvent) => {
+      if (
+        event.pointerType === "touch" &&
+        event.target instanceof Element &&
+        !event.target.closest(marqueeSelector)
+      ) {
+        clearTouchFlippedCard();
+      }
+    };
+
+    document.addEventListener("pointerdown", handleOutsideTouch);
 
     marquees.forEach((marquee) => {
       const getLoopWidth = () => marquee.scrollWidth / 3;
@@ -127,6 +163,14 @@ export default function HomeClient({ initialData }: HomeClientProps = {}) {
       let isDragging = false;
       let startX = 0;
       let startScrollLeft = 0;
+      let pressedCard: HTMLElement | null = null;
+      let pointerType = "";
+      let didDrag = false;
+
+      const clearPressedCard = () => {
+        pressedCard?.classList.remove(styles.cardPressed);
+        pressedCard = null;
+      };
 
       requestAnimationFrame(centerScroll);
 
@@ -140,6 +184,16 @@ export default function HomeClient({ initialData }: HomeClientProps = {}) {
         isDragging = true;
         startX = event.clientX;
         startScrollLeft = marquee.scrollLeft;
+        pointerType = event.pointerType;
+        didDrag = false;
+        pressedCard = target.closest<HTMLElement>(
+          `.${styles.pillarCard}, .${styles.projectCard}`,
+        );
+
+        if (pointerType !== "touch") {
+          pressedCard?.classList.add(styles.cardPressed);
+        }
+
         marquee.classList.add(styles.marqueeDragging);
         marquee.setPointerCapture(event.pointerId);
       };
@@ -149,21 +203,55 @@ export default function HomeClient({ initialData }: HomeClientProps = {}) {
           return;
         }
 
-        marquee.scrollLeft = startScrollLeft - (event.clientX - startX);
+        const distance = event.clientX - startX;
+
+        if (Math.abs(distance) > 8) {
+          didDrag = true;
+
+          if (pointerType !== "touch") {
+            clearPressedCard();
+          }
+        }
+
+        marquee.scrollLeft = startScrollLeft - distance;
         recycleScroll();
       };
 
-      const stopDragging = (event: PointerEvent) => {
+      const finishPointer = (event: PointerEvent, allowTouchToggle: boolean) => {
         if (!isDragging) {
           return;
         }
 
         isDragging = false;
+
+        if (pointerType === "touch" && allowTouchToggle && !didDrag) {
+          if (touchFlippedCard) {
+            if (pressedCard && touchFlippedCard !== pressedCard) {
+              setTouchFlippedCard(pressedCard, marquee);
+            } else {
+              clearTouchFlippedCard();
+            }
+          } else if (pressedCard) {
+            setTouchFlippedCard(pressedCard, marquee);
+          }
+        } else if (pointerType !== "touch") {
+          clearPressedCard();
+        }
+
+        pressedCard = null;
         marquee.classList.remove(styles.marqueeDragging);
 
         if (marquee.hasPointerCapture(event.pointerId)) {
           marquee.releasePointerCapture(event.pointerId);
         }
+      };
+
+      const stopDragging = (event: PointerEvent) => {
+        finishPointer(event, true);
+      };
+
+      const cancelDragging = (event: PointerEvent) => {
+        finishPointer(event, false);
       };
 
       const handleWheel = (event: WheelEvent) => {
@@ -185,21 +273,27 @@ export default function HomeClient({ initialData }: HomeClientProps = {}) {
       marquee.addEventListener("pointerdown", handlePointerDown);
       marquee.addEventListener("pointermove", handlePointerMove);
       marquee.addEventListener("pointerup", stopDragging);
-      marquee.addEventListener("pointercancel", stopDragging);
+      marquee.addEventListener("pointercancel", cancelDragging);
       marquee.addEventListener("scroll", handleScroll);
       marquee.addEventListener("wheel", handleWheel, { passive: false });
 
       cleanups.push(() => {
+        clearPressedCard();
+        if (touchPausedMarquee === marquee) {
+          clearTouchFlippedCard();
+        }
         marquee.removeEventListener("pointerdown", handlePointerDown);
         marquee.removeEventListener("pointermove", handlePointerMove);
         marquee.removeEventListener("pointerup", stopDragging);
-        marquee.removeEventListener("pointercancel", stopDragging);
+        marquee.removeEventListener("pointercancel", cancelDragging);
         marquee.removeEventListener("scroll", handleScroll);
         marquee.removeEventListener("wheel", handleWheel);
       });
     });
 
     return () => {
+      document.removeEventListener("pointerdown", handleOutsideTouch);
+      clearTouchFlippedCard();
       cleanups.forEach((cleanup) => cleanup());
     };
   }, []);

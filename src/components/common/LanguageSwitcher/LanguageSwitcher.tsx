@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
-import { Globe, X, Search, Check, ChevronUp } from 'lucide-react';
+import { Globe, X, Search, Check } from 'lucide-react';
 import styles from './LanguageSwitcher.module.scss';
 import { LANGUAGES, LanguageOption } from '@/constants/languages';
 import { FlagIcon } from './FlagIcon';
@@ -21,10 +21,106 @@ declare global {
   }
 }
 
+const switcherText: Record<
+  string,
+  {
+    title: string;
+    subtitle: string;
+    search: string;
+    close: string;
+    footer: string;
+  }
+> = {
+  en: {
+    title: 'Select Language',
+    subtitle: 'Choose a language for the portfolio',
+    search: 'Search languages...',
+    close: 'Close',
+    footer: 'Powered by instant multilingual translation',
+  },
+  id: {
+    title: 'Pilih Bahasa',
+    subtitle: 'Pilih bahasa untuk portofolio',
+    search: 'Cari bahasa...',
+    close: 'Tutup',
+    footer: 'Didukung penerjemahan instan multibahasa',
+  },
+  de: {
+    title: 'Sprache auswählen',
+    subtitle: 'Wähle eine Sprache für das Portfolio',
+    search: 'Sprachen suchen...',
+    close: 'Schließen',
+    footer: 'Unterstützt durch sofortige mehrsprachige Übersetzung',
+  },
+  'zh-CN': {
+    title: '选择语言',
+    subtitle: '为作品集选择语言',
+    search: '搜索语言...',
+    close: '关闭',
+    footer: '支持即时多语言翻译',
+  },
+  ja: {
+    title: '言語を選択',
+    subtitle: 'ポートフォリオの言語を選択してください',
+    search: '言語を検索...',
+    close: '閉じる',
+    footer: '即時多言語翻訳に対応',
+  },
+  ko: {
+    title: '언어 선택',
+    subtitle: '포트폴리오에 사용할 언어를 선택하세요',
+    search: '언어 검색...',
+    close: '닫기',
+    footer: '즉시 다국어 번역 지원',
+  },
+  ar: {
+    title: 'اختر اللغة',
+    subtitle: 'اختر لغة ملف الأعمال',
+    search: 'ابحث عن لغة...',
+    close: 'إغلاق',
+    footer: 'مدعوم بالترجمة الفورية متعددة اللغات',
+  },
+  th: {
+    title: 'เลือกภาษา',
+    subtitle: 'เลือกภาษาสำหรับพอร์ตโฟลิโอ',
+    search: 'ค้นหาภาษา...',
+    close: 'ปิด',
+    footer: 'รองรับการแปลหลายภาษาแบบทันที',
+  },
+  vi: {
+    title: 'Chọn ngôn ngữ',
+    subtitle: 'Chọn ngôn ngữ cho hồ sơ năng lực',
+    search: 'Tìm kiếm ngôn ngữ...',
+    close: 'Đóng',
+    footer: 'Hỗ trợ dịch đa ngôn ngữ tức thì',
+  },
+  ms: {
+    title: 'Pilih Bahasa',
+    subtitle: 'Pilih bahasa untuk portfolio',
+    search: 'Cari bahasa...',
+    close: 'Tutup',
+    footer: 'Disokong oleh terjemahan berbilang bahasa segera',
+  },
+  hi: {
+    title: 'भाषा चुनें',
+    subtitle: 'पोर्टफोलियो के लिए भाषा चुनें',
+    search: 'भाषा खोजें...',
+    close: 'बंद करें',
+    footer: 'तत्काल बहुभाषी अनुवाद द्वारा समर्थित',
+  },
+  tl: {
+    title: 'Pumili ng Wika',
+    subtitle: 'Pumili ng wika para sa portfolio',
+    search: 'Maghanap ng wika...',
+    close: 'Isara',
+    footer: 'Pinapagana ng agarang pagsasaling multilingguwal',
+  },
+};
+
 export const LanguageSwitcher: React.FC = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState('id');
+  const [selectedLang, setSelectedLang] = useState('en');
   const [searchQuery, setSearchQuery] = useState('');
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
   const [isSnapping, setIsSnapping] = useState(false);
@@ -41,7 +137,7 @@ export const LanguageSwitcher: React.FC = () => {
   const getInitialPosition = useCallback(() => {
     if (typeof window === 'undefined') return { x: 28, y: 500 };
     const isMobile = window.innerWidth <= 768;
-    const btnW = 118;
+    const btnW = 48;
     const defaultX = isMobile ? window.innerWidth - btnW - 16 : window.innerWidth - btnW - 28;
     const defaultY = isMobile ? window.innerHeight - 84 : window.innerHeight - 84;
     return { x: defaultX, y: Math.max(20, defaultY) };
@@ -52,8 +148,8 @@ export const LanguageSwitcher: React.FC = () => {
     const handleResize = () => {
       setPosition((prev) => {
         if (!prev) return getInitialPosition();
-        const btnW = buttonRef.current?.offsetWidth || 118;
-        const btnH = buttonRef.current?.offsetHeight || 42;
+        const btnW = buttonRef.current?.offsetWidth || 48;
+        const btnH = buttonRef.current?.offsetHeight || 48;
         const clampedX = Math.max(10, Math.min(window.innerWidth - btnW - 10, prev.x));
         const clampedY = Math.max(10, Math.min(window.innerHeight - btnH - 10, prev.y));
         return { x: clampedX, y: clampedY };
@@ -64,20 +160,20 @@ export const LanguageSwitcher: React.FC = () => {
   }, [getInitialPosition]);
 
   useEffect(() => {
-    const match = document.cookie.match(/googtrans=\/id\/([^;]+)/);
-    if (match && match[1] && match[1] !== 'id') {
+    const match = document.cookie.match(/googtrans=\/[^/]+\/([^;]+)/);
+    if (match && match[1] && match[1] !== 'en') {
       setSelectedLang(match[1]);
       localStorage.setItem('portfolio_language', match[1]);
       return;
     }
 
     const saved = localStorage.getItem('portfolio_language');
-    if (saved && saved !== 'id') {
+    if (saved && saved !== 'en') {
       setSelectedLang(saved);
       return;
     }
 
-    setSelectedLang('id');
+    setSelectedLang('en');
     localStorage.removeItem('portfolio_language');
   }, []);
 
@@ -88,7 +184,7 @@ export const LanguageSwitcher: React.FC = () => {
       if (window.google?.translate?.TranslateElement) {
         new window.google.translate.TranslateElement(
           {
-            pageLanguage: 'id',
+            pageLanguage: 'en',
             includedLanguages: 'id,en,de,zh-CN,ja,ko,ar,th,vi,ms,hi,tl',
             autoDisplay: false,
           },
@@ -143,6 +239,16 @@ export const LanguageSwitcher: React.FC = () => {
     return LANGUAGES.find((lang) => lang.code === selectedLang) ?? LANGUAGES[0];
   }, [selectedLang]);
 
+  const copy = switcherText[selectedLang] ?? switcherText.en;
+
+  const languageNames = useMemo(() => {
+    try {
+      return new Intl.DisplayNames([selectedLang], { type: 'language' });
+    } catch {
+      return new Intl.DisplayNames(['en'], { type: 'language' });
+    }
+  }, [selectedLang]);
+
   const filteredLanguages = useMemo(() => {
     if (!searchQuery.trim()) return LANGUAGES;
     const q = searchQuery.toLowerCase().trim();
@@ -150,9 +256,10 @@ export const LanguageSwitcher: React.FC = () => {
       (lang) =>
         lang.name.toLowerCase().includes(q) ||
         lang.nativeName.toLowerCase().includes(q) ||
+        languageNames.of(lang.code)?.toLowerCase().includes(q) ||
         lang.code.toLowerCase().includes(q)
     );
-  }, [searchQuery]);
+  }, [languageNames, searchQuery]);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (e.button !== 0) return;
@@ -180,8 +287,8 @@ export const LanguageSwitcher: React.FC = () => {
       }
 
       if (dragInfo.current.hasMoved) {
-        const btnW = buttonRef.current?.offsetWidth || 118;
-        const btnH = buttonRef.current?.offsetHeight || 42;
+        const btnW = buttonRef.current?.offsetWidth || 48;
+        const btnH = buttonRef.current?.offsetHeight || 48;
         const isMobile = window.innerWidth <= 768;
         const bottomInset = isMobile ? 80 : 16;
 
@@ -201,7 +308,7 @@ export const LanguageSwitcher: React.FC = () => {
         return;
       }
 
-      const btnW = buttonRef.current?.offsetWidth || 118;
+      const btnW = buttonRef.current?.offsetWidth || 48;
       const isMobile = window.innerWidth <= 768;
       const margin = isMobile ? 16 : 28;
 
@@ -245,7 +352,7 @@ export const LanguageSwitcher: React.FC = () => {
   const setGoogtransCookie = (langCode: string) => {
     const host = window.location.hostname;
     const domainParts = host.split('.');
-    const val = `/id/${langCode}`;
+    const val = `/en/${langCode}`;
 
     document.cookie = `googtrans=${val}; path=/;`;
     document.cookie = `googtrans=${val}; path=/; domain=${host};`;
@@ -262,9 +369,9 @@ export const LanguageSwitcher: React.FC = () => {
   const handleSelectLanguage = (lang: LanguageOption) => {
     setIsOpen(false);
 
-    if (lang.code === 'id') {
+    if (lang.code === 'en') {
       clearGoogtransCookies();
-      setSelectedLang('id');
+      setSelectedLang('en');
       window.location.reload();
       return;
     }
@@ -312,12 +419,9 @@ export const LanguageSwitcher: React.FC = () => {
         onClick={handleClick}
         style={buttonStyle}
         className={`${styles.floatingBtn} ${isSnapping ? styles.snapping : ''}`}
-        aria-label="Pilih Bahasa / Select Language"
+        aria-label={copy.title}
       >
-        <Globe size={16} className={styles.globeIcon} />
-        <FlagIcon code={currentOption.code} className={styles.btnFlag} />
         <span className={styles.langText}>{currentOption.code.toUpperCase()}</span>
-        <ChevronUp size={14} className={styles.chevronIcon} />
       </button>
 
       {isOpen && (
@@ -327,22 +431,25 @@ export const LanguageSwitcher: React.FC = () => {
             if (e.target === e.currentTarget) setIsOpen(false);
           }}
         >
-          <div className={styles.modalCard} role="dialog" aria-modal="true">
+          <div
+            className={styles.modalCard}
+            role="dialog"
+            aria-modal="true"
+            dir={selectedLang === 'ar' ? 'rtl' : 'ltr'}
+          >
             <div className={styles.modalHeader}>
               <div className={styles.headerTextGroup}>
                 <div className={styles.headerTitleRow}>
                   <Globe size={22} className={styles.globeIcon} />
-                  <h3 className={styles.modalTitle}>Pilih Bahasa / Language</h3>
+                  <h3 className={styles.modalTitle}>{copy.title}</h3>
                 </div>
-                <p className={styles.modalSubtitle}>
-                  Pilih bahasa untuk Portofolio / Choose language for Portfolio
-                </p>
+                <p className={styles.modalSubtitle}>{copy.subtitle}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
                 className={styles.closeBtn}
-                aria-label="Tutup"
+                aria-label={copy.close}
               >
                 <X size={18} />
               </button>
@@ -352,7 +459,7 @@ export const LanguageSwitcher: React.FC = () => {
               <Search size={16} className={styles.searchIcon} />
               <input
                 type="text"
-                placeholder="Cari bahasa / Search (e.g. English, Japan, Deutsch)..."
+                placeholder={copy.search}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className={styles.searchInput}
@@ -373,7 +480,9 @@ export const LanguageSwitcher: React.FC = () => {
                       <FlagIcon code={lang.code} className={styles.cardFlagSvg} />
                       <div className={styles.cardNames}>
                         <span className={styles.nativeName}>{lang.nativeName}</span>
-                        <span className={styles.subName}>{lang.name}</span>
+                        <span className={styles.subName}>
+                          {languageNames.of(lang.code) ?? lang.name}
+                        </span>
                       </div>
                     </div>
                     {isActive && <Check size={18} className={styles.checkIcon} />}
@@ -383,9 +492,7 @@ export const LanguageSwitcher: React.FC = () => {
             </div>
 
             <div className={styles.modalFooter}>
-              <p className={styles.footerNote}>
-                Didukung penerjemahan instan multi-bahasa
-              </p>
+              <p className={styles.footerNote}>{copy.footer}</p>
             </div>
           </div>
         </div>
