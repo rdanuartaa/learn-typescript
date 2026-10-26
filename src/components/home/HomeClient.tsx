@@ -9,7 +9,6 @@ import Navbar from "@/components/home/Navbar";
 import Projects from "@/components/home/Projects";
 import Skills from "@/components/home/Skills";
 import Tools from "@/components/home/Tools";
-import { content, Language, ThemeMode } from "./content";
 import { PortfolioData } from "@/types/database";
 import { getMergedContent } from "@/lib/supabase/data";
 import styles from "./Home.module.scss";
@@ -76,8 +75,8 @@ type HomeClientProps = {
 };
 
 export default function HomeClient({ initialData }: HomeClientProps = {}) {
-  const [language, setLanguage] = useState<Language>("en");
-  const [theme, setTheme] = useState<ThemeMode>("monochrome");
+  const language = "en" as const;
+  const theme = "monochrome" as const;
   const [activeSection, setActiveSection] = useState<ActiveSection>("home");
   const [portfolioData, setPortfolioData] = useState<PortfolioData | undefined>(initialData);
   const [activeHeroPhoto, setActiveHeroPhoto] =
@@ -433,7 +432,8 @@ export default function HomeClient({ initialData }: HomeClientProps = {}) {
                       width={photo.width}
                       height={photo.height}
                       alt=""
-                      priority
+                      sizes="(max-width: 580px) 50vw, (max-width: 880px) 42vw, 24vw"
+                      priority={photo.id === "back"}
                     />
                   </button>
                 );

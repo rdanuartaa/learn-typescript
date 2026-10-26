@@ -8,6 +8,10 @@ type ContactProps = {
     eyebrow: string;
     title: string;
     summary: string;
+    messageLabel?: string;
+    messagePlaceholder?: string;
+    submitLabel?: string;
+    defaultMessage?: string;
   };
 };
 
@@ -79,7 +83,8 @@ export default function Contact({ content }: ContactProps) {
 
     const text =
       message.trim() ||
-      "Halo Rizal, saya ingin berdiskusi tentang project website.";
+      content.defaultMessage ||
+      "Hi Rizal, I would like to discuss a project or job opportunity.";
     const whatsappUrl = `https://wa.me/6285203794980?text=${encodeURIComponent(
       text,
     )}`;
@@ -98,16 +103,19 @@ export default function Contact({ content }: ContactProps) {
         <form className={styles.contactPanel} onSubmit={handleSubmit}>
           <p>{content.summary}</p>
           <label className={styles.contactField}>
-            <span>Pesan</span>
+            <span>{content.messageLabel || "Message"}</span>
             <textarea
               value={message}
               onChange={(event) => setMessage(event.target.value)}
-              placeholder="Tulis pesan singkat untuk WhatsApp..."
+              placeholder={
+                content.messagePlaceholder ||
+                "Write a short message for WhatsApp..."
+              }
               rows={6}
             />
           </label>
           <button type="submit" className={styles.contactSubmit}>
-            Kirim ke WhatsApp
+            {content.submitLabel || "Send via WhatsApp"}
           </button>
         </form>
 

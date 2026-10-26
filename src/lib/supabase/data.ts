@@ -1,6 +1,5 @@
 import { content as defaultContent, Language } from "@/components/home/content";
 import { DbCvSetting, DbExperience, DbProject, PortfolioData } from "@/types/database";
-import { getSupabaseBrowserClient, isSupabaseConfigured } from "./client";
 import { getSupabasePublicServerClient } from "./server";
 
 export const defaultProjects: DbProject[] = [
@@ -11,8 +10,8 @@ export const defaultProjects: DbProject[] = [
     description:
       "Featured — Next.js, Laravel, MySQL, Docker, Nginx, GitHub Actions, dan VPS. Membangun platform properti end-to-end dengan authentication, rekomendasi, perbandingan, simulasi KPR, dashboard admin, serta deployment CI/CD.",
     description_en:
-      "A property marketplace platform that helps users discover, compare, and evaluate properties based on their preferences.",
-    image: "/image/projects/diproperti.png",
+      "A production-oriented property marketplace built with Next.js, Laravel, MySQL, Docker, Nginx, and GitHub Actions.",
+    image: "/image/projects/diproperti.webp",
     href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
     order_index: 0,
   },
@@ -23,8 +22,8 @@ export const defaultProjects: DbProject[] = [
     description:
       "Project Leader untuk marketplace produk digital Laravel dan Flutter: payment gateway, distribusi file digital aman, multi-role authentication, dan desain database yang scalable.",
     description_en:
-      "A web and mobile digital product marketplace designed for transactions and secure digital file distribution with Laravel and Flutter.",
-    image: "/image/projects/cuan.png",
+      "A Laravel and Flutter marketplace for digital-product payments, role-based access, and secure file delivery.",
+    image: "/image/projects/cuan.webp",
     href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
     order_index: 1,
   },
@@ -35,7 +34,7 @@ export const defaultProjects: DbProject[] = [
     description:
       "VGG16, TensorFlow, ESP8266, MQTT, dan web dashboard untuk klasifikasi kualitas jeruk dan monitoring sortir secara real-time.",
     description_en:
-      "An AI and IoT-based orange quality sorting platform with a monitoring dashboard for classification results and system metrics.",
+      "An AI, IoT, and web platform for real-time orange-quality classification and sorting monitoring.",
     image: "/image/projects/semboro.jpg",
     href: "https://pameran-jti.polije.ac.id/pameran/product/496/klasifikasi-kualitas-jeruk-semboro-menggunakan-arsitektur-vgg16-yang-terintegrasi-dengan-iot-berbasis-web",
     order_index: 2,
@@ -48,7 +47,7 @@ export const defaultProjects: DbProject[] = [
       "Website company profile tour & travel responsif dengan integrasi booking WhatsApp.",
     description_en:
       "A responsive company profile website for tour and travel services with direct WhatsApp booking integration.",
-    image: "/image/projects/edelweiss.png",
+    image: "/image/projects/edelweiss.webp",
     href: "https://edelweisstourandtravel.com/",
     order_index: 3,
   },
@@ -60,7 +59,7 @@ export const defaultProjects: DbProject[] = [
       "Toko e-commerce character sticker di Shopee yang menggabungkan desain produk, strategi penjualan, branding, dan pengelolaan operasional bisnis.",
     description_en:
       "A character sticker e-commerce shop on Shopee combining product design, sales strategy, branding, and operations.",
-    image: "/image/projects/nusticky.png",
+    image: "/image/projects/nusticky.webp",
     href: "https://shopee.co.id/nusticky",
     order_index: 4,
   },
@@ -72,8 +71,8 @@ export const defaultProjects: DbProject[] = [
       "Website portfolio personal dengan section About, Skills, Experience, Projects, Tools, dan Contact yang responsif serta interaktif.",
     description_en:
       "Personal portfolio website with interactive About, Skills, Experience, Projects, Tools, and Contact sections.",
-    image: "/image/projects/portofolio.png",
-    href: "https://rizaldanuartabuilds.vercel.app",
+    image: "/image/projects/portofolio.webp",
+    href: "https://www.rizaldanuartaakbar.me",
     order_index: 5,
   },
 ];
@@ -197,6 +196,27 @@ export const defaultCvSetting: DbCvSetting = {
   cv_filename: "",
 };
 
+function getCvDownloadUrl(cv: DbCvSetting | null | undefined) {
+  if (!cv?.cv_url) {
+    return undefined;
+  }
+
+  try {
+    const url = new URL(cv.cv_url);
+
+    if (url.pathname.includes("/storage/v1/object/")) {
+      url.searchParams.set(
+        "download",
+        cv.cv_filename || "Rizal-Danuarta-Akbar-CV.pdf",
+      );
+    }
+
+    return url.toString();
+  } catch {
+    return cv.cv_url;
+  }
+}
+
 export async function fetchProjectsServer(): Promise<DbProject[]> {
   const client = getSupabasePublicServerClient();
   if (!client) {
@@ -299,27 +319,51 @@ export function getMergedContent(
   }
 
   const isEn = language === "en";
+  const useDynamicContent = language !== "zh";
 
-  const dynamicProjects = portfolioData.projects.map((p) => ({
-    title: isEn && p.title_en ? p.title_en : p.title,
-    description: isEn && p.description_en ? p.description_en : p.description,
-    image: p.image || undefined,
-    href: p.href || undefined,
-  }));
+  const dynamicProjects = useDynamicContent
+    ? portfolioData.projects.map((p) => {
+        const title = isEn && p.title_en ? p.title_en : p.title;
+        const baseProject = base.projects.items.find(
+          (item) => item.title.toLowerCase() === title.toLowerCase(),
+        );
+        const isLegacyPortfolioUrl =
+          p.href === "https://rizaldanuartabuilds.vercel.app";
+        const image =
+          p.image?.startsWith("/image/projects/") &&
+          baseProject?.image?.endsWith(".webp")
+            ? baseProject.image
+            : p.image || baseProject?.image || undefined;
 
-  const dynamicExperiences = portfolioData.experiences.map((e) => ({
-    period: isEn && e.period_en ? e.period_en : e.period,
-    role: isEn && e.role_en ? e.role_en : e.role,
-    description: isEn && e.description_en ? e.description_en : e.description,
-    details:
-      isEn && e.details_en && e.details_en.length > 0
-        ? e.details_en
-        : e.details,
-  }));
+        return {
+          ...baseProject,
+          title,
+          description:
+            isEn && p.description_en ? p.description_en : p.description,
+          image,
+          href: isLegacyPortfolioUrl
+            ? "https://www.rizaldanuartaakbar.me"
+            : p.href || baseProject?.href || undefined,
+        };
+      })
+    : [];
+
+  const dynamicExperiences = useDynamicContent
+    ? portfolioData.experiences.map((e) => ({
+        period: isEn && e.period_en ? e.period_en : e.period,
+        role: isEn && e.role_en ? e.role_en : e.role,
+        description:
+          isEn && e.description_en ? e.description_en : e.description,
+        details:
+          isEn && e.details_en && e.details_en.length > 0
+            ? e.details_en
+            : e.details,
+      }))
+    : [];
 
   return {
     ...base,
-    cvUrl: portfolioData.cv?.cv_url || undefined,
+    cvUrl: getCvDownloadUrl(portfolioData.cv),
     projects: {
       ...base.projects,
       items: dynamicProjects.length > 0 ? dynamicProjects : base.projects.items,

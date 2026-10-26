@@ -1,9 +1,6 @@
+import Image, { type ImageLoader } from "next/image";
 import styles from "./Home.module.scss";
-import type { CSSProperties, MouseEvent } from "react";
-
-type ProjectPreviewStyle = CSSProperties & {
-  "--project-image"?: string;
-};
+import type { MouseEvent } from "react";
 
 type ProjectsProps = {
   isActive: boolean;
@@ -12,14 +9,58 @@ type ProjectsProps = {
     title: string;
     summary: string;
     linkLabel: string;
+    demoLabel?: string;
+    repositoryLabel?: string;
     items: readonly {
       title: string;
       description: string;
       href?: string;
       image?: string;
+      demoHref?: string;
+      repositoryHref?: string;
+      details?: {
+        role: string;
+        challenge: string;
+        solution: string;
+        outcome: string;
+      };
     }[];
   };
 };
+
+const projectDetailLabels = ["Role", "Challenge", "Solution", "Outcome"] as const;
+const passthroughImageLoader: ImageLoader = ({ src }) => src;
+
+function ProjectDetails({
+  details,
+  isDuplicate,
+}: {
+  details: NonNullable<ProjectsProps["content"]["items"][number]["details"]>;
+  isDuplicate: boolean;
+}) {
+  const values = [
+    details.role,
+    details.challenge,
+    details.solution,
+    details.outcome,
+  ];
+
+  return (
+    <dl className={styles.projectDetails}>
+      {projectDetailLabels.map((label, index) => (
+        <div
+          key={label}
+          className={styles.projectDetailRow}
+          data-label={isDuplicate ? label : undefined}
+          data-value={isDuplicate ? values[index] : undefined}
+        >
+          <dt>{isDuplicate ? null : label}</dt>
+          <dd>{isDuplicate ? null : values[index]}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 export default function Projects({ content, isActive }: ProjectsProps) {
   const projectLoop = [0, 1, 2].flatMap((loopIndex) =>
@@ -67,11 +108,23 @@ export default function Projects({ content, isActive }: ProjectsProps) {
             {projectLoop.map(({ project, itemIndex, loopIndex }) => {
               const isDuplicate = loopIndex !== 1;
               const projectHref = project.href ?? "#contact";
-              const isExternalLink = projectHref.startsWith("http");
-              const previewStyle: ProjectPreviewStyle | undefined = project.image
-                ? { "--project-image": `url(${project.image})` }
-                : undefined;
-
+              const projectLinks = [
+                { label: content.linkLabel, href: projectHref },
+                project.demoHref
+                  ? {
+                      label: content.demoLabel ?? "Live demo",
+                      href: project.demoHref,
+                    }
+                  : null,
+                project.repositoryHref
+                  ? {
+                      label: content.repositoryLabel ?? "Repository",
+                      href: project.repositoryHref,
+                    }
+                  : null,
+              ].filter((link): link is { label: string; href: string } =>
+                Boolean(link),
+              );
               return (
                 <article
                   key={`${project.title}-${loopIndex}-${itemIndex}`}
@@ -82,6 +135,7 @@ export default function Projects({ content, isActive }: ProjectsProps) {
                       ? undefined
                       : `${project.title}: ${project.description}`
                   }
+                  tabIndex={isDuplicate ? -1 : 0}
                   data-nosnippet={isDuplicate ? "" : undefined}
                 >
                   <div className={styles.projectCardInner}>
@@ -90,25 +144,74 @@ export default function Projects({ content, isActive }: ProjectsProps) {
                         className={styles.projectPreview}
                         aria-hidden
                         data-has-image={project.image ? "true" : undefined}
-                        style={previewStyle}
                       >
-                        <span />
+                        {project.image ? (
+                          <Image
+                            loader={passthroughImageLoader}
+                            unoptimized
+                            className={styles.projectImage}
+                            src={project.image}
+                            alt={
+                              isDuplicate
+                                ? ""
+                                : `${project.title} project screenshot`
+                            }
+                            fill
+                            sizes="(max-width: 580px) 68vw, (max-width: 880px) 50vw, 324px"
+                          />
+                        ) : (
+                          <span />
+                        )}
                       </div>
-                      <h3 title={project.title}>{project.title}</h3>
+                      <h3
+                        title={isDuplicate ? undefined : project.title}
+                        data-visual-text={isDuplicate ? project.title : undefined}
+                      >
+                        {isDuplicate ? null : project.title}
+                      </h3>
                     </div>
                     <div className={`${styles.projectFace} ${styles.projectBack}`}>
-                      <p>{project.description}</p>
-                      <a
-                        href={projectHref}
-                        target={isExternalLink ? "_blank" : undefined}
-                        rel={isExternalLink ? "noreferrer" : undefined}
-                        tabIndex={isDuplicate ? -1 : undefined}
-                        onClick={(event) =>
-                          handleProjectLinkClick(event, projectHref)
-                        }
-                      >
-                        {content.linkLabel}
-                      </a>
+                      {project.details ? (
+                        <ProjectDetails
+                          details={project.details}
+                          isDuplicate={isDuplicate}
+                        />
+                      ) : (
+                        <p
+                          data-visual-text={
+                            isDuplicate ? project.description : undefined
+                          }
+                        >
+                          {isDuplicate ? null : project.description}
+                        </p>
+                      )}
+                      <div className={styles.projectLinks}>
+                        {projectLinks.map((link) => {
+                          const isExternalLink = link.href.startsWith("http");
+
+                          return (
+                            <a
+                              key={`${link.label}-${link.href}`}
+                              href={link.href}
+                              target={isExternalLink ? "_blank" : undefined}
+                              rel={
+                                isExternalLink
+                                  ? "noopener noreferrer"
+                                  : undefined
+                              }
+                              tabIndex={isDuplicate ? -1 : undefined}
+                              data-visual-text={
+                                isDuplicate ? link.label : undefined
+                              }
+                              onClick={(event) =>
+                                handleProjectLinkClick(event, link.href)
+                              }
+                            >
+                              {isDuplicate ? null : link.label}
+                            </a>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </article>

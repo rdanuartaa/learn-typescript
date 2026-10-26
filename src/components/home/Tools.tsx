@@ -90,6 +90,8 @@ export default function Tools({ content, isActive }: ToolsProps) {
             <div className={styles.toolMarquee}>
               <div className={styles.toolTrack}>
                 {logoLoop.map((logo, index) => {
+                  const isDuplicate =
+                    Math.floor(index / languageLogos.length) !== 1;
                   const logoStyle: ToolLogoStyle = {
                     "--tool-logo": `url(${logo.src})`,
                   };
@@ -99,9 +101,12 @@ export default function Tools({ content, isActive }: ToolsProps) {
                       key={`${logo.name}-${index}`}
                       className={styles.toolLogoItem}
                       style={logoStyle}
-                      role="img"
-                      aria-label={logo.name}
-                      title={logo.name}
+                      role={isDuplicate ? undefined : "img"}
+                      aria-hidden={isDuplicate || undefined}
+                      aria-label={isDuplicate ? undefined : logo.name}
+                      title={isDuplicate ? undefined : logo.name}
+                      data-name={logo.name}
+                      data-nosnippet={isDuplicate ? "" : undefined}
                     />
                   );
                 })}
@@ -117,6 +122,8 @@ export default function Tools({ content, isActive }: ToolsProps) {
             <div className={styles.toolMarquee}>
               <div className={`${styles.toolTrack} ${styles.toolTrackReverse}`}>
                 {appLogoLoop.map((logo, index) => {
+                  const isDuplicate =
+                    Math.floor(index / appLogos.length) !== 1;
                   const logoStyle: ToolLogoStyle = {
                     "--tool-logo": `url(${logo.src})`,
                   };
@@ -126,9 +133,12 @@ export default function Tools({ content, isActive }: ToolsProps) {
                       key={`${logo.name}-${index}`}
                       className={styles.toolLogoItem}
                       style={logoStyle}
-                      role="img"
-                      aria-label={logo.name}
-                      title={logo.name}
+                      role={isDuplicate ? undefined : "img"}
+                      aria-hidden={isDuplicate || undefined}
+                      aria-label={isDuplicate ? undefined : logo.name}
+                      title={isDuplicate ? undefined : logo.name}
+                      data-name={logo.name}
+                      data-nosnippet={isDuplicate ? "" : undefined}
                     />
                   );
                 })}

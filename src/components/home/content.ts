@@ -39,8 +39,8 @@ export const content = {
       eyebrow: "About",
       title: "Tentang Saya",
       paragraphs: [
-        "Saya adalah seseorang yang memiliki minat pada pengembangan aplikasi, strategi bisnis, dan teknologi modern. Saya percaya bahwa produk yang baik lahir dari perpaduan antara teknologi yang kuat, desain yang tepat, dan pemahaman terhadap kebutuhan pengguna.",
-        "Saya memiliki keunggulan dalam tiga bidang yang saling melengkapi: desain, bisnis, dan pemrograman. Pengalaman membangun bisnis sendiri mengajarkan saya untuk memahami kebutuhan pengguna, melihat peluang pasar, dan menciptakan solusi yang memberikan nilai nyata. Dengan kemampuan tersebut, saya siap berkontribusi, terus belajar, dan berkembang bersama tim untuk membangun produk yang berdampak bagi pengguna maupun perusahaan.",
+        "Saya adalah full-stack developer yang berfokus pada aplikasi web bisnis dan pengalaman mobile pendukung. Saya membangun antarmuka, API, database, serta alur deployment dengan Next.js, React, TypeScript, Laravel, Flutter, PostgreSQL/MySQL, dan Docker.",
+        "Pengalaman menjalankan Nusticky memperkuat pemahaman saya tentang operasional, pelanggan, dan prioritas bisnis. Konteks tersebut saya bawa ke setiap proyek: menyederhanakan alur kerja, menerjemahkan kebutuhan menjadi fitur yang andal, dan membangun produk yang mudah dipelihara bersama tim.",
       ],
     },
     skills: {
@@ -182,20 +182,37 @@ export const content = {
       summary:
         "Proyek yang menunjukkan kemampuan full-stack, integrasi sistem, dan deployment aplikasi produksi.",
       linkLabel: "Selengkapnya",
+      demoLabel: "Demo",
+      repositoryLabel: "Repository",
       items: [
         {
           title: "DiProperti",
           description:
             "Featured — Next.js, Laravel, MySQL, Docker, Nginx, GitHub Actions, dan VPS. Membangun platform properti end-to-end dengan authentication, rekomendasi, perbandingan, simulasi KPR, dashboard admin, serta deployment CI/CD.",
-          image: "/image/projects/diproperti.png",
+          image: "/image/projects/diproperti.webp",
           href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
+          demoHref: "https://dipropertijember.my.id",
+          repositoryHref: "https://github.com/rdanuartaa/project_diproperti",
+          details: {
+            role: "Full-Stack Developer",
+            challenge: "Menyatukan pencarian dan evaluasi properti dalam satu alur yang praktis.",
+            solution: "Membangun fitur pencarian, perbandingan, simulasi KPR, autentikasi, dan dashboard admin dengan Next.js serta Laravel.",
+            outcome: "Menghasilkan platform siap deploy dengan MySQL, Docker, Nginx, GitHub Actions, dan VPS.",
+          },
         },
         {
           title: "Cuan Space",
           description:
             "Project Leader untuk marketplace produk digital Laravel dan Flutter: payment gateway, distribusi file digital aman, multi-role authentication, dan desain database yang scalable.",
-          image: "/image/projects/cuan.png",
+          image: "/image/projects/cuan.webp",
           href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
+          repositoryHref: "https://github.com/rdanuartaa/project_cuanspace",
+          details: {
+            role: "Project Leader & Full-Stack Developer",
+            challenge: "Mendukung penjualan produk digital melalui web dan mobile dengan distribusi file yang aman.",
+            solution: "Memimpin pengembangan Laravel dan Flutter, payment gateway, multi-role authentication, dan alur pengiriman file.",
+            outcome: "Menghasilkan prototipe marketplace end-to-end untuk penjual dan pembeli produk digital.",
+          },
         },
         {
           title: "Semboro Orange Quality Classification System",
@@ -203,27 +220,36 @@ export const content = {
             "VGG16, TensorFlow, ESP8266, MQTT, dan web dashboard untuk klasifikasi kualitas jeruk dan monitoring sortir secara real-time.",
           image: "/image/projects/semboro.jpg",
           href: "https://pameran-jti.polije.ac.id/pameran/product/496/klasifikasi-kualitas-jeruk-semboro-menggunakan-arsitektur-vgg16-yang-terintegrasi-dengan-iot-berbasis-web",
+          repositoryHref: "https://github.com/rdanuartaa/project_jtech",
+          details: {
+            role: "AI, IoT & Web Developer",
+            challenge: "Mengurangi inkonsistensi proses manual dalam menentukan grade jeruk Semboro.",
+            solution: "Mengintegrasikan VGG16, ESP8266, load cell, MQTT, dan dashboard monitoring web.",
+            outcome: "Menghasilkan prototipe klasifikasi dan monitoring proses sortir secara real-time.",
+          },
         },
         {
           title: "Edelweiss Tour & Travel Adventure",
           description:
             "Website company profile tour & travel responsif dengan integrasi booking WhatsApp.",
-          image: "/image/projects/edelweiss.png",
+          image: "/image/projects/edelweiss.webp",
           href: "https://edelweisstourandtravel.com/",
+          repositoryHref: "https://github.com/rdanuartaa/new-edelweiss",
         },
         {
           title: "Nusticky on Shopee",
           description:
             "Toko e-commerce character sticker di Shopee yang menggabungkan desain produk, strategi penjualan, branding, dan pengelolaan operasional bisnis.",
-          image: "/image/projects/nusticky.png",
+          image: "/image/projects/nusticky.webp",
           href: "https://shopee.co.id/nusticky",
         },
         {
           title: "Portfolio Website",
           description:
             "Website portfolio personal dengan section About, Skills, Experience, Projects, Tools, dan Contact yang responsif serta interaktif.",
-          image: "/image/projects/portofolio.png",
-          href: "https://rizaldanuartabuilds.vercel.app",
+          image: "/image/projects/portofolio.webp",
+          href: "https://www.rizaldanuartaakbar.me",
+          repositoryHref: "https://github.com/rdanuartaa/learn-typescript",
         },
       ],
     },
@@ -247,9 +273,13 @@ export const content = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Mari ciptakan sesuatu yang berdampak",
+      title: "Mari membangun solusi yang berguna",
       summary:
-        "Terbuka untuk kolaborasi, pengembangan produk, peluang bisnis, dan berbagai proyek yang berfokus pada pertumbuhan serta inovasi.",
+        "Terbuka untuk posisi full-stack atau software engineering serta proyek aplikasi web bisnis dan mobile.",
+      messageLabel: "Pesan",
+      messagePlaceholder: "Tulis pesan singkat untuk WhatsApp...",
+      submitLabel: "Kirim ke WhatsApp",
+      defaultMessage: "Halo Rizal, saya ingin berdiskusi tentang proyek atau peluang kerja.",
     },
   },
   en: {
@@ -283,8 +313,8 @@ export const content = {
       eyebrow: "About",
       title: "About Me",
       paragraphs: [
-        "I am interested in application development, business strategy, and modern technology. I believe good products are created from the combination of strong technology, thoughtful design, and a clear understanding of user needs.",
-        "My strengths sit across three connected areas: design, business, and programming. Building my own business has taught me to understand users, identify market opportunities, and create solutions with real value. With that experience, I am ready to contribute, keep learning, and grow with teams to build products that create impact for users and companies.",
+        "I am a full-stack developer focused on business web applications and supporting mobile experiences. I build interfaces, APIs, databases, and deployment workflows with Next.js, React, TypeScript, Laravel, Flutter, PostgreSQL/MySQL, and Docker.",
+        "Running Nusticky sharpened my understanding of operations, customers, and commercial priorities. I bring that context to software projects: simplifying workflows, translating requirements into reliable features, and shipping maintainable products with a team.",
       ],
     },
     skills: {
@@ -422,60 +452,86 @@ export const content = {
     },
     projects: {
       eyebrow: "Projects",
-      title: "Turning Ideas Into Products",
+      title: "Selected Software Projects",
       summary:
-        "My journey in turning ideas into digital products through business strategy, user-oriented design, and sustainable software development.",
-      linkLabel: "View more",
+        "Business-focused web and mobile applications covering frontend, backend, databases, integrations, and deployment.",
+      linkLabel: "View project",
+      demoLabel: "Live demo",
+      repositoryLabel: "Repository",
       items: [
         {
           title: "DiProperti",
           description:
-            "A property marketplace platform that helps users discover, compare, and evaluate properties based on their preferences.",
-          image: "/image/projects/diproperti.png",
+            "A production-oriented property marketplace built with Next.js, Laravel, MySQL, Docker, Nginx, and GitHub Actions.",
+          image: "/image/projects/diproperti.webp",
           href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
-        },
-        {
-          title: "Semboro Orange Quality Classification System",
-          description:
-            "An AI and IoT-based orange quality sorting platform with a monitoring dashboard for classification results and system metrics.",
-          image: "/image/projects/semboro.jpg",
-          href: "https://pameran-jti.polije.ac.id/pameran/product/496/klasifikasi-kualitas-jeruk-semboro-menggunakan-arsitektur-vgg16-yang-terintegrasi-dengan-iot-berbasis-web",
-        },
-        {
-          title: "Edelweiss Tour & Travel Adventure",
-          description:
-            "A responsive company profile website for tour and travel services with direct WhatsApp booking integration.",
-          image: "/image/projects/edelweiss.png",
-          href: "https://edelweisstourandtravel.com/",
+          demoHref: "https://dipropertijember.my.id",
+          repositoryHref: "https://github.com/rdanuartaa/project_diproperti",
+          details: {
+            role: "Full-Stack Developer",
+            challenge: "Unify property discovery and evaluation in one practical workflow.",
+            solution: "Built search, comparison, mortgage simulation, authentication, and admin features with Next.js and Laravel.",
+            outcome: "Delivered a deployable platform using MySQL, Docker, Nginx, GitHub Actions, and a VPS.",
+          },
         },
         {
           title: "Cuan Space",
           description:
-            "A web and mobile digital product marketplace with payment gateway, secure file delivery, and multi-role authentication.",
-          image: "/image/projects/cuan.png",
+            "A Laravel and Flutter marketplace for digital-product payments, role-based access, and secure file delivery.",
+          image: "/image/projects/cuan.webp",
           href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
+          repositoryHref: "https://github.com/rdanuartaa/project_cuanspace",
+          details: {
+            role: "Project Leader & Full-Stack Developer",
+            challenge: "Support digital-product sales across web and mobile with secure fulfillment.",
+            solution: "Led Laravel and Flutter development, payment integration, role-based access, and file delivery workflows.",
+            outcome: "Produced an end-to-end marketplace prototype for digital-product sellers and customers.",
+          },
+        },
+        {
+          title: "Semboro Orange Quality Classification System",
+          description:
+            "An AI, IoT, and web platform for real-time orange-quality classification and sorting monitoring.",
+          image: "/image/projects/semboro.jpg",
+          href: "https://pameran-jti.polije.ac.id/pameran/product/496/klasifikasi-kualitas-jeruk-semboro-menggunakan-arsitektur-vgg16-yang-terintegrasi-dengan-iot-berbasis-web",
+          repositoryHref: "https://github.com/rdanuartaa/project_jtech",
+          details: {
+            role: "AI, IoT & Web Developer",
+            challenge: "Reduce inconsistency in the manual grading of Semboro oranges.",
+            solution: "Integrated VGG16, ESP8266, load-cell telemetry, MQTT, and a web monitoring dashboard.",
+            outcome: "Created a real-time classification and sorting-monitoring prototype.",
+          },
+        },
+        {
+          title: "Edelweiss Tour & Travel Adventure",
+          description:
+            "A responsive travel-service website that presents tour packages and routes customer inquiries to WhatsApp.",
+          image: "/image/projects/edelweiss.webp",
+          href: "https://edelweisstourandtravel.com/",
+          repositoryHref: "https://github.com/rdanuartaa/new-edelweiss",
         },
         {
           title: "Nusticky on Shopee",
           description:
             "A character sticker e-commerce store on Shopee combining product design, sales strategy, branding, and business operations management.",
-          image: "/image/projects/nusticky.png",
+          image: "/image/projects/nusticky.webp",
           href: "https://shopee.co.id/nusticky",
         },
         {
           title: "Portfolio Website",
           description:
             "A responsive and interactive personal portfolio website with About, Skills, Experience, Projects, Tools, and Contact sections.",
-          image: "/image/projects/portofolio.png",
-          href: "https://rizaldanuartabuilds.vercel.app",
+          image: "/image/projects/portofolio.webp",
+          href: "https://www.rizaldanuartaakbar.me",
+          repositoryHref: "https://github.com/rdanuartaa/learn-typescript",
         },
       ],
     },
     tools: {
       eyebrow: "Tools",
-      title: "What Is on My Desk?",
+      title: "Technology I Use",
       summary:
-        "From design and development to deployment, these are the tools I use most often to build digital products.",
+        "The languages, frameworks, infrastructure, and product tools I use to build and ship reliable applications.",
       laneTitles: {
         primary: "Languages & Frameworks",
         secondary: "Apps & Tools",
@@ -491,9 +547,13 @@ export const content = {
     },
     contact: {
       eyebrow: "Contact",
-      title: "Let us create something impactful",
+      title: "Let us build something useful",
       summary:
-        "Open to collaboration, product development, business opportunities, and projects focused on growth and innovation.",
+        "Available for full-stack and software engineering roles, plus business web and mobile application projects.",
+      messageLabel: "Message",
+      messagePlaceholder: "Write a short message for WhatsApp...",
+      submitLabel: "Send via WhatsApp",
+      defaultMessage: "Hi Rizal, I would like to discuss a project or job opportunity.",
     },
   },
   zh: {
@@ -665,7 +725,7 @@ export const content = {
         {
           title: "DiProperti",
           description: "一个房产交易平台，帮助用户根据偏好发现、比较和评估房产。",
-          image: "/image/projects/diproperti.png",
+          image: "/image/projects/diproperti.webp",
           href: "https://pameran-jti.polije.ac.id/pameran/product/693/aplikasi-eccomerce-properti-jember-diproperti",
         },
         {
@@ -678,28 +738,28 @@ export const content = {
         {
           title: "Edelweiss Tour & Travel Adventure",
           description: "一个旅行服务的响应式公司介绍网站，并集成 WhatsApp 快速预订入口。",
-          image: "/image/projects/edelweiss.png",
+          image: "/image/projects/edelweiss.webp",
           href: "https://edelweisstourandtravel.com/",
         },
         {
           title: "Cuan Space",
           description:
             "一个网页与移动端数字产品交易平台，支持支付网关、安全文件分发和多角色身份认证。",
-          image: "/image/projects/cuan.png",
+          image: "/image/projects/cuan.webp",
           href: "https://pameran-jti.polije.ac.id/pameran/product/307/cuan-space-aplikasi-e-commerce-produk-digital-gen-z",
         },
         {
           title: "Nusticky on Shopee",
           description:
             "Shopee 上的角色贴纸电商店铺，结合产品设计、销售策略、品牌建设和业务运营管理。",
-          image: "/image/projects/nusticky.png",
+          image: "/image/projects/nusticky.webp",
           href: "https://shopee.co.id/nusticky",
         },
         {
           title: "个人作品集网站",
           description: "一个响应式、交互式个人作品集网站，包含关于、技能、经验、项目、工具和联系模块。",
-          image: "/image/projects/portofolio.png",
-          href: "https://rizaldanuartabuilds.vercel.app",
+          image: "/image/projects/portofolio.webp",
+          href: "https://www.rizaldanuartaakbar.me",
         },
       ],
     },

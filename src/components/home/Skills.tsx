@@ -253,6 +253,7 @@ export default function Skills({ content, isActive }: SkillsProps) {
                           ? undefined
                           : `${skill.title}: ${skill.description}`
                       }
+                      tabIndex={isDuplicate ? -1 : 0}
                       data-nosnippet={isDuplicate ? "" : undefined}
                     >
                       <div className={styles.pillarCardInner}>
@@ -260,15 +261,47 @@ export default function Skills({ content, isActive }: SkillsProps) {
                           className={`${styles.pillarFace} ${styles.pillarFront}`}
                         >
                           <HardSkillIllustration variant={skillNumber} />
-                          <span>{String(skillNumber).padStart(2, "0")}</span>
-                          <h4>{skill.title}</h4>
+                          <span
+                            data-visual-text={
+                              isDuplicate
+                                ? String(skillNumber).padStart(2, "0")
+                                : undefined
+                            }
+                          >
+                            {isDuplicate
+                              ? null
+                              : String(skillNumber).padStart(2, "0")}
+                          </span>
+                          <h4
+                            data-visual-text={
+                              isDuplicate ? skill.title : undefined
+                            }
+                          >
+                            {isDuplicate ? null : skill.title}
+                          </h4>
                         </div>
                         <div
                           className={`${styles.pillarFace} ${styles.pillarBack}`}
                         >
                           <HardSkillIllustration variant={skillNumber} />
-                          <span>{String(skillNumber).padStart(2, "0")}</span>
-                          <p>{skill.description}</p>
+                          <span
+                            data-visual-text={
+                              isDuplicate
+                                ? String(skillNumber).padStart(2, "0")
+                                : undefined
+                            }
+                          >
+                            {isDuplicate
+                              ? null
+                              : String(skillNumber).padStart(2, "0")}
+                          </span>
+                          <p
+                            data-visual-text={
+                              isDuplicate ? skill.description : undefined
+                            }
+                          >
+                            {isDuplicate ? null : skill.description}
+                          </p>
                         </div>
                       </div>
                     </article>
@@ -298,6 +331,7 @@ export default function Skills({ content, isActive }: SkillsProps) {
                           ? undefined
                           : `${skill.title}: ${skill.description}`
                       }
+                      tabIndex={isDuplicate ? -1 : 0}
                       data-nosnippet={isDuplicate ? "" : undefined}
                     >
                       <div className={styles.pillarCardInner}>
@@ -305,15 +339,47 @@ export default function Skills({ content, isActive }: SkillsProps) {
                           className={`${styles.pillarFace} ${styles.pillarFront}`}
                         >
                           <SoftSkillIllustration variant={skill.number} />
-                          <span>{String(skill.number).padStart(2, "0")}</span>
-                          <h4>{skill.title}</h4>
+                          <span
+                            data-visual-text={
+                              isDuplicate
+                                ? String(skill.number).padStart(2, "0")
+                                : undefined
+                            }
+                          >
+                            {isDuplicate
+                              ? null
+                              : String(skill.number).padStart(2, "0")}
+                          </span>
+                          <h4
+                            data-visual-text={
+                              isDuplicate ? skill.title : undefined
+                            }
+                          >
+                            {isDuplicate ? null : skill.title}
+                          </h4>
                         </div>
                         <div
                           className={`${styles.pillarFace} ${styles.pillarBack}`}
                         >
                           <SoftSkillIllustration variant={skill.number} />
-                          <span>{String(skill.number).padStart(2, "0")}</span>
-                          <p>{skill.description}</p>
+                          <span
+                            data-visual-text={
+                              isDuplicate
+                                ? String(skill.number).padStart(2, "0")
+                                : undefined
+                            }
+                          >
+                            {isDuplicate
+                              ? null
+                              : String(skill.number).padStart(2, "0")}
+                          </span>
+                          <p
+                            data-visual-text={
+                              isDuplicate ? skill.description : undefined
+                            }
+                          >
+                            {isDuplicate ? null : skill.description}
+                          </p>
                         </div>
                       </div>
                     </article>

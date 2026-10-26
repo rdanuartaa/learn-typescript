@@ -32,6 +32,16 @@ $navy: #17335f;
   color: var(--page-fg);
   transition: background 220ms ease, color 220ms ease;
   transform-origin: top center;
+
+  :is(a, button, textarea):focus-visible {
+    outline: 3px solid $white;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px $ocean-blue;
+  }
+}
+
+[data-visual-text]::before {
+  content: attr(data-visual-text);
 }
 
 @supports (zoom: 1) {
@@ -120,6 +130,7 @@ $navy: #17335f;
     sans-serif;
   font-size: clamp(1.04rem, 1.4vw, 1.16rem);
   font-weight: 800;
+  min-width: 0;
   max-width: 34ch;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -150,6 +161,7 @@ $navy: #17335f;
 
 .navToggle {
   display: none;
+  flex: 0 0 44px;
   width: 44px;
   height: 44px;
   border: 0;
@@ -198,6 +210,8 @@ $navy: #17335f;
 }
 
 .heroCopy {
+  min-width: 0;
+  max-width: 100%;
   position: relative;
   z-index: 1;
 
@@ -845,7 +859,7 @@ $navy: #17335f;
   position: relative;
   cursor: grab;
   scrollbar-width: none;
-  touch-action: pan-x;
+  touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
   mask-image: linear-gradient(
     90deg,
@@ -1183,7 +1197,7 @@ $navy: #17335f;
   position: relative;
   cursor: grab;
   scrollbar-width: none;
-  touch-action: pan-x;
+  touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
   mask-image: linear-gradient(
     90deg,
@@ -1599,9 +1613,7 @@ $navy: #17335f;
   }
 
   &[data-has-image="true"] {
-    background:
-      linear-gradient(180deg, rgba($black, 0.02), rgba($black, 0.15)),
-      var(--project-image) center top / cover no-repeat;
+    background: $soft-black;
     filter: none;
     transition: filter 180ms ease, transform 180ms ease;
   }
@@ -1610,6 +1622,11 @@ $navy: #17335f;
   &[data-has-image="true"] span {
     display: none;
   }
+}
+
+.projectImage {
+  object-fit: cover;
+  object-position: center top;
 }
 
 .projectGrid:hover,
@@ -1624,6 +1641,51 @@ $navy: #17335f;
   transform: rotateY(180deg);
   gap: 20px;
   pointer-events: none;
+
+  .projectDetails {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    flex: 1 1 auto;
+    gap: 9px;
+    margin: 0;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba($white, 0.3) transparent;
+  }
+
+  .projectDetailRow {
+    display: grid;
+    gap: 2px;
+
+    dt {
+      color: #58b8ff;
+      font-size: clamp(0.68rem, 3.2cqw, 0.78rem);
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    dd {
+      margin: 0;
+      color: rgba($paper, 0.82);
+      font-size: clamp(0.82rem, 4.1cqw, 0.96rem);
+      font-weight: 620;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    &[data-label] dt::before {
+      content: attr(data-label);
+    }
+
+    &[data-value] dd::before {
+      content: attr(data-value);
+    }
+  }
 
   p {
     position: relative;
@@ -1642,6 +1704,16 @@ $navy: #17335f;
     hyphens: auto;
   }
 
+  .projectLinks {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    gap: 7px;
+    width: 100%;
+  }
+
   a {
     position: relative;
     z-index: 1;
@@ -1650,19 +1722,20 @@ $navy: #17335f;
     justify-content: center;
     width: max-content;
     max-width: 100%;
-    min-height: 52px;
+    min-height: 40px;
     border: 2px solid #0078D4;
     border-radius: 999px;
     background: #0078D4;
     color: $white;
-    padding: 0 24px;
+    padding: 0 14px;
     font-family: var(--font-geist-sans), var(--font-inter), Arial, Helvetica,
       sans-serif;
-    font-size: 1.02rem;
+    font-size: 0.86rem;
     font-weight: 750;
     line-height: 1;
     overflow: hidden;
     white-space: nowrap;
+    flex-shrink: 0;
     transform: translateZ(0);
     box-shadow: 0 4px 18px rgba(0, 120, 212, 0.32);
     transition: background 200ms ease, border-color 200ms ease,
@@ -1889,19 +1962,31 @@ $navy: #17335f;
 
 .toolLogoItem {
   flex: 0 0 clamp(118px, 12vw, 168px);
-  min-height: 96px;
-  display: block;
+  min-height: 116px;
+  display: grid;
+  align-items: end;
+  justify-items: center;
   position: relative;
+  padding: 82px 8px 8px;
   opacity: 0.9;
   transition: opacity 180ms ease, transform 180ms ease;
 
   &::before {
     content: "";
     position: absolute;
-    inset: 12px;
+    inset: 8px 16px 34px;
     background: var(--tool-logo) center / contain no-repeat;
     filter: none;
     transition: filter 180ms ease, transform 180ms ease;
+  }
+
+  &::after {
+    content: attr(data-name);
+    color: rgba($black, 0.72);
+    font-size: 0.78rem;
+    font-weight: 750;
+    line-height: 1.2;
+    text-align: center;
   }
 
   &:hover,
@@ -3397,8 +3482,8 @@ $navy: #17335f;
   }
 
   .heroStack {
-    font-size: clamp(0.82rem, 3.8vw, 1.08rem);
-    letter-spacing: -0.025em;
+    font-size: clamp(0.9rem, 4.15vw, 1.08rem);
+    letter-spacing: -0.045em;
     line-height: 1.65;
   }
 
@@ -3561,9 +3646,9 @@ $navy: #17335f;
   }
 
   .projectBack a {
-    min-height: 46px;
-    padding-inline: 20px;
-    font-size: 0.96rem;
+    min-height: 38px;
+    padding-inline: 12px;
+    font-size: 0.82rem;
     font-weight: 750;
   }
 

@@ -20,9 +20,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rizal Danuarta Akbar | Full-Stack Developer",
+  metadataBase: new URL("https://www.rizaldanuartaakbar.me"),
+  title: "Rizal Danuarta Akbar | Full-Stack & Software Engineer",
   description:
-    "Full-stack developer building production-ready web applications with Next.js, React, TypeScript, Laravel, MySQL, and Docker.",
+    "Full-stack developer building practical business web and mobile applications with Next.js, React, TypeScript, Laravel, Flutter, and PostgreSQL.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    title: "Rizal Danuarta Akbar | Full-Stack & Software Engineer",
+    description:
+      "Practical business web and mobile applications built with Next.js, Laravel, Flutter, and PostgreSQL.",
+    siteName: "Rizal Danuarta Akbar Portfolio",
+  },
 };
 
 export default function RootLayout({
