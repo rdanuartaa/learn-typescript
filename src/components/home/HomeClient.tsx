@@ -95,6 +95,8 @@ export default function HomeClient({ initialData }: HomeClientProps = {}) {
   }, []);
 
   const copy = getMergedContent(language, portfolioData);
+  const [heroStack, ...heroDescriptionParts] = copy.hero.lead.split("\n");
+  const heroDescription = heroDescriptionParts.join("\n");
   const handleActiveSectionChange = useCallback((section: ActiveSection) => {
     setActiveSection(section);
   }, []);
@@ -315,7 +317,16 @@ export default function HomeClient({ initialData }: HomeClientProps = {}) {
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}>{copy.hero.eyebrow}</p>
             <h1>{copy.hero.title}</h1>
-            <p className={styles.lead}>{copy.hero.lead}</p>
+            <p className={styles.lead}>
+              {heroDescription ? (
+                <>
+                  <span className={styles.heroStack}>{heroStack}</span>
+                  <span className={styles.heroDescription}>{heroDescription}</span>
+                </>
+              ) : (
+                copy.hero.lead
+              )}
+            </p>
             <div className={styles.heroActions}>
               <a href="#projects" className={styles.primaryButton}>
                 <span>{copy.hero.primary}</span>

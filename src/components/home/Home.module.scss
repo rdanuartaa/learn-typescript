@@ -249,6 +249,17 @@ $navy: #17335f;
   white-space: pre-line;
 }
 
+.heroStack,
+.heroDescription {
+  display: block;
+}
+
+.heroStack {
+  color: rgba($paper, 0.88);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .heroActions {
   display: flex;
   align-items: center;
@@ -3354,11 +3365,11 @@ $navy: #17335f;
   }
 
   .hero .eyebrow {
-    font-size: clamp(0.7rem, 2.9vw, 0.84rem);
-    letter-spacing: 0.08em;
+    font-size: clamp(0.7rem, 3.35vw, 0.88rem);
+    letter-spacing: 0.045em;
     line-height: 1.4;
-    white-space: normal;
-    overflow-wrap: break-word;
+    white-space: nowrap;
+    overflow-wrap: normal;
   }
 
   .eyebrow + h2 {
@@ -3381,8 +3392,18 @@ $navy: #17335f;
 
   .lead {
     margin-top: 24px;
-    font-size: 1rem;
+    font-size: 1.06rem;
     line-height: 1.7;
+  }
+
+  .heroStack {
+    font-size: clamp(0.82rem, 3.8vw, 1.08rem);
+    letter-spacing: -0.025em;
+    line-height: 1.65;
+  }
+
+  .heroDescription {
+    font-size: 1.06rem;
   }
 
   .heroActions {

@@ -28,7 +28,7 @@ export const content = {
     hero: {
       eyebrow: "Full-Stack Developer | Software Engineer",
       title: "Hallo, Saya Rizal Danuarta Akbar",
-      lead: "Next.js • React • TypeScript • Laravel • Flutter • Dart • MySQL • PostgreSQL • Docker\nSaya membangun aplikasi web siap produksi, dari frontend dan backend hingga desain database dan deployment.",
+      lead: "Next.js · React · TypeScript · Laravel · Flutter\nSaya membangun aplikasi web dan mobile praktis yang membantu bisnis menyederhanakan alur kerja serta mengubah ide menjadi produk digital yang andal.",
       primary: "Lihat Projects",
       github: "GitHub",
       secondary: "Hubungi Saya",
@@ -62,7 +62,7 @@ export const content = {
         {
           title: "Database",
           description:
-            "MySQL, database design, relasi data, dan query aplikasi.",
+            "MySQL, PostgreSQL, database design, relasi data, dan query aplikasi.",
         },
         {
           title: "DevOps & Deployment",
@@ -272,7 +272,7 @@ export const content = {
     hero: {
       eyebrow: "Full-Stack Developer | Software Engineer",
       title: "Hello, I am Rizal Danuarta Akbar",
-      lead: "Next.js • React • TypeScript • Laravel • Flutter • Dart • MySQL • PostgreSQL • Docker\nI build production-ready web applications from frontend and backend development to database design and deployment.",
+      lead: "Next.js · React · TypeScript · Laravel · Flutter\nI build practical web and mobile applications that help businesses streamline workflows and turn ideas into reliable digital products.",
       primary: "View Projects",
       github: "GitHub",
       secondary: "Contact Me",
@@ -306,7 +306,7 @@ export const content = {
         {
           title: "Database",
           description:
-            "MySQL, database design, data relations, and application queries.",
+            "MySQL, PostgreSQL, database design, data relations, and application queries.",
         },
         {
           title: "DevOps & Deployment",
