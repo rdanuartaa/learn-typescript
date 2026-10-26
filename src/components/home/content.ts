@@ -28,7 +28,7 @@ export const content = {
     hero: {
       eyebrow: "Full-Stack Developer | Software Engineer",
       title: "Hallo, Saya Rizal Danuarta Akbar",
-      lead: "Next.js • React • TypeScript • Laravel • MySQL • Docker\nSaya membangun aplikasi web siap produksi, dari frontend dan backend hingga desain database dan deployment.",
+      lead: "Next.js • React • TypeScript • Laravel • Flutter • Dart • MySQL • PostgreSQL • Docker\nSaya membangun aplikasi web siap produksi, dari frontend dan backend hingga desain database dan deployment.",
       primary: "Lihat Projects",
       github: "GitHub",
       secondary: "Hubungi Saya",
@@ -272,7 +272,7 @@ export const content = {
     hero: {
       eyebrow: "Full-Stack Developer | Software Engineer",
       title: "Hello, I am Rizal Danuarta Akbar",
-      lead: "Next.js • React • TypeScript • Laravel • MySQL • Docker\nI build production-ready web applications from frontend and backend development to database design and deployment.",
+      lead: "Next.js • React • TypeScript • Laravel • Flutter • Dart • MySQL • PostgreSQL • Docker\nI build production-ready web applications from frontend and backend development to database design and deployment.",
       primary: "View Projects",
       github: "GitHub",
       secondary: "Contact Me",

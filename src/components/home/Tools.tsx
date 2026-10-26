@@ -16,6 +16,7 @@ const languageLogos = [
   { name: "Next.js", src: "/image/tools/language/nextjs-icon-svgrepo-com.svg" },
   { name: "Flutter", src: "/image/tools/language/flutter-svgrepo-com.svg" },
   { name: "MySQL", src: "/image/tools/language/mysql-logo-svgrepo-com.svg" },
+  { name: "PostgreSQL", src: "/image/tools/language/postgresql-elephant.svg" },
   { name: "SCSS", src: "/image/tools/language/scss2-svgrepo-com.svg" },
 ];
 
