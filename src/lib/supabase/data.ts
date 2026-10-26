@@ -1,7 +1,7 @@
 import { content as defaultContent, Language } from "@/components/home/content";
 import { DbCvSetting, DbExperience, DbProject, PortfolioData } from "@/types/database";
 import { getSupabaseBrowserClient, isSupabaseConfigured } from "./client";
-import { getSupabaseServerClient } from "./server";
+import { getSupabasePublicServerClient } from "./server";
 
 export const defaultProjects: DbProject[] = [
   {
@@ -198,7 +198,7 @@ export const defaultCvSetting: DbCvSetting = {
 };
 
 export async function fetchProjectsServer(): Promise<DbProject[]> {
-  const client = getSupabaseServerClient();
+  const client = getSupabasePublicServerClient();
   if (!client) {
     return defaultProjects;
   }
@@ -222,7 +222,7 @@ export async function fetchProjectsServer(): Promise<DbProject[]> {
 }
 
 export async function fetchExperiencesServer(): Promise<DbExperience[]> {
-  const client = getSupabaseServerClient();
+  const client = getSupabasePublicServerClient();
   if (!client) {
     return defaultExperiences;
   }
@@ -246,7 +246,7 @@ export async function fetchExperiencesServer(): Promise<DbExperience[]> {
 }
 
 export async function fetchCvSettingServer(): Promise<DbCvSetting | null> {
-  const client = getSupabaseServerClient();
+  const client = getSupabasePublicServerClient();
   if (!client) {
     return defaultCvSetting;
   }

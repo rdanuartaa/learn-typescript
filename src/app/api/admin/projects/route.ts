@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
-import { getSupabaseServerClient } from "@/lib/supabase/server";
+import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import { verifyAdminRequest } from "@/lib/supabase/auth";
+import {
+  parseProjectPayload,
+  parseReorderPayload,
+  parseUuid,
+  readJsonObject,
+  validationErrorResponse,
+} from "@/lib/api/validation";
 
 export const dynamic = "force-dynamic";
 
@@ -8,16 +15,16 @@ export async function POST(request: Request) {
   try {
     const auth = await verifyAdminRequest(request);
     if (!auth.authorized) {
-      return NextResponse.json({ error: auth.error || "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
-    const supabase = getSupabaseServerClient(true) || getSupabaseServerClient(false);
+    const supabase = getSupabaseAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: "Supabase not configured" }, { status: 500 });
     }
 
-    const body = await request.json();
-    const { id, created_at, ...payload } = body;
+    const body = await readJsonObject(request);
+    const payload = parseProjectPayload(body);
 
     const { data, error } = await supabase
       .from("projects")
@@ -26,12 +33,16 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      console.error("Project insert failed:", error);
+      return NextResponse.json({ error: "Unable to save project" }, { status: 400 });
     }
 
     return NextResponse.json({ success: true, data });
-  } catch (err) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+  } catch (error) {
+    const validationResponse = validationErrorResponse(error);
+    if (validationResponse) return validationResponse;
+    console.error("Project insert failed:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -39,28 +50,28 @@ export async function PUT(request: Request) {
   try {
     const auth = await verifyAdminRequest(request);
     if (!auth.authorized) {
-      return NextResponse.json({ error: auth.error || "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
-    const supabase = getSupabaseServerClient(true) || getSupabaseServerClient(false);
+    const supabase = getSupabaseAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: "Supabase not configured" }, { status: 500 });
     }
 
-    const body = await request.json();
+    const body = await readJsonObject(request);
 
-    if (body.reorder && Array.isArray(body.items)) {
-      const updates = body.items.map((item: { id: string; order_index: number }) =>
-        supabase
-          .from("projects")
-          .update({ order_index: item.order_index })
-          .eq("id", item.id)
-      );
-      await Promise.all(updates);
+    if (body.reorder === true) {
+      const items = parseReorderPayload(body);
+      const { error } = await supabase.rpc("reorder_projects", { p_items: items });
+      if (error) {
+        console.error("Project reorder failed:", error);
+        return NextResponse.json({ error: "Unable to reorder projects" }, { status: 400 });
+      }
       return NextResponse.json({ success: true });
     }
 
-    const { id, created_at, ...payload } = body;
+    const id = parseUuid(body.id);
+    const payload = parseProjectPayload(body);
     const { data, error } = await supabase
       .from("projects")
       .update(payload)
@@ -69,12 +80,16 @@ export async function PUT(request: Request) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      console.error("Project update failed:", error);
+      return NextResponse.json({ error: "Unable to update project" }, { status: 400 });
     }
 
     return NextResponse.json({ success: true, data });
-  } catch (err) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+  } catch (error) {
+    const validationResponse = validationErrorResponse(error);
+    if (validationResponse) return validationResponse;
+    console.error("Project update failed:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
 
@@ -82,28 +97,28 @@ export async function DELETE(request: Request) {
   try {
     const auth = await verifyAdminRequest(request);
     if (!auth.authorized) {
-      return NextResponse.json({ error: auth.error || "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: auth.error }, { status: auth.status });
     }
 
-    const supabase = getSupabaseServerClient(true) || getSupabaseServerClient(false);
+    const supabase = getSupabaseAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: "Supabase not configured" }, { status: 500 });
     }
 
     const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
-
-    if (!id) {
-      return NextResponse.json({ error: "Missing project id" }, { status: 400 });
-    }
+    const id = parseUuid(searchParams.get("id"));
 
     const { error } = await supabase.from("projects").delete().eq("id", id);
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      console.error("Project delete failed:", error);
+      return NextResponse.json({ error: "Unable to delete project" }, { status: 400 });
     }
 
     return NextResponse.json({ success: true });
-  } catch (err) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+  } catch (error) {
+    const validationResponse = validationErrorResponse(error);
+    if (validationResponse) return validationResponse;
+    console.error("Project delete failed:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

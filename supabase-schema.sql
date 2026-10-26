@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS public.admins (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT NOT NULL UNIQUE,
   full_name TEXT DEFAULT 'Rizal Danuarta Akbar',
-  role TEXT DEFAULT 'superadmin',
+  role TEXT NOT NULL DEFAULT 'superadmin' CHECK (role IN ('admin', 'superadmin')),
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -60,29 +60,29 @@ ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 
 -- Izinkan publik membaca data (SELECT)
 DROP POLICY IF EXISTS "Public can view cv_settings" ON public.cv_settings;
-CREATE POLICY "Public can view cv_settings" ON public.cv_settings FOR SELECT USING (true);
+CREATE POLICY "Public can view cv_settings" ON public.cv_settings FOR SELECT TO anon, authenticated USING (true);
 
 DROP POLICY IF EXISTS "Public can view projects" ON public.projects;
-CREATE POLICY "Public can view projects" ON public.projects FOR SELECT USING (true);
+CREATE POLICY "Public can view projects" ON public.projects FOR SELECT TO anon, authenticated USING (true);
 
 DROP POLICY IF EXISTS "Public can view experiences" ON public.experiences;
-CREATE POLICY "Public can view experiences" ON public.experiences FOR SELECT USING (true);
+CREATE POLICY "Public can view experiences" ON public.experiences FOR SELECT TO anon, authenticated USING (true);
 
-DROP POLICY IF EXISTS "Public can view admins" ON public.admins;
-CREATE POLICY "Public can view admins" ON public.admins FOR SELECT USING (true);
-
-DROP POLICY IF EXISTS "Allow modify admins" ON public.admins;
-CREATE POLICY "Allow modify admins" ON public.admins FOR ALL USING (true) WITH CHECK (true);
-
--- Izinkan modifikasi (INSERT, UPDATE, DELETE) dari aplikasi
+-- Mutasi hanya dilakukan oleh server menggunakan secret/service-role key.
+-- Tidak ada policy write untuk role anon/authenticated.
 DROP POLICY IF EXISTS "Allow modify cv_settings" ON public.cv_settings;
-CREATE POLICY "Allow modify cv_settings" ON public.cv_settings FOR ALL USING (true) WITH CHECK (true);
-
 DROP POLICY IF EXISTS "Allow modify projects" ON public.projects;
-CREATE POLICY "Allow modify projects" ON public.projects FOR ALL USING (true) WITH CHECK (true);
-
 DROP POLICY IF EXISTS "Allow modify experiences" ON public.experiences;
-CREATE POLICY "Allow modify experiences" ON public.experiences FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public can view admins" ON public.admins;
+DROP POLICY IF EXISTS "Allow modify admins" ON public.admins;
+
+REVOKE ALL ON public.cv_settings FROM anon, authenticated;
+REVOKE ALL ON public.projects FROM anon, authenticated;
+REVOKE ALL ON public.experiences FROM anon, authenticated;
+REVOKE ALL ON public.admins FROM anon, authenticated;
+GRANT SELECT ON public.cv_settings TO anon, authenticated;
+GRANT SELECT ON public.projects TO anon, authenticated;
+GRANT SELECT ON public.experiences TO anon, authenticated;
 
 -- ==========================================================
 -- 5. STORAGE BUCKET: portfolio
@@ -94,19 +94,130 @@ ON CONFLICT (id) DO NOTHING;
 -- Storage Policies
 DROP POLICY IF EXISTS "Public can read portfolio bucket" ON storage.objects;
 CREATE POLICY "Public can read portfolio bucket" ON storage.objects
-FOR SELECT USING (bucket_id = 'portfolio');
+FOR SELECT TO anon, authenticated USING (bucket_id = 'portfolio');
 
 DROP POLICY IF EXISTS "Allow upload to portfolio bucket" ON storage.objects;
-CREATE POLICY "Allow upload to portfolio bucket" ON storage.objects
-FOR INSERT WITH CHECK (bucket_id = 'portfolio');
-
 DROP POLICY IF EXISTS "Allow update portfolio bucket" ON storage.objects;
-CREATE POLICY "Allow update portfolio bucket" ON storage.objects
-FOR UPDATE USING (bucket_id = 'portfolio');
-
 DROP POLICY IF EXISTS "Allow delete from portfolio bucket" ON storage.objects;
-CREATE POLICY "Allow delete from portfolio bucket" ON storage.objects
-FOR DELETE USING (bucket_id = 'portfolio');
+
+
+-- Atomic reorder functions. Only the server service role may execute them.
+CREATE OR REPLACE FUNCTION public.reorder_projects(p_items JSONB)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+  requested_count INTEGER;
+  existing_count INTEGER;
+  updated_count INTEGER;
+BEGIN
+  IF jsonb_typeof(p_items) <> 'array' THEN
+    RAISE EXCEPTION 'p_items must be an array';
+  END IF;
+
+  requested_count := jsonb_array_length(p_items);
+  IF requested_count < 1 OR requested_count > 100 THEN
+    RAISE EXCEPTION 'p_items must contain 1-100 entries';
+  END IF;
+
+  LOCK TABLE public.projects IN SHARE ROW EXCLUSIVE MODE;
+  SELECT COUNT(*) INTO existing_count FROM public.projects;
+  IF existing_count <> requested_count THEN
+    RAISE EXCEPTION 'reorder must include every project';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1
+    FROM jsonb_to_recordset(p_items) AS item(id UUID, order_index INTEGER)
+    GROUP BY item.id
+    HAVING item.id IS NULL OR COUNT(*) > 1
+  ) OR EXISTS (
+    SELECT 1
+    FROM jsonb_to_recordset(p_items) AS item(id UUID, order_index INTEGER)
+    GROUP BY item.order_index
+    HAVING item.order_index IS NULL
+      OR item.order_index < 0
+      OR item.order_index >= requested_count
+      OR COUNT(*) > 1
+  ) THEN
+    RAISE EXCEPTION 'invalid or duplicate reorder entry';
+  END IF;
+
+  UPDATE public.projects AS target
+  SET order_index = item.order_index
+  FROM jsonb_to_recordset(p_items) AS item(id UUID, order_index INTEGER)
+  WHERE target.id = item.id;
+
+  GET DIAGNOSTICS updated_count = ROW_COUNT;
+  IF updated_count <> requested_count THEN
+    RAISE EXCEPTION 'one or more project ids do not exist';
+  END IF;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.reorder_projects(JSONB) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.reorder_projects(JSONB) TO service_role;
+
+CREATE OR REPLACE FUNCTION public.reorder_experiences(p_items JSONB)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+  requested_count INTEGER;
+  existing_count INTEGER;
+  updated_count INTEGER;
+BEGIN
+  IF jsonb_typeof(p_items) <> 'array' THEN
+    RAISE EXCEPTION 'p_items must be an array';
+  END IF;
+
+  requested_count := jsonb_array_length(p_items);
+  IF requested_count < 1 OR requested_count > 100 THEN
+    RAISE EXCEPTION 'p_items must contain 1-100 entries';
+  END IF;
+
+  LOCK TABLE public.experiences IN SHARE ROW EXCLUSIVE MODE;
+  SELECT COUNT(*) INTO existing_count FROM public.experiences;
+  IF existing_count <> requested_count THEN
+    RAISE EXCEPTION 'reorder must include every experience';
+  END IF;
+
+  IF EXISTS (
+    SELECT 1
+    FROM jsonb_to_recordset(p_items) AS item(id UUID, order_index INTEGER)
+    GROUP BY item.id
+    HAVING item.id IS NULL OR COUNT(*) > 1
+  ) OR EXISTS (
+    SELECT 1
+    FROM jsonb_to_recordset(p_items) AS item(id UUID, order_index INTEGER)
+    GROUP BY item.order_index
+    HAVING item.order_index IS NULL
+      OR item.order_index < 0
+      OR item.order_index >= requested_count
+      OR COUNT(*) > 1
+  ) THEN
+    RAISE EXCEPTION 'invalid or duplicate reorder entry';
+  END IF;
+
+  UPDATE public.experiences AS target
+  SET order_index = item.order_index
+  FROM jsonb_to_recordset(p_items) AS item(id UUID, order_index INTEGER)
+  WHERE target.id = item.id;
+
+  GET DIAGNOSTICS updated_count = ROW_COUNT;
+  IF updated_count <> requested_count THEN
+    RAISE EXCEPTION 'one or more experience ids do not exist';
+  END IF;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.reorder_experiences(JSONB) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.reorder_experiences(JSONB) TO service_role;
+
 
 -- ==========================================================
 -- 6. DATA AWAL (SEED DATA)
@@ -244,4 +355,3 @@ SELECT id, email, 'Rizal Danuarta Akbar', 'superadmin'
 FROM auth.users
 WHERE email = 'akbardanu631@gmail.com'
 ON CONFLICT (id) DO NOTHING;
-

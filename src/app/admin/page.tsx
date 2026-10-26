@@ -49,6 +49,8 @@ export default function AdminPage() {
   // Upload states
   const [uploadingCv, setUploadingCv] = useState<boolean>(false);
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
+  const [reorderingProjects, setReorderingProjects] = useState<boolean>(false);
+  const [reorderingExperiences, setReorderingExperiences] = useState<boolean>(false);
   const [manualCvUrl, setManualCvUrl] = useState<string>("");
 
   // Modals
@@ -204,6 +206,10 @@ export default function AdminPage() {
       showToast("Harap pilih file berformat PDF", "error");
       return;
     }
+    if (file.size > 5 * 1024 * 1024) {
+      showToast("Ukuran CV maksimal 5 MB", "error");
+      return;
+    }
 
     setUploadingCv(true);
     try {
@@ -268,6 +274,10 @@ export default function AdminPage() {
   // Project Image Upload Handler
   const handleProjectImageUpload = async (file: File) => {
     if (!file) return;
+    if (file.size > 4 * 1024 * 1024) {
+      showToast("Ukuran gambar maksimal 4 MB", "error");
+      return;
+    }
     setUploadingImage(true);
     try {
       const formData = new FormData();
@@ -358,25 +368,36 @@ export default function AdminPage() {
 
   // Project Move Reorder
   const handleMoveProject = async (index: number, direction: "up" | "down") => {
+    if (reorderingProjects) return;
     const targetIndex = direction === "up" ? index - 1 : index + 1;
     if (targetIndex < 0 || targetIndex >= projects.length) return;
 
-    const updated = [...projects];
+    const previous = projects;
+    const updated = [...previous];
     const [moved] = updated.splice(index, 1);
     updated.splice(targetIndex, 0, moved);
 
     const reordered = updated.map((p, idx) => ({ ...p, order_index: idx }));
     setProjects(reordered);
+    setReorderingProjects(true);
 
     try {
-      await fetch("/api/admin/projects", {
+      const res = await fetch("/api/admin/projects", {
         method: "PUT",
         headers: getAuthHeaders(),
-        body: JSON.stringify({ reorder: true, items: reordered }),
+        body: JSON.stringify({
+          reorder: true,
+          items: reordered.map(({ id, order_index }) => ({ id, order_index })),
+        }),
       });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || "Gagal memperbarui urutan project");
       showToast("Urutan project diperbarui");
     } catch (err) {
-      console.error(err);
+      setProjects(previous);
+      showToast((err as Error).message, "error");
+    } finally {
+      setReorderingProjects(false);
     }
   };
 
@@ -447,25 +468,36 @@ export default function AdminPage() {
 
   // Experience Reorder
   const handleMoveExperience = async (index: number, direction: "up" | "down") => {
+    if (reorderingExperiences) return;
     const targetIndex = direction === "up" ? index - 1 : index + 1;
     if (targetIndex < 0 || targetIndex >= experiences.length) return;
 
-    const updated = [...experiences];
+    const previous = experiences;
+    const updated = [...previous];
     const [moved] = updated.splice(index, 1);
     updated.splice(targetIndex, 0, moved);
 
     const reordered = updated.map((e, idx) => ({ ...e, order_index: idx }));
     setExperiences(reordered);
+    setReorderingExperiences(true);
 
     try {
-      await fetch("/api/admin/experiences", {
+      const res = await fetch("/api/admin/experiences", {
         method: "PUT",
         headers: getAuthHeaders(),
-        body: JSON.stringify({ reorder: true, items: reordered }),
+        body: JSON.stringify({
+          reorder: true,
+          items: reordered.map(({ id, order_index }) => ({ id, order_index })),
+        }),
       });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || "Gagal memperbarui urutan pengalaman");
       showToast("Urutan pengalaman diperbarui");
     } catch (err) {
-      console.error(err);
+      setExperiences(previous);
+      showToast((err as Error).message, "error");
+    } finally {
+      setReorderingExperiences(false);
     }
   };
 
@@ -634,7 +666,7 @@ export default function AdminPage() {
               />
               <Upload className={styles.dropzoneIcon} />
               <h4>{uploadingCv ? "Mengunggah CV ke Supabase..." : "Klik atau seret file CV PDF ke sini"}</h4>
-              <p>Mendukung format file .PDF (Maksimal 10MB)</p>
+              <p>Mendukung format file .PDF (Maksimal 5MB)</p>
             </div>
 
             {/* Active CV Card */}
@@ -757,7 +789,7 @@ export default function AdminPage() {
                   <div className={styles.itemActions}>
                     <button
                       onClick={() => handleMoveProject(index, "up")}
-                      disabled={index === 0}
+                      disabled={reorderingProjects || index === 0}
                       className={styles.iconBtn}
                       title="Pindahkan ke atas"
                     >
@@ -765,7 +797,7 @@ export default function AdminPage() {
                     </button>
                     <button
                       onClick={() => handleMoveProject(index, "down")}
-                      disabled={index === projects.length - 1}
+                      disabled={reorderingProjects || index === projects.length - 1}
                       className={styles.iconBtn}
                       title="Pindahkan ke bawah"
                     >
@@ -844,7 +876,7 @@ export default function AdminPage() {
                   <div className={styles.itemActions}>
                     <button
                       onClick={() => handleMoveExperience(index, "up")}
-                      disabled={index === 0}
+                      disabled={reorderingExperiences || index === 0}
                       className={styles.iconBtn}
                       title="Pindahkan ke atas"
                     >
@@ -852,7 +884,7 @@ export default function AdminPage() {
                     </button>
                     <button
                       onClick={() => handleMoveExperience(index, "down")}
-                      disabled={index === experiences.length - 1}
+                      disabled={reorderingExperiences || index === experiences.length - 1}
                       className={styles.iconBtn}
                       title="Pindahkan ke bawah"
                     >
@@ -942,7 +974,7 @@ export default function AdminPage() {
                       <input
                         ref={projectImageInputRef}
                         type="file"
-                        accept="image/*"
+                        accept="image/jpeg,image/png,image/webp"
                         style={{ display: "none" }}
                         onChange={(e) => {
                           const file = e.target.files?.[0];

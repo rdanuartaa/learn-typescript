@@ -8,30 +8,44 @@ const supabaseAnonKey =
 const supabaseServiceKey =
   process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-export function isSupabaseServerConfigured(): boolean {
-  const activeKey = supabaseServiceKey || supabaseAnonKey;
-  return Boolean(
-    supabaseUrl &&
-      activeKey &&
-      !supabaseUrl.includes("your-project-id") &&
-      !activeKey.includes("your-anon-key") &&
-      !activeKey.includes("your-service-role-key")
-  );
+function isPlaceholder(value: string): boolean {
+  return value.startsWith("your-") || value.includes("your-project-id");
 }
 
-export function getSupabaseServerClient(useServiceRole = true): SupabaseClient | null {
-  if (!isSupabaseServerConfigured()) {
+export function getSupabaseAdminClient(): SupabaseClient | null {
+  if (
+    !supabaseUrl ||
+    !supabaseServiceKey ||
+    isPlaceholder(supabaseUrl) ||
+    isPlaceholder(supabaseServiceKey)
+  ) {
     return null;
   }
 
-  const key =
-    (useServiceRole ? supabaseServiceKey : undefined) ??
-    supabaseAnonKey;
-  if (!key) return null;
-
-  return createClient(supabaseUrl!, key, {
+  return createClient(supabaseUrl, supabaseServiceKey, {
     auth: {
       persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  });
+}
+
+export function getSupabasePublicServerClient(): SupabaseClient | null {
+  if (
+    !supabaseUrl ||
+    !supabaseAnonKey ||
+    isPlaceholder(supabaseUrl) ||
+    isPlaceholder(supabaseAnonKey)
+  ) {
+    return null;
+  }
+
+  return createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
     },
   });
 }
