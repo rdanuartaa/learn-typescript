@@ -261,9 +261,9 @@ SELECT * FROM (VALUES
   (
     'Edelweiss Tour & Travel Adventure',
     'Edelweiss Tour & Travel Adventure',
-    'Website company profile tour & travel responsif dengan integrasi booking WhatsApp.',
-    'A responsive company profile website for tour and travel services with direct WhatsApp booking integration.',
-    '/image/projects/edelweiss.png',
+    'Website tour & travel modern berbasis Next.js 16, React 19, TypeScript, SCSS, Supabase, dan Cloudflare R2 dengan CMS admin dan direct booking WhatsApp.',
+    'A modern travel-service platform built with Next.js 16, React 19, TypeScript, SCSS, Supabase, and Cloudflare R2, featuring an admin CMS and direct WhatsApp booking.',
+    '/image/projects/edelweiss.webp',
     'https://edelweisstourandtravel.com/',
     3
   ),
@@ -303,6 +303,17 @@ SELECT * FROM (VALUES
     0
   ),
   (
+    'Oct 2026',
+    'Oct 2026',
+    'Edelweiss Tour & Travel Adventure',
+    'Edelweiss Tour & Travel Adventure',
+    'Edelweiss Tour & Travel Adventure adalah website layanan perjalanan modern berbasis Next.js 16, React 19, Supabase, dan Cloudflare R2 dengan CMS admin dan direct WhatsApp booking.',
+    'Edelweiss Tour & Travel Adventure is a modern travel service website powered by Next.js 16, React 19, Supabase, and Cloudflare R2 with an admin CMS and direct WhatsApp booking.',
+    '["Membangun arsitektur full-stack website travel menggunakan Next.js 16 (App Router), React 19, TypeScript, dan SCSS Modules dengan pengalaman navigasi mobile-first.", "Mengimplementasikan dashboard admin CMS dengan Supabase Auth, PostgreSQL, dan Cloudflare R2 untuk manajemen CRUD paket tur, artikel, dan upload media.", "Mengintegrasikan direct booking WhatsApp otomatis untuk mempermudah reservasi dan konversi inquiry wisatawan secara real-time."]'::jsonb,
+    '["Engineered a full-stack travel platform using Next.js 16 (App Router), React 19, TypeScript, and SCSS Modules with a mobile-first navigation experience.", "Implemented an admin CMS dashboard with Supabase Auth, PostgreSQL, and Cloudflare R2 for autonomous CRUD management of tour packages, articles, and media uploads.", "Integrated direct WhatsApp booking to streamline reservations and convert traveler inquiries in real-time."]'::jsonb,
+    1
+  ),
+  (
     'Apr 2026 - Mei 2026',
     'Apr 2026 - May 2026',
     'DiProperti',
@@ -311,7 +322,7 @@ SELECT * FROM (VALUES
     'DiProperti is a property e-commerce platform designed to help users discover and evaluate property options more intentionally.',
     '["Membangun antarmuka web responsif, memisahkan backend dan frontend, serta sistem database untuk mendukung manajemen properti serta interaksi pengguna.", "Menerapkan authentication, fitur rekomendasi, komparasi, simulasi kpr, dan dashboard administratif untuk meningkatkan usability dan efisiensi platform.", "Mengelola deployment dan infrastruktur sistem dengan praktik pengembangan modern serta DevOps untuk menjaga performa aplikasi tetap stabil."]'::jsonb,
     '["Built responsive web interfaces, separated backend and frontend architecture, and database systems to support property management and user interactions.", "Implemented authentication, recommendation features, comparison tools, mortgage simulation, and administrative dashboards to improve usability and efficiency.", "Managed deployment and system infrastructure using modern development and DevOps practices to ensure stable application performance."]'::jsonb,
-    1
+    2
   ),
   (
     'Oct 2025 - Dec 2025',
@@ -322,17 +333,6 @@ SELECT * FROM (VALUES
     'This system is an orange quality classification platform that combines AI, IoT, and monitoring to support sorting workflows.',
     '["Mengembangkan model computer vision berbasis CNN VGG16 untuk klasifikasi kualitas jeruk berdasarkan grade A, B, dan reject secara otomatis.", "Mengintegrasikan komponen IoT seperti ESP8266, Load Cell, dan protokol MQTT untuk pemrosesan data real-time serta otomatisasi sortir.", "Membangun dashboard monitoring berbasis web untuk menampilkan hasil klasifikasi dan metrik performa sistem."]'::jsonb,
     '["Developed a CNN VGG16-based computer vision model for automated orange quality classification.", "Integrated IoT components including ESP8266, Load Cell, and MQTT protocol for real-time data processing and sorting automation.", "Built a web-based monitoring dashboard to display classification results and system performance metrics."]'::jsonb,
-    2
-  ),
-  (
-    'Jul 2025',
-    'Jul 2025',
-    'Edelweiss Tour & Travel Adventure',
-    'Edelweiss Tour & Travel Adventure',
-    'Edelweiss Tour & Travel Adventure adalah website layanan perjalanan yang menampilkan paket wisata, informasi bisnis, dan akses booking cepat.',
-    'Edelweiss Tour & Travel Adventure is a travel service website for presenting tour packages, business information, and quick booking access.',
-    '["Mengembangkan website company profile untuk menampilkan paket tour, layanan, dan informasi bisnis.", "Menerapkan desain web responsif dengan integrasi booking WhatsApp langsung untuk kebutuhan customer inquiries.", "Menyusun sistem manajemen konten dan mengoptimalkan performa agar lebih mudah diakses di berbagai perangkat."]'::jsonb,
-    '["Developed a company profile website to showcase tour packages, services, and business information.", "Implemented responsive web design with direct WhatsApp booking integration for customer inquiries.", "Structured content management system and optimized performance for better accessibility across devices."]'::jsonb,
     3
   ),
   (

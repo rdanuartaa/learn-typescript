@@ -131,6 +131,17 @@ export const content = {
           ],
         },
         {
+          period: "Oct 2026",
+          role: "Edelweiss Tour & Travel Adventure",
+          description:
+            "Edelweiss Tour & Travel Adventure adalah website layanan perjalanan modern berbasis Next.js 16, React 19, Supabase, dan Cloudflare R2 dengan CMS admin dan direct WhatsApp booking.",
+          details: [
+            "Membangun arsitektur full-stack website travel menggunakan Next.js 16 (App Router), React 19, TypeScript, dan SCSS Modules dengan pengalaman navigasi mobile-first.",
+            "Mengimplementasikan dashboard admin CMS dengan Supabase Auth, PostgreSQL, dan Cloudflare R2 untuk manajemen CRUD paket tur, artikel, dan upload media.",
+            "Mengintegrasikan direct booking WhatsApp otomatis untuk mempermudah reservasi dan konversi inquiry wisatawan secara real-time.",
+          ],
+        },
+        {
           period: "Apr 2026 - Mei 2026",
           role: "DiProperti",
           description:
@@ -150,17 +161,6 @@ export const content = {
             "Mengembangkan model computer vision berbasis CNN VGG16 untuk klasifikasi kualitas jeruk berdasarkan grade A, B, dan reject secara otomatis.",
             "Mengintegrasikan komponen IoT seperti ESP8266, Load Cell, dan protokol MQTT untuk pemrosesan data real-time serta otomatisasi sortir.",
             "Membangun dashboard monitoring berbasis web untuk menampilkan hasil klasifikasi dan metrik performa sistem.",
-          ],
-        },
-        {
-          period: "Jul 2025",
-          role: "Edelweiss Tour & Travel Adventure",
-          description:
-            "Edelweiss Tour & Travel Adventure adalah website layanan perjalanan yang menampilkan paket wisata, informasi bisnis, dan akses booking cepat.",
-          details: [
-            "Mengembangkan website company profile untuk menampilkan paket tour, layanan, dan informasi bisnis.",
-            "Menerapkan desain web responsif dengan integrasi booking WhatsApp langsung untuk kebutuhan customer inquiries.",
-            "Menyusun sistem manajemen konten dan mengoptimalkan performa agar lebih mudah diakses di berbagai perangkat.",
           ],
         },
         {
@@ -231,10 +231,16 @@ export const content = {
         {
           title: "Edelweiss Tour & Travel Adventure",
           description:
-            "Website company profile tour & travel responsif dengan integrasi booking WhatsApp.",
+            "Website tour & travel modern berbasis Next.js 16, React 19, TypeScript, SCSS, Supabase, dan Cloudflare R2 dengan CMS admin dan direct booking WhatsApp.",
           image: "/image/projects/edelweiss.webp",
           href: "https://edelweisstourandtravel.com/",
           repositoryHref: "https://github.com/rdanuartaa/new-edelweiss",
+          details: {
+            role: "Full-Stack Web Developer",
+            challenge: "Membangun platform travel modern yang responsif di mobile, mudah dikelola lewat admin dashboard, dan terintegrasi pemesanan WhatsApp cepat.",
+            solution: "Mengembangkan aplikasi dengan Next.js 16, React 19, TypeScript, SCSS Modules, Supabase (PostgreSQL & Auth), Cloudflare R2, dan direct WhatsApp booking.",
+            outcome: "Website travel berperforma tinggi dengan sistem CMS mandiri untuk paket tur dan artikel serta konversi reservasi langsung.",
+          },
         },
         {
           title: "Nusticky on Shopee",
@@ -405,6 +411,17 @@ export const content = {
           ],
         },
         {
+          period: "Oct 2026",
+          role: "Edelweiss Tour & Travel Adventure",
+          description:
+            "Edelweiss Tour & Travel Adventure is a modern travel service website powered by Next.js 16, React 19, Supabase, and Cloudflare R2 with an admin CMS and direct WhatsApp booking.",
+          details: [
+            "Engineered a full-stack travel platform using Next.js 16 (App Router), React 19, TypeScript, and SCSS Modules with a mobile-first navigation experience.",
+            "Implemented an admin CMS dashboard with Supabase Auth, PostgreSQL, and Cloudflare R2 for autonomous CRUD management of tour packages, articles, and media uploads.",
+            "Integrated direct WhatsApp booking to streamline reservations and convert traveler inquiries in real-time.",
+          ],
+        },
+        {
           period: "Apr 2026 - May 2026",
           role: "DiProperti",
           description:
@@ -424,17 +441,6 @@ export const content = {
             "Developed a CNN VGG16-based computer vision model for automated orange quality classification.",
             "Integrated IoT components including ESP8266, Load Cell, and MQTT protocol for real-time data processing and sorting automation.",
             "Built a web-based monitoring dashboard to display classification results and system performance metrics.",
-          ],
-        },
-        {
-          period: "Jul 2025",
-          role: "Edelweiss Tour & Travel Adventure",
-          description:
-            "Edelweiss Tour & Travel Adventure is a travel service website for presenting tour packages, business information, and quick booking access.",
-          details: [
-            "Developed a company profile website to showcase tour packages, services, and business information.",
-            "Implemented responsive web design with direct WhatsApp booking integration for customer inquiries.",
-            "Structured content management system and optimized performance for better accessibility across devices.",
           ],
         },
         {
@@ -505,10 +511,16 @@ export const content = {
         {
           title: "Edelweiss Tour & Travel Adventure",
           description:
-            "A responsive travel-service website that presents tour packages and routes customer inquiries to WhatsApp.",
+            "A modern travel-service platform built with Next.js 16, React 19, TypeScript, SCSS, Supabase, and Cloudflare R2, featuring an admin CMS and direct WhatsApp booking.",
           image: "/image/projects/edelweiss.webp",
           href: "https://edelweisstourandtravel.com/",
           repositoryHref: "https://github.com/rdanuartaa/new-edelweiss",
+          details: {
+            role: "Full-Stack Web Developer",
+            challenge: "Deliver a responsive travel platform with seamless mobile booking, autonomous CMS management, and fast asset delivery.",
+            solution: "Engineered with Next.js 16 (App Router), React 19, TypeScript, SCSS Modules, Supabase (PostgreSQL & Auth), Cloudflare R2, and WhatsApp direct routing.",
+            outcome: "Delivered a high-performance travel web platform with autonomous CMS management for tour packages and articles, boosting direct customer bookings.",
+          },
         },
         {
           title: "Nusticky on Shopee",
@@ -671,6 +683,17 @@ export const content = {
           ],
         },
         {
+          period: "2026年10月",
+          role: "Edelweiss Tour & Travel Adventure",
+          description:
+            "Edelweiss Tour & Travel Adventure 是基于 Next.js 16、React 19、Supabase 和 Cloudflare R2 的现代旅行服务网站，具备后台 CMS 和 WhatsApp 快速预订功能。",
+          details: [
+            "使用 Next.js 16 (App Router)、React 19、TypeScript 和 SCSS Modules 构建全栈旅游平台，提供移动端优先的交互体验。",
+            "基于 Supabase 认证、PostgreSQL 与 Cloudflare R2 实现 CMS 管理后台，支持旅游套餐、文章与媒体上传的自主管理。",
+            "集成 WhatsApp 一键快捷预订功能，实现游客咨询的即时转化与高效行程预约。",
+          ],
+        },
+        {
           period: "2026年4月 - 2026年5月",
           role: "DiProperti",
           description:
@@ -690,17 +713,6 @@ export const content = {
             "开发基于 CNN VGG16 的计算机视觉模型，用于自动化识别橙子的质量等级。",
             "集成 ESP8266、称重传感器和 MQTT 协议等物联网组件，实现实时数据处理和自动分拣。",
             "构建基于网页的监控仪表盘，用于展示分类结果和系统性能指标。",
-          ],
-        },
-        {
-          period: "2025年7月",
-          role: "Edelweiss Tour & Travel Adventure",
-          description:
-            "Edelweiss Tour & Travel Adventure 是一个旅行服务网站，用于展示旅游套餐、业务信息和快速预订入口。",
-          details: [
-            "开发公司介绍网站，用于展示旅游套餐、服务内容和业务信息。",
-            "实现响应式网页设计，并集成 WhatsApp 快速预订入口来支持客户咨询。",
-            "构建内容管理结构，并优化跨设备访问性能。",
           ],
         },
         {
@@ -737,9 +749,17 @@ export const content = {
         },
         {
           title: "Edelweiss Tour & Travel Adventure",
-          description: "一个旅行服务的响应式公司介绍网站，并集成 WhatsApp 快速预订入口。",
+          description:
+            "基于 Next.js 16、React 19、TypeScript、SCSS、Supabase 和 Cloudflare R2 构建的现代旅游服务平台，配备后台 CMS 与 WhatsApp 快速预订功能。",
           image: "/image/projects/edelweiss.webp",
           href: "https://edelweisstourandtravel.com/",
+          repositoryHref: "https://github.com/rdanuartaa/new-edelweiss",
+          details: {
+            role: "全栈 Web 开发者 (Full-Stack Developer)",
+            challenge: "构建快速且移动端适配的旅游平台，具备后台管理系统与 WhatsApp 即时预订功能。",
+            solution: "采用 Next.js 16 (App Router)、React 19、TypeScript、SCSS 模块、Supabase (PostgreSQL & Auth)、Cloudflare R2 对象存储及 CMS 管理后台。",
+            outcome: "实现了高性能的旅游服务平台，支持自主套餐/文章管理与一键 WhatsApp 快速预订。",
+          },
         },
         {
           title: "Cuan Space",

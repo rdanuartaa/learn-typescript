@@ -44,9 +44,9 @@ export const defaultProjects: DbProject[] = [
     title: "Edelweiss Tour & Travel Adventure",
     title_en: "Edelweiss Tour & Travel Adventure",
     description:
-      "Website company profile tour & travel responsif dengan integrasi booking WhatsApp.",
+      "Website tour & travel modern berbasis Next.js 16, React 19, TypeScript, SCSS, Supabase, dan Cloudflare R2 dengan CMS admin dan direct booking WhatsApp.",
     description_en:
-      "A responsive company profile website for tour and travel services with direct WhatsApp booking integration.",
+      "A modern travel-service platform built with Next.js 16, React 19, TypeScript, SCSS, Supabase, and Cloudflare R2, featuring an admin CMS and direct WhatsApp booking.",
     image: "/image/projects/edelweiss.webp",
     href: "https://edelweisstourandtravel.com/",
     order_index: 3,
@@ -101,6 +101,28 @@ export const defaultExperiences: DbExperience[] = [
     order_index: 0,
   },
   {
+    id: "exp-4",
+    period: "Oct 2026",
+    period_en: "Oct 2026",
+    role: "Edelweiss Tour & Travel Adventure",
+    role_en: "Edelweiss Tour & Travel Adventure",
+    description:
+      "Edelweiss Tour & Travel Adventure adalah website layanan perjalanan modern berbasis Next.js 16, React 19, Supabase, dan Cloudflare R2 dengan CMS admin dan direct WhatsApp booking.",
+    description_en:
+      "Edelweiss Tour & Travel Adventure is a modern travel service website powered by Next.js 16, React 19, Supabase, and Cloudflare R2 with an admin CMS and direct WhatsApp booking.",
+    details: [
+      "Membangun arsitektur full-stack website travel menggunakan Next.js 16 (App Router), React 19, TypeScript, dan SCSS Modules dengan pengalaman navigasi mobile-first.",
+      "Mengimplementasikan dashboard admin CMS dengan Supabase Auth, PostgreSQL, dan Cloudflare R2 untuk manajemen CRUD paket tur, artikel, dan upload media.",
+      "Mengintegrasikan direct booking WhatsApp otomatis untuk mempermudah reservasi dan konversi inquiry wisatawan secara real-time.",
+    ],
+    details_en: [
+      "Engineered a full-stack travel platform using Next.js 16 (App Router), React 19, TypeScript, and SCSS Modules with a mobile-first navigation experience.",
+      "Implemented an admin CMS dashboard with Supabase Auth, PostgreSQL, and Cloudflare R2 for autonomous CRUD management of tour packages, articles, and media uploads.",
+      "Integrated direct WhatsApp booking to streamline reservations and convert traveler inquiries in real-time.",
+    ],
+    order_index: 1,
+  },
+  {
     id: "exp-2",
     period: "Apr 2026 - Mei 2026",
     period_en: "Apr 2026 - May 2026",
@@ -120,7 +142,7 @@ export const defaultExperiences: DbExperience[] = [
       "Implemented authentication, recommendation features, comparison tools, mortgage simulation, and administrative dashboards to improve usability and efficiency.",
       "Managed deployment and system infrastructure using modern development and DevOps practices to ensure stable application performance.",
     ],
-    order_index: 1,
+    order_index: 2,
   },
   {
     id: "exp-3",
@@ -141,28 +163,6 @@ export const defaultExperiences: DbExperience[] = [
       "Developed a CNN VGG16-based computer vision model for automated orange quality classification.",
       "Integrated IoT components including ESP8266, Load Cell, and MQTT protocol for real-time data processing and sorting automation.",
       "Built a web-based monitoring dashboard to display classification results and system performance metrics.",
-    ],
-    order_index: 2,
-  },
-  {
-    id: "exp-4",
-    period: "Jul 2025",
-    period_en: "Jul 2025",
-    role: "Edelweiss Tour & Travel Adventure",
-    role_en: "Edelweiss Tour & Travel Adventure",
-    description:
-      "Edelweiss Tour & Travel Adventure adalah website layanan perjalanan yang menampilkan paket wisata, informasi bisnis, dan akses booking cepat.",
-    description_en:
-      "Edelweiss Tour & Travel Adventure is a travel service website for presenting tour packages, business information, and quick booking access.",
-    details: [
-      "Mengembangkan website company profile untuk menampilkan paket tour, layanan, dan informasi bisnis.",
-      "Menerapkan desain web responsif dengan integrasi booking WhatsApp langsung untuk kebutuhan customer inquiries.",
-      "Menyusun sistem manajemen konten dan mengoptimalkan performa agar lebih mudah diakses di berbagai perangkat.",
-    ],
-    details_en: [
-      "Developed a company profile website to showcase tour packages, services, and business information.",
-      "Implemented responsive web design with direct WhatsApp booking integration for customer inquiries.",
-      "Structured content management system and optimized performance for better accessibility across devices.",
     ],
     order_index: 3,
   },
@@ -192,8 +192,9 @@ export const defaultExperiences: DbExperience[] = [
 
 export const defaultCvSetting: DbCvSetting = {
   id: "main",
-  cv_url: "",
-  cv_filename: "",
+  cv_url:
+    "https://wkzneptksvmiifxqyndc.supabase.co/storage/v1/object/public/portfolio/cv/1793114640664-Rizal-Danuarta-Akbar-CV.pdf",
+  cv_filename: "Rizal-Danuarta-Akbar-CV.pdf",
 };
 
 function getCvDownloadUrl(cv: DbCvSetting | null | undefined) {
