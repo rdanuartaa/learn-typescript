@@ -2,10 +2,12 @@
   position: fixed;
   bottom: 28px;
   right: 28px;
-  z-index: 990;
+  z-index: 9999;
   touch-action: none;
   user-select: none;
-  display: flex;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   align-items: center;
   justify-content: center;
   width: 48px;

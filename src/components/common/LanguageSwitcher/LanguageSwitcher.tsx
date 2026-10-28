@@ -219,15 +219,18 @@ export const LanguageSwitcher: React.FC = () => {
         document.body.style.top = '0px';
       }
       const frames = document.querySelectorAll(
-        'iframe.skiptranslate, iframe[id*=":1.container"], .VIpgJd-ZVi9od-ORHb-OEVmcd, body > .skiptranslate'
+        'iframe.skiptranslate, iframe[id*=":1.container"], .VIpgJd-ZVi9od-ORHb-OEVmcd, body > div.skiptranslate:not(#google_translate_element)'
       );
       frames.forEach((el) => {
+        if (el === buttonRef.current || el.contains(buttonRef.current)) return;
         const h = el as HTMLElement;
         h.style.setProperty('display', 'none', 'important');
         h.style.setProperty('visibility', 'hidden', 'important');
       });
 
       if (buttonRef.current) {
+        buttonRef.current.style.removeProperty('display');
+        buttonRef.current.style.removeProperty('visibility');
         const langSpan = buttonRef.current.querySelector<HTMLElement>(`.${styles.langText}`);
         if (langSpan && langSpan.textContent !== displayCode) {
           langSpan.textContent = displayCode;
@@ -430,12 +433,12 @@ export const LanguageSwitcher: React.FC = () => {
         onPointerDown={handlePointerDown}
         onClick={handleClick}
         style={buttonStyle}
-        className={`${styles.floatingBtn} notranslate skiptranslate ${isSnapping ? styles.snapping : ''}`}
+        className={`${styles.floatingBtn} notranslate ${isSnapping ? styles.snapping : ''}`}
         aria-label={copy.title}
         translate="no"
       >
         <span
-          className={`${styles.langText} notranslate skiptranslate`}
+          className={`${styles.langText} notranslate`}
           translate="no"
           data-lang={displayCode}
         >
@@ -445,14 +448,14 @@ export const LanguageSwitcher: React.FC = () => {
 
       {isOpen && (
         <div
-          className={`${styles.modalBackdrop} notranslate skiptranslate`}
+          className={`${styles.modalBackdrop} notranslate`}
           translate="no"
           onClick={(e) => {
             if (e.target === e.currentTarget) setIsOpen(false);
           }}
         >
           <div
-            className={`${styles.modalCard} notranslate skiptranslate`}
+            className={`${styles.modalCard} notranslate`}
             role="dialog"
             aria-modal="true"
             translate="no"
