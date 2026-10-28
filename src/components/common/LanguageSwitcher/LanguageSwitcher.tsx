@@ -202,6 +202,15 @@ export const LanguageSwitcher: React.FC = () => {
     }
   }, [pathname]);
 
+  const currentOption = useMemo(() => {
+    return LANGUAGES.find((lang) => lang.code === selectedLang) ?? LANGUAGES[0];
+  }, [selectedLang]);
+
+  const displayCode = useMemo(() => {
+    if (!currentOption?.code) return 'EN';
+    return currentOption.code.split('-')[0].toUpperCase();
+  }, [currentOption]);
+
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
@@ -217,13 +226,20 @@ export const LanguageSwitcher: React.FC = () => {
         h.style.setProperty('display', 'none', 'important');
         h.style.setProperty('visibility', 'hidden', 'important');
       });
+
+      if (buttonRef.current) {
+        const langSpan = buttonRef.current.querySelector<HTMLElement>(`.${styles.langText}`);
+        if (langSpan && langSpan.textContent !== displayCode) {
+          langSpan.textContent = displayCode;
+        }
+      }
     };
 
     sanitizeBody();
     const observer = new MutationObserver(sanitizeBody);
-    observer.observe(document.body, { attributes: true, attributeFilter: ['style'], childList: true });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['style'], childList: true, subtree: true });
     return () => observer.disconnect();
-  }, []);
+  }, [displayCode]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -234,10 +250,6 @@ export const LanguageSwitcher: React.FC = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
-
-  const currentOption = useMemo(() => {
-    return LANGUAGES.find((lang) => lang.code === selectedLang) ?? LANGUAGES[0];
-  }, [selectedLang]);
 
   const copy = switcherText[selectedLang] ?? switcherText.en;
 
@@ -410,7 +422,7 @@ export const LanguageSwitcher: React.FC = () => {
 
   return (
     <>
-      <div id="google_translate_element" style={{ display: 'none' }} />
+      <div id="google_translate_element" style={{ display: 'none' }} className="notranslate" translate="no" />
 
       <button
         ref={buttonRef}
@@ -418,23 +430,32 @@ export const LanguageSwitcher: React.FC = () => {
         onPointerDown={handlePointerDown}
         onClick={handleClick}
         style={buttonStyle}
-        className={`${styles.floatingBtn} ${isSnapping ? styles.snapping : ''}`}
+        className={`${styles.floatingBtn} notranslate skiptranslate ${isSnapping ? styles.snapping : ''}`}
         aria-label={copy.title}
+        translate="no"
       >
-        <span className={styles.langText}>{currentOption.code.toUpperCase()}</span>
+        <span
+          className={`${styles.langText} notranslate skiptranslate`}
+          translate="no"
+          data-lang={displayCode}
+        >
+          {displayCode}
+        </span>
       </button>
 
       {isOpen && (
         <div
-          className={styles.modalBackdrop}
+          className={`${styles.modalBackdrop} notranslate skiptranslate`}
+          translate="no"
           onClick={(e) => {
             if (e.target === e.currentTarget) setIsOpen(false);
           }}
         >
           <div
-            className={styles.modalCard}
+            className={`${styles.modalCard} notranslate skiptranslate`}
             role="dialog"
             aria-modal="true"
+            translate="no"
             dir={selectedLang === 'ar' ? 'rtl' : 'ltr'}
           >
             <div className={styles.modalHeader}>
@@ -462,11 +483,12 @@ export const LanguageSwitcher: React.FC = () => {
                 placeholder={copy.search}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={styles.searchInput}
+                className={`${styles.searchInput} notranslate`}
+                translate="no"
               />
             </div>
 
-            <div className={styles.langList}>
+            <div className={`${styles.langList} notranslate`} translate="no">
               {filteredLanguages.map((lang) => {
                 const isActive = lang.code === selectedLang;
                 return (
@@ -479,8 +501,8 @@ export const LanguageSwitcher: React.FC = () => {
                     <div className={styles.langCardLeft}>
                       <FlagIcon code={lang.code} className={styles.cardFlagSvg} />
                       <div className={styles.cardNames}>
-                        <span className={styles.nativeName}>{lang.nativeName}</span>
-                        <span className={styles.subName}>
+                        <span className={`${styles.nativeName} notranslate`} translate="no">{lang.nativeName}</span>
+                        <span className={`${styles.subName} notranslate`} translate="no">
                           {languageNames.of(lang.code) ?? lang.name}
                         </span>
                       </div>

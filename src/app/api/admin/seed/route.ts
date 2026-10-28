@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 
       const { error: projError } = countError
         ? { error: countError }
-        : count === 0
+        : count === 0 && projectsToInsert.length > 0
           ? await supabase.from("projects").insert(projectsToInsert)
           : { error: null };
 
@@ -58,7 +58,9 @@ export async function POST(request: Request) {
         failed = true;
       } else {
         results.projects = count === 0
-          ? `Seeded ${projectsToInsert.length} projects successfully!`
+          ? (projectsToInsert.length > 0
+              ? `Seeded ${projectsToInsert.length} projects successfully!`
+              : "No initial projects to seed (managed dynamically via Supabase).")
           : "Projects already contain data; seed skipped.";
       }
     }
@@ -82,7 +84,7 @@ export async function POST(request: Request) {
 
       const { error: expError } = countError
         ? { error: countError }
-        : count === 0
+        : count === 0 && expToInsert.length > 0
           ? await supabase.from("experiences").insert(expToInsert)
           : { error: null };
 
@@ -92,22 +94,34 @@ export async function POST(request: Request) {
         failed = true;
       } else {
         results.experiences = count === 0
-          ? `Seeded ${expToInsert.length} experiences successfully!`
+          ? (expToInsert.length > 0
+              ? `Seeded ${expToInsert.length} experiences successfully!`
+              : "No initial experiences to seed (managed dynamically via Supabase).")
           : "Experiences already contain data; seed skipped.";
       }
     }
 
     if (entity === "all") {
-      const { error: cvError } = await supabase
+      const { data: existingCv } = await supabase
         .from("cv_settings")
-        .upsert(defaultCvSetting, { onConflict: "id" });
+        .select("id")
+        .eq("id", "main")
+        .maybeSingle();
 
-      if (cvError) {
-        console.error("CV seed failed:", cvError);
-        results.cv = "Unable to initialize CV settings.";
-        failed = true;
+      if (!existingCv) {
+        const { error: cvError } = await supabase
+          .from("cv_settings")
+          .insert(defaultCvSetting);
+
+        if (cvError) {
+          console.error("CV seed failed:", cvError);
+          results.cv = "Unable to initialize CV settings.";
+          failed = true;
+        } else {
+          results.cv = "CV settings initialized successfully!";
+        }
       } else {
-        results.cv = "CV settings initialized successfully!";
+        results.cv = "CV settings already configured; seed skipped.";
       }
     }
 
